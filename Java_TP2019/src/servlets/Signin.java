@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Persona;
+import entities.Rol;
 import logic.Login;
 import logic.PersonaControler;
+import logic.RolControler;
 
 /**
  * Servlet implementation class Signin
@@ -22,7 +24,6 @@ public class Signin extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public Signin() {
-        
         // TODO Auto-generated constructor stub
     }
 
@@ -38,23 +39,36 @@ public class Signin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Login ctrl=new Login();
-		PersonaControler perCtrl= new PersonaControler();
-		String email=request.getParameter("email");
-        String password=request.getParameter("password");
-        System.out.println(email+"|"+password);
+		Login ctrl = new Login(); //Logic: controlador que envia mensajes al DAO
+		PersonaControler perCtrl = new PersonaControler(); //Logic: controlador que envia mensajes al DAO
+		RolControler rolCtrl = new RolControler();
+		
+		String email = request.getParameter("email"); //Recibo "email" desde el form de login
+        String password = request.getParameter("password"); //Recibo "password" desde el form de login
+        System.out.println(email+"|"+password); //Impresión por consola de prueba
         
+        //Creo un objeto p Persona con esos datos recibidos para pasarlo al validate(p)
         Persona p = new Persona();
-        
+        Rol r = new Rol();
         p.setEmail(email);
         p.setPassword(password);
-        
-        p = ctrl.validate(p);
-        
+        p = ctrl.validate(p); //Realiza un getByUser al DAO de persona
+        r = rolCtrl.getRol(p);
         request.getSession().setAttribute("usuario", p);
-        request.getSession().setAttribute("listaPersonas", perCtrl.getAll());
         System.out.println(p);
-        request.getRequestDispatcher("WEB-INF/UserManagement.jsp").forward(request, response);
+        System.out.println(r);
+        if (r.getDescripcion().equals("admin")) {
+        	System.out.println("Administrador");
+        	//request.getSession().setAttribute("listaPersonas", perCtrl.getAll());
+        	request.getRequestDispatcher("WEB-INF/home_admin.jsp").forward(request, response);
+		}
+        if (r.getDescripcion().equals("empleado")) {
+        	System.out.println("Empleado del club");
+        	request.getRequestDispatcher("WEB-INF/home_empleado.jsp").forward(request, response);
+		}
+        if (r.getDescripcion().equals("socio")) {
+        	System.out.println("Socio del club");
+        	request.getRequestDispatcher("WEB-INF/home_socio.jsp").forward(request, response);
+		}
 	}
-
 }

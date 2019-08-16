@@ -8,10 +8,10 @@ import java.util.ArrayList;
 public class DataPersona {
 	
 	public ArrayList<Persona> getAll(){
-		DataRol dr=new DataRol();
-		Statement stmt=null;
-		ResultSet rs=null;
-		ArrayList<Persona> pers= new ArrayList<>();
+		DataRol dr = new DataRol();
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Persona> pers = new ArrayList<>();
 		
 		try {
 			stmt= FactoryConexion.getInstancia().getConn().createStatement();
@@ -55,10 +55,11 @@ public class DataPersona {
 	}
 	
 	public Persona getByUser(Persona per) {
-		DataRol dr=new DataRol();
-		Persona p=null;
-		PreparedStatement stmt=null;
-		ResultSet rs=null;
+		DataRol dr = new DataRol();
+		Persona p = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
 					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado from persona where email=? and password=?"
@@ -66,6 +67,7 @@ public class DataPersona {
 			stmt.setString(1, per.getEmail());
 			stmt.setString(2, per.getPassword());
 			rs=stmt.executeQuery();
+			
 			if(rs!=null && rs.next()) {
 				p=new Persona();
 				p.setDocumento(new Documento());
@@ -96,10 +98,10 @@ public class DataPersona {
 	}
 	
 	public Persona getByDocumento(Persona per) {
-		DataRol dr=new DataRol();
-		Persona p=null;
-		PreparedStatement stmt=null;
-		ResultSet rs=null;
+		DataRol dr = new DataRol();
+		Persona p = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
 					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado from persona where tipo_doc=? and nro_doc=?"

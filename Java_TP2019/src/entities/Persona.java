@@ -13,6 +13,7 @@ public class Persona {
 	private boolean habilitado;
 	private HashMap<Integer, Rol> roles;
 	
+	
 	public int getId() {
 		return id;
 	}
@@ -66,6 +67,8 @@ public class Persona {
 		this.roles=new HashMap<>();
 	}
 	
+	
+	
 	public void addRol(Rol rolToBeAdded) {
 		this.roles.put(rolToBeAdded.getId(), rolToBeAdded);
 	}
@@ -77,6 +80,8 @@ public class Persona {
 	public boolean hasRol(Rol rolToCheck) {
 		return this.roles.containsKey(rolToCheck.getId());
 	}
+	
+	
 	
 	@Override
 	public String toString() {

@@ -4,19 +4,16 @@ import data.*;
 import entities.*;
 
 public class Login {
+	//Declaro el DAO de persona
 	private DataPersona dp;
 	
+	//Constructor de la instancia
 	public Login() {
-		dp=new DataPersona();
+		dp = new DataPersona();
 	}
 	
+	//Metodo que le pide al DAO "getByUser"
 	public Persona validate(Persona p) {
-		/* para hacer más seguro el manejo de passwords este sería un lugar 
-		 * adecuado para generar un hash de la password utilizando un cifrado
-		 * asimétrico como sha256 y utilizar el hash en lugar de la password en plano 
-		 */
 		return dp.getByUser(p);
-		//return null;
 	}
-
 }

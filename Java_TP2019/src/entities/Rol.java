@@ -4,6 +4,8 @@ package entities;
 public class Rol {
 	private int id;
 	private String descripcion;
+	
+	//Getters and Setters
 	public int getId() {
 		return id;
 	}
@@ -16,6 +18,8 @@ public class Rol {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	
+	//toString
 	@Override
 	public String toString() {
 		return "Rol [id=" + id + ", descripcion=" + descripcion + "]";

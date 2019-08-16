@@ -43,6 +43,42 @@ public class DataRol {
 		return roles;
 	}
 	
+	// Obtener rol del usuario
+	public Rol getRol (Persona per) {
+		Rol r = null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					  "select rol.* "
+					+ "from rol "
+					+ "inner join rol_persona "
+					+ "on rol.id = rol_persona.id_rol "
+					+ "where id_persona=?"
+					);
+			stmt.setInt(1, per.getId());
+			rs= stmt.executeQuery();
+			if(rs!=null && rs.next()) {
+				r = new Rol();
+				r.setId(rs.getInt("id"));
+				r.setDescripcion(rs.getString("descripcion"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return r;
+	}
+	
+	//Obtener rol por ID
 	public Rol getById(Rol rolToSearch) {
 		Rol r=null;
 		PreparedStatement stmt=null;
