@@ -39,24 +39,27 @@ public class Signin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Login ctrl = new Login(); //Logic: controlador que envia mensajes al DAO
+		Login ctrl = new Login(); //Logic: controlador que envia mensajes al DAO//
 		PersonaControler perCtrl = new PersonaControler(); //Logic: controlador que envia mensajes al DAO
 		RolControler rolCtrl = new RolControler();
 		
-		String email = request.getParameter("email"); //Recibo "email" desde el form de login
-        String password = request.getParameter("password"); //Recibo "password" desde el form de login
-        System.out.println(email+"|"+password); //Impresión por consola de prueba
+		String email = request.getParameter("email"); //Recibo "email" desde el form de login//
+        String password = request.getParameter("password"); //Recibo "password" desde el form de login//
+        System.out.println(email+"|"+password); //Impresion por consola de prueba//
         
         //Creo un objeto p Persona con esos datos recibidos para pasarlo al validate(p)
-        Persona p = new Persona();
+        Persona p = new Persona();//
         Rol r = new Rol();
-        p.setEmail(email);
-        p.setPassword(password);
-        p = ctrl.validate(p); //Realiza un getByUser al DAO de persona
+        p.setEmail(email);//
+        p.setPassword(password); //
+        p = ctrl.validate(p); //Realiza un getByUser al DAO de persona//
         r = rolCtrl.getRol(p);
         request.getSession().setAttribute("usuario", p);
+        request.getSession().setAttribute("rol", r);
         System.out.println(p);
         System.out.println(r);
+        request.getRequestDispatcher("WEB-INF/home_user.jsp").forward(request, response);
+        /*
         if (r.getDescripcion().equals("admin")) {
         	System.out.println("Administrador");
         	//request.getSession().setAttribute("listaPersonas", perCtrl.getAll());
@@ -70,5 +73,6 @@ public class Signin extends HttpServlet {
         	System.out.println("Socio del club");
         	request.getRequestDispatcher("WEB-INF/home_socio.jsp").forward(request, response);
 		}
+		*/
 	}
 }

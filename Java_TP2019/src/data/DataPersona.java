@@ -56,9 +56,9 @@ public class DataPersona {
 	
 	public Persona getByUser(Persona per) {
 		DataRol dr = new DataRol();
-		Persona p = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		Persona p = null;//
+		PreparedStatement stmt = null;//
+		ResultSet rs = null;//
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
@@ -69,7 +69,7 @@ public class DataPersona {
 			rs=stmt.executeQuery();
 			
 			if(rs!=null && rs.next()) {
-				p=new Persona();
+				p = new Persona();
 				p.setDocumento(new Documento());
 				p.setId(rs.getInt("id"));
 				p.setNombre(rs.getString("nombre"));
@@ -84,7 +84,7 @@ public class DataPersona {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				if(rs!=null) {rs.close();}
 				if(stmt!=null) {stmt.close();}
@@ -138,29 +138,31 @@ public class DataPersona {
 		return p;
 	}
 	
+	//alta persona
 	public void add(Persona p) {
 		PreparedStatement stmt= null;
 		ResultSet keyResultSet=null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement(
-							"insert into persona(nombre, apellido, tipo_doc, nro_doc, email, password, tel, habilitado) values(?,?,?,?,?,?,?,?)",
+							"insert into persona(id,nombre, apellido, tipo_doc, nro_doc, email, password, tel, habilitado) values(?,?,?,?,?,?,?,?,?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
-			stmt.setString(1, p.getNombre());
-			stmt.setString(2, p.getApellido());
-			stmt.setString(3, p.getDocumento().getTipo());
-			stmt.setString(4, p.getDocumento().getNro());
-			stmt.setString(5, p.getEmail());
-			stmt.setString(5, p.getPassword());
-			stmt.setString(6, p.getTel());
-			stmt.setBoolean(7, p.isHabilitado());
+			stmt.setInt(1, p.getId());
+			stmt.setString(2, p.getNombre());
+			stmt.setString(3, p.getApellido());
+			stmt.setString(4, p.getDocumento().getTipo());
+			stmt.setString(5, p.getDocumento().getNro());
+			stmt.setString(6, p.getEmail());
+			stmt.setString(7, p.getPassword());
+			stmt.setString(8, p.getTel());
+			stmt.setBoolean(9, p.isHabilitado());
 			stmt.executeUpdate();
-			
+			/*
 			keyResultSet=stmt.getGeneratedKeys();
             if(keyResultSet!=null && keyResultSet.next()){
                 p.setId(keyResultSet.getInt(1));
-            }
+            }*/
 
 			
 		}  catch (SQLException e) {

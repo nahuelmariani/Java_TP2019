@@ -18,4 +18,17 @@ public class PersonaControler {
 	public ArrayList<Persona> getAll(){
 		return dp.getAll();
 	}
+	
+	public void buscarPersonaPorDni(int dni){
+		//dp.getById(dni);
+	}
+	public void altaPersona(Persona p){
+		dp.add(p);
+	}
+	public void bajaPersona(Persona p){
+		//dp.deletePersona(p);
+	}
+	public void modificarPersona(Persona p){
+		//dp.updatePersona(p);
+	}
 }
