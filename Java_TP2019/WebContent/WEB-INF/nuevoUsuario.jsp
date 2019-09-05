@@ -9,34 +9,29 @@
 
 </head>
 <body>
-<h1>Gestion de usuarios - Administrador</h1>
-
     <form action="Usuarios" method="post">
       <h3>Registrar nuevo usuario:</h3>
       
-      <label for="inputId">Id:</label>
-      <input id="inputId" name="id" placeholder="Ingrese ID" required autofocus type="text">
-      
       <label for="inputNombre">Nombre:</label>
-      <input id="inputNombre" name="nombre" placeholder="Ingrese nombre" required type="text">
+      <input id="inputNombre" name="nombre" placeholder="Ingrese nombre" required type="text"><br>
       
       <label for="inputApellido">Apellido:</label>
-      <input id="inputApellido" name="apellido" placeholder="Ingrese Apellido" required type="text">
+      <input id="inputApellido" name="apellido" placeholder="Ingrese Apellido" required type="text"><br>
       
       <label for="inputTipoDoc">Tipo documento:</label>
-      <input id="inputTipoDoc" name="tipo_doc" placeholder="Ingrese tipo de documento" required type="text">
+      <input id="inputTipoDoc" name="tipo_doc" placeholder="Ingrese tipo de documento" required type="text"><br>
       
       <label for="inputNroDoc">Numero de documento:</label>
-      <input id="inputNroDoc" name="nro_doc" placeholder="Ingrese numero de documento" required type="text">
+      <input id="inputNroDoc" name="nro_doc" placeholder="Ingrese numero de documento" required type="text"><br>
       
       <label for="inputEmail">Email:</label>
-      <input id="inputEmail" name="email" placeholder="Ingrese Email" required type="email">     
+      <input id="inputEmail" name="email" placeholder="Ingrese Email" required type="email"> <br>    
       
       <label for="inputPassword">Contraseña:</label>
-      <input id="inputPassword" name="password" placeholder="Ingrese contraseña" required type="password">
+      <input id="inputPassword" name="password" placeholder="Ingrese contraseña" required type="password"><br>
       
       <label for="inputTelefono">Telefono:</label>
-      <input id="inputTelefono" name="tel" placeholder="Ingrese Telefono" required type="text">
+      <input id="inputTelefono" name="tel" placeholder="Ingrese Telefono" required type="text"><br>
       
       <button type="submit" name="action" value="agregar">Registrar</button>
     </form>

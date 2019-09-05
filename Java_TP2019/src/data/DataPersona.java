@@ -145,24 +145,24 @@ public class DataPersona {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement(
-							"insert into persona(id,nombre, apellido, tipo_doc, nro_doc, email, password, tel, habilitado) values(?,?,?,?,?,?,?,?,?)",
+							"insert into persona(nombre, apellido, tipo_doc, nro_doc, email, password, tel, habilitado) values(?,?,?,?,?,?,?,?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
-			stmt.setInt(1, p.getId());
-			stmt.setString(2, p.getNombre());
-			stmt.setString(3, p.getApellido());
-			stmt.setString(4, p.getDocumento().getTipo());
-			stmt.setString(5, p.getDocumento().getNro());
-			stmt.setString(6, p.getEmail());
-			stmt.setString(7, p.getPassword());
-			stmt.setString(8, p.getTel());
-			stmt.setBoolean(9, p.isHabilitado());
+			
+			stmt.setString(1, p.getNombre());
+			stmt.setString(2, p.getApellido());
+			stmt.setString(3, p.getDocumento().getTipo());
+			stmt.setString(4, p.getDocumento().getNro());
+			stmt.setString(5, p.getEmail());
+			stmt.setString(6, p.getPassword());
+			stmt.setString(7, p.getTel());
+			stmt.setBoolean(8, p.isHabilitado());
 			stmt.executeUpdate();
-			/*
+			
 			keyResultSet=stmt.getGeneratedKeys();
             if(keyResultSet!=null && keyResultSet.next()){
                 p.setId(keyResultSet.getInt(1));
-            }*/
+            }
 
 			
 		}  catch (SQLException e) {
@@ -177,6 +177,27 @@ public class DataPersona {
             }
 		}
     }
-
 	
+	public void delete(int idPersona) {
+		PreparedStatement stmt= null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().
+					prepareStatement("delete from persona where id=?");
+			
+			stmt.setInt(1, idPersona);
+			stmt.executeUpdate();
+		}  catch (SQLException e) {
+            e.printStackTrace();
+		} finally {
+            try {
+                if(stmt!=null)stmt.close();
+                FactoryConexion.getInstancia().releaseConn();
+            } catch (SQLException e) {
+            	e.printStackTrace();
+            }
+		}
+    }
+	
+
 }

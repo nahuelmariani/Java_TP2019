@@ -58,6 +58,7 @@ public class Signin extends HttpServlet {
         request.getSession().setAttribute("rol", r);
         System.out.println(p);
         System.out.println(r);
+        
         request.getRequestDispatcher("WEB-INF/home_user.jsp").forward(request, response);
         /*
         if (r.getDescripcion().equals("admin")) {

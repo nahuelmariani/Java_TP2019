@@ -25,8 +25,8 @@ public class PersonaControler {
 	public void altaPersona(Persona p){
 		dp.add(p);
 	}
-	public void bajaPersona(Persona p){
-		//dp.deletePersona(p);
+	public void bajaPersona(int idPersona){
+		dp.delete(idPersona);
 	}
 	public void modificarPersona(Persona p){
 		//dp.updatePersona(p);
