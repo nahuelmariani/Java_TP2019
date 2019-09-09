@@ -19,8 +19,8 @@ public class PersonaControler {
 		return dp.getAll();
 	}
 	
-	public void buscarPersonaPorDni(int dni){
-		//dp.getById(dni);
+	public Persona buscarPersonaPorId(int dni){
+		return dp.getById(dni);
 	}
 	public void altaPersona(Persona p){
 		dp.add(p);
@@ -28,7 +28,7 @@ public class PersonaControler {
 	public void bajaPersona(int idPersona){
 		dp.delete(idPersona);
 	}
-	public void modificarPersona(Persona p){
-		//dp.updatePersona(p);
+	public void modificarPersona(Persona p, int idPersona){
+		dp.update(p,idPersona);
 	}
 }

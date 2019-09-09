@@ -35,6 +35,10 @@
       
       <button type="submit" name="action" value="agregar">Registrar</button>
     </form>
+    
+    <form action="Usuarios" method="post">
+    	<button type="submit" name="action" value="listar">Cancelar</button>
+    </form>
 
 </body>
 </html>

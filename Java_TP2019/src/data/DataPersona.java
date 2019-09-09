@@ -97,6 +97,47 @@ public class DataPersona {
 		return p;
 	}
 	
+	public Persona getById(int idPersona) {
+		Persona p = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado from persona where id=?"
+					);
+			stmt.setInt(1, idPersona);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()) {
+				p=new Persona();
+				p.setDocumento(new Documento());
+				p.setId(rs.getInt("id"));
+				p.setNombre(rs.getString("nombre"));
+				p.setApellido(rs.getString("apellido"));
+				p.getDocumento().setTipo(rs.getString("tipo_doc"));
+				p.getDocumento().setNro(rs.getString("nro_doc"));
+				p.setEmail(rs.getString("email"));
+				p.setTel(rs.getString("tel"));
+				p.setHabilitado(rs.getBoolean("habilitado"));
+				//
+				//dr.setRoles(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return p;
+	}
+	
+	
 	public Persona getByDocumento(Persona per) {
 		DataRol dr = new DataRol();
 		Persona p = null;
@@ -138,7 +179,7 @@ public class DataPersona {
 		return p;
 	}
 	
-	//alta persona
+	//ALTA PERSONA
 	public void add(Persona p) {
 		PreparedStatement stmt= null;
 		ResultSet keyResultSet=null;
@@ -177,6 +218,38 @@ public class DataPersona {
             }
 		}
     }
+	
+	//MODIFICAR
+	public void update(Persona p, int idPersona) {
+		PreparedStatement stmt= null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().
+					prepareStatement("update persona set nombre=?, apellido=?, tipo_doc=?, nro_doc=?, email=?, password=?, tel=?, habilitado=? where id=?");
+			
+			stmt.setString(1, p.getNombre());
+			stmt.setString(2, p.getApellido());
+			stmt.setString(3, p.getDocumento().getTipo());
+			stmt.setString(4, p.getDocumento().getNro());
+			stmt.setString(5, p.getEmail());
+			stmt.setString(6, p.getPassword());
+			stmt.setString(7, p.getTel());
+			stmt.setBoolean(8, p.isHabilitado());
+			stmt.setInt(9, idPersona);
+			stmt.executeUpdate();
+			
+		}  catch (SQLException e) {
+            e.printStackTrace();
+		} finally {
+            try {
+                if(stmt!=null)stmt.close();
+                FactoryConexion.getInstancia().releaseConn();
+            } catch (SQLException e) {
+            	e.printStackTrace();
+            }
+		}
+    }
+	
 	
 	public void delete(int idPersona) {
 		PreparedStatement stmt= null;

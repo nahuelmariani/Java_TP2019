@@ -50,8 +50,11 @@ public class Usuarios extends HttpServlet {
 		case "agregar":
 			this.agregar(request,response);
 			break;
-		case "editar":
-			this.editar(request,response);
+		case "listar":
+			this.listar(request,response);
+			break;
+		case "actualizar":
+			this.actualizar(request,response);
 			break;
 		case "eliminar":
 			this.eliminar(request,response);
@@ -62,10 +65,15 @@ public class Usuarios extends HttpServlet {
 		case "nuevoUsuario":
 			request.getRequestDispatcher("/WEB-INF/nuevoUsuario.jsp").forward(request, response);
 			break;
-		case "gestionInstalaciones":
+		case "modificarUsuario":
+			this.buscarPorId(request,response);
+			request.getRequestDispatcher("/WEB-INF/modificarUsuario.jsp").forward(request, response);
+			break;
+		case "homeUser":
 			request.getRequestDispatcher("/WEB-INF/home_user.jsp").forward(request, response);
 			break;
 		default:
+			System.out.println("redirigir a página de error");
 			break;
 		}
 	}
@@ -85,12 +93,48 @@ public class Usuarios extends HttpServlet {
 		p.setHabilitado(true);
 		
 		perCtrl.altaPersona(p);
-		
-		request.getRequestDispatcher("/WEB-INF/gestionUsuario.jsp").forward(request, response);
+		this.listar(request, response);
 	}
 	
-	private void editar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-
+	private void buscarPorId(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		Persona p = new Persona();
+		PersonaControler perCtrl = new PersonaControler();
+		int idPersona = Integer.parseInt(request.getParameter("idUsuario"));
+		
+		p = perCtrl.buscarPersonaPorId(idPersona);
+		request.getSession().setAttribute("usuarioModificar", p);
+	
+	}
+	
+	private void listar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		PersonaControler perCtrl = new PersonaControler();
+		ArrayList<Persona> personas = new ArrayList<Persona>();
+		personas = perCtrl.getAll();
+		request.getSession().setAttribute("listaPersonas", personas);
+		request.getRequestDispatcher("/WEB-INF/gestionUsuario.jsp").forward(request, response);
+		//response.sendRedirect(request.getContextPath()+"/WEB-INF/gestionUsuario.jsp");
+	
+	}
+	
+	private void actualizar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		Persona p = new Persona();
+		p.setDocumento(new Documento());
+		PersonaControler perCtrl = new PersonaControler();
+		int idPersona = Integer.parseInt(request.getParameter("idUsuario"));
+		
+		p.setNombre(request.getParameter("nombre"));
+		p.setApellido(request.getParameter("apellido"));
+		p.getDocumento().setTipo(request.getParameter("tipo_doc"));
+		p.getDocumento().setNro(request.getParameter("nro_doc"));
+		p.setEmail(request.getParameter("email"));
+		p.setPassword(request.getParameter("password"));
+		p.setTel(request.getParameter("tel"));
+		p.setHabilitado(true);
+		
+		perCtrl.modificarPersona(p, idPersona);
+		this.listar(request, response);
+		//request.getRequestDispatcher("/WEB-INF/gestionUsuario.jsp").forward(request, response);
+		
 	}
 	
 	private void eliminar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
@@ -98,8 +142,8 @@ public class Usuarios extends HttpServlet {
 		PersonaControler perCtrl = new PersonaControler();
 		
 		perCtrl.bajaPersona(idPersona);
-		
-		request.getRequestDispatcher("/WEB-INF/gestionUsuario.jsp").forward(request, response);
+		this.listar(request, response);
+		//request.getRequestDispatcher("/WEB-INF/gestionUsuario.jsp").forward(request, response);
 		
 	}
 

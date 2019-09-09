@@ -12,8 +12,19 @@
 %>
 </head>
 <body>
-<h2>Usuarios:</h2>
-<table class="table">
+<h2>ABM de Usuarios:</h2>
+
+<form method="post" action="Usuarios">
+	<input type="hidden" name="action" value="nuevoUsuario">
+	<button>Agregar nuevo usuario</button>
+</form>
+<form method="post" action="Usuarios">
+	<input type="hidden" name="action" value="homeUser">
+	<button>Volver</button>
+</form>
+<div align="center">
+<table border="1" cellpadding="5">
+	<caption><h2>Listado de usuarios</h2></caption>
 	<thead>
 		<tr>
 			<th>Id</th>
@@ -36,7 +47,7 @@
 			<td colspan="2">
 				<form method="post" action="Usuarios">
 					<input type="hidden" name="idUsuario" value="<%= per.getId() %>">
-					<button type="submit" name="action" value="editar">Editar</button>
+					<button type="submit" name="action" value="modificarUsuario">Editar</button>
 					<button type="submit" name="action" value="eliminar">Eliminar</button>
 				</form>
 			</td>
@@ -45,9 +56,6 @@
 	</tbody>
 	
 </table>
-<form method="post" action="Usuarios">
-	<input type="hidden" name="action" value="nuevoUsuario">
-	<button>Agregar usuario</button>
-</form>
+</div>
 </body>
 </html>
