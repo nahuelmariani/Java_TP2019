@@ -24,7 +24,7 @@
 				<input type="hidden" name="action" value="gestionUsuario">
 				<button>Gestión de usuarios</button>
 			</form>
-			<form method="post" action="Usuarios">
+			<form method="post" action="Instalaciones">
 				<input type="hidden" name="action" value="gestionInstalacion">
 				<button>Gestión de instalaciones</button>
 			</form>
