@@ -40,7 +40,10 @@
         if (r.getDescripcion().equals("socio")) {
         	System.out.println("Socio del club");
         	%>
-			<h3> Alquilar cancha </h3>
+			<form method="post" action="Instalaciones">
+				<input type="hidden" name="action" value="reservaInstalacion">
+				<button>Instalaciones</button>
+			</form>
 			<%
 		}
 

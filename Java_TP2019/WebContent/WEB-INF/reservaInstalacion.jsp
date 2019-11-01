@@ -5,19 +5,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Gestion de Instalaciones - Club</title>
+<title>Reserva de Instalaciones - Club</title>
 <% 
 	Instalacion i = (Instalacion)session.getAttribute("instalacion");
 	ArrayList<Instalacion> lp = (ArrayList<Instalacion>)session.getAttribute("listaInstalaciones");
 %>
 </head>
 <body>
-<h2>ABM de Instalaciones:</h2>
-
-<form method="post" action="Instalaciones">
-	<input type="hidden" name="action" value="nuevaInstalacion">
-	<button>Agregar nueva instalacion</button>
-</form>
 <form method="post" action="Instalaciones">
 	<input type="hidden" name="action" value="homeUser">
 	<button>Volver</button>
@@ -46,8 +40,8 @@
 			<td colspan="2">
 				<form method="post" action="Instalaciones">
 					<input type="hidden" name="idInstalacion" value="<%= inst.getId_instalacion() %>">
-					<button type="submit" name="action" value="modificar_instalacion">Editar</button>
-					<button type="submit" name="action" value="eliminar">Eliminar</button>
+					<button type="submit" name="action" value="reservar_instalacion">Reservar</button>
+		
 				</form>
 			</td>
 		</tr>

@@ -46,6 +46,7 @@ public class Instalaciones extends HttpServlet {
 		InstalacionControler instCtrl = new InstalacionControler();
 		ArrayList<Instalacion> instalaciones = new ArrayList<Instalacion>();
 		instalaciones = instCtrl.getAll();
+		Instalacion inst = new Instalacion();
 		request.getSession().setAttribute("listaInstalaciones", instalaciones);
 		
 		switch (request.getParameter("action")) {
@@ -63,6 +64,13 @@ public class Instalaciones extends HttpServlet {
 			break;
 		case "gestionInstalacion":
 			request.getRequestDispatcher("/WEB-INF/gestionInstalacion.jsp").forward(request, response);
+			break;
+		case "reservaInstalacion":
+			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
+			break;
+		case "reservar_instalacion":
+			this.buscarPorId(request, response);
+			request.getRequestDispatcher("/WEB-INF/reservar_instalacion.jsp").forward(request, response);
 			break;
 		case "nuevaInstalacion":
 			request.getRequestDispatcher("/WEB-INF/nuevaInstalacion.jsp").forward(request, response);
@@ -100,7 +108,7 @@ public class Instalaciones extends HttpServlet {
 		int idInstalacion = Integer.parseInt(request.getParameter("idInstalacion"));
 		
 		i = instCtrl.buscarInstalacionPorId(idInstalacion);
-		request.getSession().setAttribute("instalacionModificar", i);
+		request.getSession().setAttribute("reservarInstalacion", i);
 	
 	}
 	
