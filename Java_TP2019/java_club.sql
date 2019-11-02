@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `instalacion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `instalacion` (
-  `idinstalacion` int(11) NOT NULL AUTO_INCREMENT,
+  `id_instalacion` int(11) NOT NULL AUTO_INCREMENT,
   `nom_instalacion` varchar(45) DEFAULT NULL,
   `desc_instalacion` varchar(45) DEFAULT NULL,
-  `importe` double DEFAULT NULL,
-  PRIMARY KEY (`idinstalacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `importe` float DEFAULT NULL,
+  PRIMARY KEY (`id_instalacion`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `instalacion` (
 
 LOCK TABLES `instalacion` WRITE;
 /*!40000 ALTER TABLE `instalacion` DISABLE KEYS */;
+INSERT INTO `instalacion` VALUES (5,'cancha de futbol 5','hermosaa',340.56),(6,'Cancha de tenis','grande',132.84),(7,'Quincho ','grande',399),(10,'Cancha de basquet','amplia y nueva',488);
 /*!40000 ALTER TABLE `instalacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,6 +70,38 @@ LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
 INSERT INTO `persona` VALUES (1,'Nahuel','Mariani','a','1111','admin@admin','admin','111',1),(2,'Julieta','Steckinger','b','2222','empleado@empleado','empleado','222',1),(3,'Ayelen','Demaria','c','333','socio@socio','socio','333',1);
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reserva`
+--
+
+DROP TABLE IF EXISTS `reserva`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `reserva` (
+  `id_reserva` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_reserva` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecha_hora_desde` datetime NOT NULL,
+  `fecha_hora_hasta` datetime NOT NULL,
+  `fecha_cancelacion` datetime DEFAULT NULL,
+  `id_instalacion` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  PRIMARY KEY (`id_reserva`),
+  KEY `id_Instalacion _idx` (`id_instalacion`),
+  KEY `id_usuario_idx` (`id_usuario`),
+  CONSTRAINT `id_Instalacion ` FOREIGN KEY (`id_instalacion`) REFERENCES `instalacion` (`id_instalacion`),
+  CONSTRAINT `id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `persona` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reserva`
+--
+
+LOCK TABLES `reserva` WRITE;
+/*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -155,4 +188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-19 20:05:00
+-- Dump completed on 2019-11-02 10:34:02
