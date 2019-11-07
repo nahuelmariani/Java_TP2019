@@ -28,6 +28,10 @@
 				<input type="hidden" name="action" value="gestionInstalacion">
 				<button>Gestión de instalaciones</button>
 			</form>
+			<form method="post" action="Actividades">
+				<input type="hidden" name="action" value="gestionActividad">
+				<button>Gestión de actividades</button>
+			</form>
 			
 		<%
 		}
