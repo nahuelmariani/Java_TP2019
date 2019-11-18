@@ -31,8 +31,8 @@
       <input id="inputFechaHoraHasta" name="fecha_hora_hasta" placeholder="Ingrese fecha y hora hasta" required type="datetime"><br>
       
  
-      
-      <button type="submit" name="action" value="agregar">Reservar</button>
+
+      <button type="submit" name="action" value="reservar">Reservar</button>
     </form>
     <form action="Instalaciones" method="post">
     	<button type="submit" name="action" value="listar">Cancelar</button>

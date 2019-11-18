@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import entities.Instalacion;
+import entities.*;
 import logic.InstalacionControler;
-
+import logic.ReservaControler;
+import java.util.Date;
 
 /**
  * Servlet implementation class Instalaciones
@@ -79,6 +80,9 @@ public class Instalaciones extends HttpServlet {
 			this.buscarPorId(request,response);
 			request.getRequestDispatcher("/WEB-INF/modificar_instalacion.jsp").forward(request, response);
 			break;
+		case "reservar":
+			this.reservar(request,response);
+			break;
 		case "homeUser":
 			request.getRequestDispatcher("/WEB-INF/home_user.jsp").forward(request, response);
 			break;
@@ -102,6 +106,32 @@ public class Instalaciones extends HttpServlet {
 		this.listar(request, response);
 	}
 	
+	private void reservar (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		Reserva r = new Reserva();
+
+		ReservaControler resCtrl = new ReservaControler();
+		
+		//String fecha_hora_desde = (request.getParameter("fecha_hora_desde"));
+	//	Date fecha_hora_hasta = (request.getParameter("fecha_hora_hasta"));
+		Date fecha_hora_desde = Date(request.getParameter("fecha_hora_desde"));
+		r.setFecha_hora_desde(fecha_hora_desde);
+		Date fecha_hora_hasta = Date(request.getParameter("fecha_hora_hasta"));
+		r.setFecha_hora_hasta(fecha_hora_hasta);
+	
+		
+//		i.setNom_instSalacion(request.getParameter("nom_instalacion"));
+//		i.setDesc_instalacion(request.getParameter("desc_instalacion"));
+//		Double importe = Double.parseDouble(request.getParameter("importe"));
+//		i.setImporte(importe);
+		
+		resCtrl.altaReserva(r);
+		this.listar(request, response);
+	} 
+	private Date Date(String parameter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private void buscarPorId(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Instalacion i = new Instalacion();
 		InstalacionControler instCtrl = new InstalacionControler();
