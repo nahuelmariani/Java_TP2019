@@ -1,5 +1,4 @@
 package servlets;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,38 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import entities.Actividad;
 import logic.ActividadControler;
 
-/**
- * Servlet implementation class Actividades
- */
 @WebServlet("/Actividades")
 public class Actividades extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public Actividades() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		ActividadControler actCtrl = new ActividadControler();
-		ArrayList<Actividad> actividades = new ArrayList<Actividad>();
-		actividades = actCtrl.getAll();
-		request.getSession().setAttribute("listaActividades", actividades);
 		
 		switch (request.getParameter("action")) {
 		case "agregar":
@@ -59,7 +39,7 @@ public class Actividades extends HttpServlet {
 			this.eliminar(request,response);
 			break;
 		case "gestionActividad":
-			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);
+			this.listar(request,response);
 			break;
 		case "nuevaActividad":
 			request.getRequestDispatcher("/WEB-INF/nuevaActividad.jsp").forward(request, response);
@@ -69,23 +49,21 @@ public class Actividades extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/modificarActividad.jsp").forward(request, response);
 			break;
 		case "homeUser":
-			request.getRequestDispatcher("/WEB-INF/home_user.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
 			break;
 		default:
-			System.out.println("redirigir a página de error");
+			System.out.println("Error: opcion no disponible");
 			break;
 		}
 	}
 	
 	private void agregar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Actividad a = new Actividad();
-
 		ActividadControler actCtrl = new ActividadControler();
 		
 		a.setNom_actividad(request.getParameter("nom_actividad"));
 		a.setDesc_actividad(request.getParameter("desc_actividad"));
-		Double importe_adicional = Double.parseDouble(request.getParameter("importe_adicional"));
-		a.setImporte_adicional(importe_adicional);
+		a.setImporte_adicional(Double.parseDouble(request.getParameter("importe_adicional")));
 		
 		actCtrl.altaActividad(a);
 		this.listar(request, response);
@@ -104,11 +82,11 @@ public class Actividades extends HttpServlet {
 	private void listar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		ActividadControler actCtrl = new ActividadControler();
 		ArrayList<Actividad> actividades = new ArrayList<Actividad>();
+		
 		actividades = actCtrl.getAll();
 		request.getSession().setAttribute("listaActividades", actividades);
+		
 		request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);
-		//response.sendRedirect(request.getContextPath()+"/WEB-INF/gestionUsuario.jsp");
-	
 	}
 	
 	private void actualizar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{

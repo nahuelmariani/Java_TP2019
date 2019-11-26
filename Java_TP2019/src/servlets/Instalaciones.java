@@ -1,7 +1,7 @@
 package servlets;
-
-
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -13,111 +13,142 @@ import javax.servlet.http.HttpServletResponse;
 
 import entities.*;
 import logic.InstalacionControler;
+import logic.PersonaControler;
 import logic.ReservaControler;
 import java.util.Date;
 
-/**
- * Servlet implementation class Instalaciones
- */
 @WebServlet("/Instalaciones")
 public class Instalaciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public Instalaciones() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		InstalacionControler instCtrl = new InstalacionControler();
-		ArrayList<Instalacion> instalaciones = new ArrayList<Instalacion>();
-		instalaciones = instCtrl.getAll();
-		Instalacion inst = new Instalacion();
-		request.getSession().setAttribute("listaInstalaciones", instalaciones);
-		
+
 		switch (request.getParameter("action")) {
 		case "agregar":
 			this.agregar(request,response);
+			request.getRequestDispatcher("/WEB-INF/gestionInstalacion.jsp").forward(request, response);	
 			break;
-		case "listar":
+		/*case "listar":
 			this.listar(request,response);
-			break;
+			break;*/
 		case "actualizar":
 			this.actualizar(request,response);
+			request.getRequestDispatcher("/WEB-INF/gestionInstalacion.jsp").forward(request, response);	
 			break;
 		case "eliminar":
 			this.eliminar(request,response);
+			request.getRequestDispatcher("/WEB-INF/gestionInstalacion.jsp").forward(request, response);	
 			break;
 		case "gestionInstalacion":
-			request.getRequestDispatcher("/WEB-INF/gestionInstalacion.jsp").forward(request, response);
+			this.listar(request,response);
+			request.getRequestDispatcher("/WEB-INF/gestionInstalacion.jsp").forward(request, response);	
 			break;
 		case "reservaInstalacion":
+			this.listar(request,response);
 			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
 			break;
-		case "reservar_instalacion":
+		case "nuevaReserva":
 			this.buscarPorId(request, response);
-			request.getRequestDispatcher("/WEB-INF/reservar_instalacion.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/nuevaReserva.jsp").forward(request, response);
 			break;
 		case "nuevaInstalacion":
 			request.getRequestDispatcher("/WEB-INF/nuevaInstalacion.jsp").forward(request, response);
 			break;
-		case "modificar_instalacion":
+		case "confirmarReserva":
+			
+			request.getRequestDispatcher("/WEB-INF/confirmarReserva.jsp").forward(request, response);
+			break;
+		case "modificarInstalacion":
 			this.buscarPorId(request,response);
-			request.getRequestDispatcher("/WEB-INF/modificar_instalacion.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/modificarInstalacion.jsp").forward(request, response);
 			break;
 		case "reservar":
-			this.reservar(request,response);
+			try {
+				this.reservar(request,response);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
 			break;
 		case "homeUser":
-			request.getRequestDispatcher("/WEB-INF/home_user.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
 			break;
 		default:
-			System.out.println("redirigir a página de error");
+			System.out.println("Error: opcion no disponible");
 			break;
 		}
 	}
 	
 	private void agregar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Instalacion i = new Instalacion();
-
 		InstalacionControler instCtrl = new InstalacionControler();
 		
 		i.setNom_instalacion(request.getParameter("nom_instalacion"));
 		i.setDesc_instalacion(request.getParameter("desc_instalacion"));
-		Double importe = Double.parseDouble(request.getParameter("importe"));
-		i.setImporte(importe);
+		i.setImporte(Double.parseDouble(request.getParameter("importe")));
 		
 		instCtrl.altaInstalacion(i);
 		this.listar(request, response);
 	}
 	
-	private void reservar (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+	private void reservar (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, ParseException{
 		Reserva r = new Reserva();
+		Instalacion i = new Instalacion();
+		Persona p = new Persona();
 
 		ReservaControler resCtrl = new ReservaControler();
+		//InstalacionControler instCtrl = new InstalacionControler();
+		//PersonaControler perCtrl = new PersonaControler();
 		
 		//String fecha_hora_desde = (request.getParameter("fecha_hora_desde"));
 	//	Date fecha_hora_hasta = (request.getParameter("fecha_hora_hasta"));
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		
+		//String fecha_hora_desdeStr = request.getParameter("fecha_hora_desde");
+		Date fecha_hora_desde = sdf.parse(request.getParameter("fecha_hora_desde"));
+		r.setFecha_hora_desde(fecha_hora_desde);
+		
+		//String fecha_hora_hastaStr = request.getParameter("fecha_hora_hasta");
+		Date fecha_hora_hasta = sdf.parse(request.getParameter("fecha_hora_hasta"));
+		r.setFecha_hora_hasta(fecha_hora_hasta);
+		
+		System.out.println("Fecha: " + fecha_hora_desde);
+		
+		/*
+		int idInstalacion = Integer.parseInt(request.getParameter("idInstalacion"));
+		i = instCtrl.buscarInstalacionPorId(idInstalacion);
+		int idPersona = Integer.parseInt(request.getParameter("idPersona"));
+		p = perCtrl.buscarPersonaPorId(idPersona);*/
+		
+		i = (Instalacion) request.getSession().getAttribute("instalacion");
+		p = (Persona) request.getSession().getAttribute("usuario");
+	
+		//System.out.println("insta:" + i);
+		//System.out.println("perso:" + p);
+		
+		r.setInst(i);
+		r.setPer(p);
+		
+
+		
+		/*
 		Date fecha_hora_desde = Date(request.getParameter("fecha_hora_desde"));
 		r.setFecha_hora_desde(fecha_hora_desde);
 		Date fecha_hora_hasta = Date(request.getParameter("fecha_hora_hasta"));
 		r.setFecha_hora_hasta(fecha_hora_hasta);
-	
+		System.out.println("Fecha: " + fecha_hora_desde);
+		*/
 		
 //		i.setNom_instSalacion(request.getParameter("nom_instalacion"));
 //		i.setDesc_instalacion(request.getParameter("desc_instalacion"));
@@ -127,10 +158,6 @@ public class Instalaciones extends HttpServlet {
 		resCtrl.altaReserva(r);
 		this.listar(request, response);
 	} 
-	private Date Date(String parameter) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	private void buscarPorId(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Instalacion i = new Instalacion();
@@ -138,18 +165,18 @@ public class Instalaciones extends HttpServlet {
 		int idInstalacion = Integer.parseInt(request.getParameter("idInstalacion"));
 		
 		i = instCtrl.buscarInstalacionPorId(idInstalacion);
-		request.getSession().setAttribute("reservarInstalacion", i);
+		request.getSession().setAttribute("instalacion", i);
 	
 	}
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		InstalacionControler instCtrl = new InstalacionControler();
 		ArrayList<Instalacion> instalaciones = new ArrayList<Instalacion>();
+		
 		instalaciones = instCtrl.getAll();
 		request.getSession().setAttribute("listaInstalaciones", instalaciones);
-		request.getRequestDispatcher("/WEB-INF/gestionInstalacion.jsp").forward(request, response);
-		//response.sendRedirect(request.getContextPath()+"/WEB-INF/gestionUsuario.jsp");
-	
+		
+
 	}
 	
 	private void actualizar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{

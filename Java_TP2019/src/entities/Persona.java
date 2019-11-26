@@ -1,7 +1,5 @@
 package entities;
 
-import java.util.HashMap;
-
 public class Persona {
 	private int id;
 	private Documento documento;
@@ -11,9 +9,8 @@ public class Persona {
 	private String password;
 	private String tel;
 	private boolean habilitado;
-	private HashMap<Integer, Rol> roles;
-	
-	
+	private String rol;
+
 	public int getId() {
 		return id;
 	}
@@ -62,31 +59,17 @@ public class Persona {
 	public void setHabilitado(boolean habilitado) {
 		this.habilitado = habilitado;
 	}
-	
-	public Persona() {
-		this.roles=new HashMap<>();
+	public String getRol() {
+		return rol;
 	}
-	
-	
-	
-	public void addRol(Rol rolToBeAdded) {
-		this.roles.put(rolToBeAdded.getId(), rolToBeAdded);
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
-	
-	public void removeRol(Rol rolToBeRemoved) {
-		this.roles.remove(rolToBeRemoved.getId());
-	}
-	
-	public boolean hasRol(Rol rolToCheck) {
-		return this.roles.containsKey(rolToCheck.getId());
-	}
-	
-	
-	
+
 	@Override
 	public String toString() {
 		return "Persona [id=" + id + ", documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido
-				+ ", email=" + email + ", tel=" + tel + ", habilitado=" + habilitado + ", roles=" + roles + "]";
+				+ ", email=" + email + ", tel=" + tel + ", habilitado=" + habilitado + ", rol=" + rol + "]";
 	}
 	
 	

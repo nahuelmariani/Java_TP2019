@@ -1,23 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Persona"%>
-<%@page import="entities.Rol"%>
+
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Club</title>
-<% 
-	Persona p = (Persona)session.getAttribute("usuario");
-	Rol r = (Rol)session.getAttribute("rol");
-%>
 
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Club</title>
+	<% 
+		Persona p = (Persona)session.getAttribute("usuario");
+	%>
 </head>
+
 <body>
 		<h2>Hola <%=p.getNombre()+" "+p.getApellido()%></h2>
 		<h3>Menu:</h3>
 		<% 
-        if (r.getDescripcion().equals("admin")) {
+        if (p.getRol().equals("Administrador")) {
         	System.out.println("Administrador");
         	%>
 			<form method="post" action="Usuarios">
@@ -35,13 +35,13 @@
 			
 		<%
 		}
-        if (r.getDescripcion().equals("empleado")) {
-        	System.out.println("Empleado del club");
+		if (p.getRol().equals("Empleado")) {
+			System.out.println("Empleado del club");
         	%>
 			<h3> Realizar cobros </h3>
 			<%
 		}
-        if (r.getDescripcion().equals("socio")) {
+        if (p.getRol().equals("Socio")) {
         	System.out.println("Socio del club");
         	%>
 			<form method="post" action="Instalaciones">
@@ -51,6 +51,10 @@
 			<%
 		}
 
- %>
+%>
+<p>
+<form action="Signin" method="get">
+<button type="submit">Cerrar sesion</button>
+</form>	
 </body>
 </html>

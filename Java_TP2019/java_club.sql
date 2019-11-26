@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.11, for Win64 (x86_64)
 --
 -- Host: localhost    Database: java_club
 -- ------------------------------------------------------
--- Server version	8.0.13
+-- Server version	8.0.11
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,33 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `actividad`
+--
+
+DROP TABLE IF EXISTS `actividad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `actividad` (
+  `id_actividad` int(11) NOT NULL,
+  `nom_actividad` varchar(45) DEFAULT NULL,
+  `desc_actividad` varchar(45) DEFAULT NULL,
+  `cupo` int(11) DEFAULT NULL,
+  `importe_adicional` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_actividad`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `actividad`
+--
+
+LOCK TABLES `actividad` WRITE;
+/*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
+INSERT INTO `actividad` VALUES (2,'Natacion','Libre',5,'200'),(3,'Futbol','Cancha de 5',5,'300'),(4,'Gimnasio','Maquinas',10,'320'),(5,'Running','Grupal',15,'550');
+/*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `instalacion`
@@ -28,7 +55,7 @@ CREATE TABLE `instalacion` (
   `desc_instalacion` varchar(45) DEFAULT NULL,
   `importe` float DEFAULT NULL,
   PRIMARY KEY (`id_instalacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +64,7 @@ CREATE TABLE `instalacion` (
 
 LOCK TABLES `instalacion` WRITE;
 /*!40000 ALTER TABLE `instalacion` DISABLE KEYS */;
-INSERT INTO `instalacion` VALUES (5,'cancha de futbol 5','hermosaa',340.56),(6,'Cancha de tenis','grande',132.84),(7,'Quincho ','grande',399),(10,'Cancha de basquet','amplia y nueva',488);
+INSERT INTO `instalacion` VALUES (5,'cancha de futbol 5','hermosaa',340.56),(6,'Cancha de tenis','grande',132.84),(7,'Quincho ','grande',399),(10,'Cancha de basquet','amplia y nueva',501);
 /*!40000 ALTER TABLE `instalacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,8 +85,9 @@ CREATE TABLE `persona` (
   `password` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tel` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `habilitado` tinyint(4) DEFAULT NULL,
+  `rol` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +96,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'Nahuel','Mariani','a','1111','admin@admin','admin','111',1),(2,'Julieta','Steckinger','b','2222','empleado@empleado','empleado','222',1),(3,'Ayelen','Demaria','c','333','socio@socio','socio','333',1);
+INSERT INTO `persona` VALUES (1,'Nahuel','Mariani','a','1111','admin@admin','admin','111',1,'Administrador'),(2,'Julieta','Steckinger','b','2222','empleado@empleado','empleado','222',1,'Empleado'),(3,'Ayelen','Demaria','c','333','socio@socio','socio','333',1,'Socio'),(19,'123','123','123','123','123@123','123','123',1,'Empleado'),(20,'nahuad','asdkja','aaasd','234','admin1@admin1','admin1','46546',0,'Administrador');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +120,7 @@ CREATE TABLE `reserva` (
   KEY `id_usuario_idx` (`id_usuario`),
   CONSTRAINT `id_Instalacion ` FOREIGN KEY (`id_instalacion`) REFERENCES `instalacion` (`id_instalacion`),
   CONSTRAINT `id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `persona` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,58 +129,8 @@ CREATE TABLE `reserva` (
 
 LOCK TABLES `reserva` WRITE;
 /*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
+INSERT INTO `reserva` VALUES (1,'2019-11-19 16:05:53','2019-01-01 00:00:00','2019-01-01 00:00:00',NULL,6,3),(2,'2019-11-19 16:25:42','2019-03-02 00:00:00','2019-03-02 00:00:00',NULL,7,3),(3,'2019-11-19 16:28:59','2019-03-02 00:00:00','2019-03-02 00:00:00',NULL,10,3),(4,'2019-11-19 16:34:45','2019-03-02 18:15:18','2019-03-02 18:15:18',NULL,5,3),(5,'2019-11-26 15:33:35','2019-03-02 18:15:18','2019-03-02 18:18:18',NULL,5,3),(6,'2019-11-26 15:34:53','2019-03-02 18:15:18','2019-03-02 18:18:18',NULL,5,3),(7,'2019-11-26 17:09:40','2019-03-02 18:15:18','2019-03-02 18:15:18',NULL,7,3);
 /*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `rol`
---
-
-DROP TABLE IF EXISTS `rol`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `rol` (
-  `id` int(11) NOT NULL,
-  `descripcion` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rol`
---
-
-LOCK TABLES `rol` WRITE;
-/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` VALUES (1,'admin'),(2,'empleado'),(3,'socio');
-/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `rol_persona`
---
-
-DROP TABLE IF EXISTS `rol_persona`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `rol_persona` (
-  `id_persona` int(11) NOT NULL,
-  `id_rol` int(11) NOT NULL,
-  PRIMARY KEY (`id_persona`,`id_rol`),
-  KEY `id_rol_fk_idx` (`id_rol`),
-  CONSTRAINT `id_rol_fk` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`),
-  CONSTRAINT `rol_persona_persona_fk` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rol_persona`
---
-
-LOCK TABLES `rol_persona` WRITE;
-/*!40000 ALTER TABLE `rol_persona` DISABLE KEYS */;
-INSERT INTO `rol_persona` VALUES (1,1),(2,2),(3,3);
-/*!40000 ALTER TABLE `rol_persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -188,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-18 18:43:30
+-- Dump completed on 2019-11-26 17:23:47

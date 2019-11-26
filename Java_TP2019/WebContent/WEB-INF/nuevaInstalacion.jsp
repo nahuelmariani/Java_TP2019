@@ -27,7 +27,7 @@
     </form>
     
     <form action="Instalaciones" method="post">
-    	<button type="submit" name="action" value="listar">Cancelar</button>
+    	<button type="submit" name="action" value="gestionInstalacion">Cancelar</button>
     </form>
 
 </body>

@@ -1,5 +1,4 @@
 package data;
-//orig
 import entities.*;
 
 import java.sql.*;
@@ -8,14 +7,14 @@ import java.util.ArrayList;
 public class DataPersona {
 	
 	public ArrayList<Persona> getAll(){
-		DataRol dr = new DataRol();
+		//DataRol dr = new DataRol();
 		Statement stmt = null;
 		ResultSet rs = null;
 		ArrayList<Persona> pers = new ArrayList<>();
 		
 		try {
 			stmt= FactoryConexion.getInstancia().getConn().createStatement();
-			rs= stmt.executeQuery("select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado from persona");
+			rs= stmt.executeQuery("select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado,rol from persona");
 			//intencionalmente no se recupera la password
 			if(rs!=null) {
 				while(rs.next()) {
@@ -30,8 +29,8 @@ public class DataPersona {
 					p.setTel(rs.getString("tel"));
 					
 					p.setHabilitado(rs.getBoolean("habilitado"));
-					
-					dr.setRoles(p);
+					p.setRol(rs.getString("rol"));
+					//dr.setRoles(p);
 					
 					pers.add(p);
 				}
@@ -55,14 +54,14 @@ public class DataPersona {
 	}
 	
 	public Persona getByUser(Persona per) {
-		DataRol dr = new DataRol();
+		//DataRol dr = new DataRol();
 		Persona p = null;//
 		PreparedStatement stmt = null;//
 		ResultSet rs = null;//
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado from persona where email=? and password=?"
+					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado,rol from persona where email=? and password=?"
 					);
 			stmt.setString(1, per.getEmail());
 			stmt.setString(2, per.getPassword());
@@ -79,8 +78,9 @@ public class DataPersona {
 				p.setEmail(rs.getString("email"));
 				p.setTel(rs.getString("tel"));
 				p.setHabilitado(rs.getBoolean("habilitado"));
+				p.setRol(rs.getString("rol"));
 				//
-				dr.setRoles(p);
+				//dr.setRoles(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,7 +104,7 @@ public class DataPersona {
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado from persona where id=?"
+					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado,rol from persona where id=?"
 					);
 			stmt.setInt(1, idPersona);
 			rs=stmt.executeQuery();
@@ -119,6 +119,7 @@ public class DataPersona {
 				p.setEmail(rs.getString("email"));
 				p.setTel(rs.getString("tel"));
 				p.setHabilitado(rs.getBoolean("habilitado"));
+				p.setRol(rs.getString("rol"));
 				//
 				//dr.setRoles(p);
 			}
@@ -139,13 +140,13 @@ public class DataPersona {
 	
 	
 	public Persona getByDocumento(Persona per) {
-		DataRol dr = new DataRol();
+		//DataRol dr = new DataRol();
 		Persona p = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado from persona where tipo_doc=? and nro_doc=?"
+					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado,rol from persona where tipo_doc=? and nro_doc=?"
 					);
 			stmt.setString(1, per.getDocumento().getTipo());
 			stmt.setString(2, per.getDocumento().getNro());
@@ -161,8 +162,9 @@ public class DataPersona {
 				p.setEmail(rs.getString("email"));
 				p.setTel(rs.getString("tel"));
 				p.setHabilitado(rs.getBoolean("habilitado"));
+				p.setRol(rs.getString("rol"));
 				//
-				dr.setRoles(p);
+				//dr.setRoles(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -186,7 +188,7 @@ public class DataPersona {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement(
-							"insert into persona(nombre, apellido, tipo_doc, nro_doc, email, password, tel, habilitado) values(?,?,?,?,?,?,?,?)",
+							"insert into persona(nombre, apellido, tipo_doc, nro_doc, email, password, tel, habilitado,rol) values(?,?,?,?,?,?,?,?,?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 			
@@ -198,6 +200,7 @@ public class DataPersona {
 			stmt.setString(6, p.getPassword());
 			stmt.setString(7, p.getTel());
 			stmt.setBoolean(8, p.isHabilitado());
+			stmt.setString(9, p.getRol());
 			stmt.executeUpdate();
 			
 			keyResultSet=stmt.getGeneratedKeys();
@@ -225,7 +228,7 @@ public class DataPersona {
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
-					prepareStatement("update persona set nombre=?, apellido=?, tipo_doc=?, nro_doc=?, email=?, password=?, tel=?, habilitado=? where id=?");
+					prepareStatement("update persona set nombre=?, apellido=?, tipo_doc=?, nro_doc=?, email=?, password=?, tel=?, habilitado=?, rol=? where id=?");
 			
 			stmt.setString(1, p.getNombre());
 			stmt.setString(2, p.getApellido());
@@ -235,7 +238,8 @@ public class DataPersona {
 			stmt.setString(6, p.getPassword());
 			stmt.setString(7, p.getTel());
 			stmt.setBoolean(8, p.isHabilitado());
-			stmt.setInt(9, idPersona);
+			stmt.setString(9, p.getRol());
+			stmt.setInt(10, idPersona);
 			stmt.executeUpdate();
 			
 		}  catch (SQLException e) {

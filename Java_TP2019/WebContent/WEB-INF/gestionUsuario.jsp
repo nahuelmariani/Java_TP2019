@@ -7,10 +7,10 @@
 <meta charset="ISO-8859-1">
 <title>Gestion de usuarios - Club</title>
 <% 
-	Persona p = (Persona)session.getAttribute("usuario");
-	ArrayList<Persona> lp = (ArrayList<Persona>)session.getAttribute("listaPersonas");
+	ArrayList<Persona> lp = (ArrayList<Persona>) session.getAttribute("listaPersonas");
 %>
 </head>
+
 <body>
 <h2>ABM de Usuarios:</h2>
 
@@ -18,10 +18,12 @@
 	<input type="hidden" name="action" value="nuevoUsuario">
 	<button>Agregar nuevo usuario</button>
 </form>
+
 <form method="post" action="Usuarios">
 	<input type="hidden" name="action" value="homeUser">
 	<button>Volver</button>
 </form>
+
 <div align="center">
 <table border="1" cellpadding="5">
 	<caption><h2>Listado de usuarios</h2></caption>
@@ -32,6 +34,8 @@
 			<th>Apellido</th>
 			<th>Email</th>
 			<th>Teléfono</th>
+			<th>Habilitado</th>
+			<th>Rol</th>
 			<th colspan="2">Acciones</th>
 		</tr>
 	</thead>
@@ -44,6 +48,8 @@
 			<td><%=per.getApellido()%></td>
 			<td><%=per.getEmail()%></td>
 			<td><%=per.getTel()%></td>
+			<td><%=per.isHabilitado()%></td>
+			<td><%=per.getRol()%></td>
 			<td colspan="2">
 				<form method="post" action="Usuarios">
 					<input type="hidden" name="idUsuario" value="<%= per.getId() %>">
