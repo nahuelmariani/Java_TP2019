@@ -55,6 +55,10 @@ public class Instalaciones extends HttpServlet {
 			this.listar(request,response);
 			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
 			break;
+		case "reservas":
+			this.listarReservas(request,response);
+			request.getRequestDispatcher("/WEB-INF/listadoReserva.jsp").forward(request, response);
+			break;
 		case "nuevaReserva":
 			this.buscarPorId(request, response);
 			request.getRequestDispatcher("/WEB-INF/nuevaReserva.jsp").forward(request, response);
@@ -70,6 +74,10 @@ public class Instalaciones extends HttpServlet {
 			this.buscarPorId(request,response);
 			request.getRequestDispatcher("/WEB-INF/modificarInstalacion.jsp").forward(request, response);
 			break;
+		case "cancelarReserva":
+			this.cancelarReserva(request,response);
+			this.listarReservas(request,response);
+			request.getRequestDispatcher("/WEB-INF/listadoReserva.jsp").forward(request, response);
 		case "reservar":
 			try {
 				this.reservar(request,response);
@@ -159,6 +167,19 @@ public class Instalaciones extends HttpServlet {
 		this.listar(request, response);
 	} 
 
+	private void cancelarReserva(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+	
+	
+		int idReserva = Integer.parseInt(request.getParameter("idReserva"));
+		ReservaControler resCtrl = new ReservaControler();
+		
+		resCtrl.cancelarRes(idReserva);
+
+	
+	}
+	
+	
+	
 	private void buscarPorId(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Instalacion i = new Instalacion();
 		InstalacionControler instCtrl = new InstalacionControler();
@@ -175,6 +196,18 @@ public class Instalaciones extends HttpServlet {
 		
 		instalaciones = instCtrl.getAll();
 		request.getSession().setAttribute("listaInstalaciones", instalaciones);
+		
+
+	}
+	
+	private void listarReservas(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		ReservaControler resCtrl = new ReservaControler();
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		Persona p = new Persona();
+		p = (Persona) request.getSession().getAttribute("usuario");
+		
+		reservas = resCtrl.getAll(p.getId());
+		request.getSession().setAttribute("listaReservas", reservas);
 		
 
 	}
