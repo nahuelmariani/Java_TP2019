@@ -78,6 +78,7 @@ public class Instalaciones extends HttpServlet {
 			this.cancelarReserva(request,response);
 			this.listarReservas(request,response);
 			request.getRequestDispatcher("/WEB-INF/listadoReserva.jsp").forward(request, response);
+			break;
 		case "reservar":
 			try {
 				this.reservar(request,response);
@@ -169,13 +170,10 @@ public class Instalaciones extends HttpServlet {
 
 	private void cancelarReserva(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 	
-	
 		int idReserva = Integer.parseInt(request.getParameter("idReserva"));
 		ReservaControler resCtrl = new ReservaControler();
 		
 		resCtrl.cancelarRes(idReserva);
-
-	
 	}
 	
 	

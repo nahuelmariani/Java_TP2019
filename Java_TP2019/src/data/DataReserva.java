@@ -21,8 +21,8 @@ public class DataReserva {
 		
 		try {
 		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-				"select id_reserva, i.nom_instalacion, fecha_reserva, fecha_hora_desde, fecha_hora_hasta, fecha_cancelacion from reserva r "
-				+ "inner join instalacion i on i.id_instalacion=r.id_instalacion where id_usuario=?"
+				"select r.id_reserva, i.nom_instalacion, r.fecha_reserva, r.fecha_hora_desde, r.fecha_hora_hasta, r.fecha_cancelacion from reserva r "
+				+ "inner join instalacion i on i.id_instalacion=r.id_instalacion where r.id_usuario=?"
 				);
 		stmt.setInt(1, id);
 		rs=stmt.executeQuery();
@@ -30,14 +30,14 @@ public class DataReserva {
 			while(rs.next()) {
 				Reserva r = new Reserva();
 				Instalacion i = new Instalacion();
-			    r.setId_reserva(rs.getInt("id_reserva"));	 
-			    
-			    i = r.getInst();		 
-			    i.setNom_instalacion(rs.getString(r.getInst().getNom_instalacion()));
-			    r.setFecha_reserva(rs.getTimestamp("fecha_reserva"));
-			    r.setFecha_hora_desde(rs.getTimestamp("fecha_hora_desde"));
-			    r.setFecha_hora_hasta(rs.getTimestamp("fecha_hora_hasta"));
-			    r.setFecha_cancelacion(rs.getTimestamp("fecha_cancelacion"));
+				
+				i.setNom_instalacion(rs.getString("i.nom_instalacion"));
+			    r.setId_reserva(rs.getInt("r.id_reserva"));	 
+			    r.setFecha_reserva(rs.getTimestamp("r.fecha_reserva"));
+			    r.setFecha_hora_desde(rs.getTimestamp("r.fecha_hora_desde"));
+			    r.setFecha_hora_hasta(rs.getTimestamp("r.fecha_hora_hasta"));
+			    r.setFecha_cancelacion(rs.getTimestamp("r.fecha_cancelacion"));
+			    r.setInst(i);
 				res.add(r);
 			}
 		}
@@ -108,14 +108,9 @@ public class DataReserva {
 		PreparedStatement stmt= null;
 		Date objDate = new Date();
 		
-		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement("update reserva set fecha_cancelacion=? where id_reserva=?");
-			
-			
-			
-		
 			stmt.setTimestamp(1, new java.sql.Timestamp(objDate.getTime()));
 			stmt.setInt(2, id);
 			stmt.executeUpdate();

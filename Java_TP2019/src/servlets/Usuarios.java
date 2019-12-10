@@ -29,7 +29,11 @@ public class Usuarios extends HttpServlet {
 		switch (request.getParameter("action")) {
 		case "agregar":
 			this.agregar(request,response);
+			this.listar(request, response);
 			break;
+		case "registrar":
+			this.agregar(request,response);
+			request.getRequestDispatcher("/index.html").forward(request, response);
 		case "listar":
 			this.listar(request,response);
 			break;
@@ -51,6 +55,9 @@ public class Usuarios extends HttpServlet {
 			break;
 		case "homeUser":
 			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
+			break;
+		case "index":
+			request.getRequestDispatcher("/index.html").forward(request, response);
 			break;
 		default:
 			System.out.println("Error: opcion no disponible");
@@ -74,7 +81,7 @@ public class Usuarios extends HttpServlet {
 		p.setRol(request.getParameter("rol"));
 		
 		perCtrl.altaPersona(p);
-		this.listar(request, response);
+		//this.listar(request, response);
 	}
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{

@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entities.Documento;
 import entities.Persona;
 import logic.Login;
+import logic.PersonaControler;
 
 @WebServlet("/Signin")
 public class Signin extends HttpServlet {
@@ -26,6 +28,22 @@ public class Signin extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		switch (request.getParameter("action")) {
+		case "ingresar":
+			this.ingresar(request,response);
+			break;
+		case "registrar":
+			request.getRequestDispatcher("WEB-INF/registrarUsuario.jsp").forward(request, response);
+			break;
+		default:
+			System.out.println("Error: opcion no disponible");
+			break;
+		}
+		
+
+	}
+	
+	private void ingresar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Login ctrl = new Login();
         Persona p = new Persona();
         
