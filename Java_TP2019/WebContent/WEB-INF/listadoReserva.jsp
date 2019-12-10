@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Reserva"%>
+<%@page import="java.text.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Mis reservas</title>
 <%
+	System.out.println("Index -> Home Socio -> Mis Reservas");
 	ArrayList<Reserva> lr = (ArrayList<Reserva>) session.getAttribute("listaReservas");
+	DateFormat df = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 %>
 </head>
 <body>
@@ -37,11 +40,11 @@
 		<tr>
 			<td><%=res.getId_reserva()%></td>
 			<td><%=res.getInst().getNom_instalacion()%></td>
-			<td><%=res.getFecha_reserva()%></td>
-			<td><%=res.getFecha_hora_desde()%></td>
-			<td><%=res.getFecha_hora_hasta()%></td>
+			<td><%=df.format(res.getFecha_reserva())%></td>
+			<td><%=df.format(res.getFecha_hora_desde())%></td>
+			<td><%=df.format(res.getFecha_hora_hasta())%></td>
 			<%--<td><%=res.getFecha_cancelacion()%></td>--%>
-			<%if(res.getFecha_cancelacion()==null){%><td>Vigente</td><%}else{%><td><%=res.getFecha_cancelacion()%></td><%} %>
+			<%if(res.getFecha_cancelacion()==null){%><td>Vigente</td><%}else{%><td><%=df.format(res.getFecha_cancelacion())%></td><%} %>
 			<td colspan="2">
 				<form method="post" action="Instalaciones">
 					<input type="hidden" name="idReserva" value="<%= res.getId_reserva() %>">

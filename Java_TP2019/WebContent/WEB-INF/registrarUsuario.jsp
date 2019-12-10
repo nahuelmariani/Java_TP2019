@@ -8,6 +8,9 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Registrar usuario - Club</title>
+	<%
+		System.out.println("Index -> Registrar usuario");
+	%>
 </head>
 
 <body>

@@ -8,7 +8,8 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Gestion de usuarios - Club</title>
-	<% 
+	<%
+		System.out.println("Index -> Home Admin -> Gestión de usuarios -> Modificar usuario");
 		Persona p = (Persona)session.getAttribute("usuarioModificar");
 	%>
 </head>

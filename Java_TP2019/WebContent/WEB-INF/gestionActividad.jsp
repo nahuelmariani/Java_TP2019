@@ -6,7 +6,8 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Gestion de Actividades</title>
-<% 
+<%
+	System.out.println("Index -> Home Admin -> Gestión de actividades");
 	ArrayList<Actividad> la = (ArrayList<Actividad>) session.getAttribute("listaActividades");
 %>
 </head>

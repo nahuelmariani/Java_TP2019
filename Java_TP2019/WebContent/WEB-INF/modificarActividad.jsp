@@ -8,7 +8,8 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Gestion de Actividades - Club</title>
-	<% 
+	<%
+		System.out.println("Index -> Home Admin -> Gestión de actividades -> Modificar actividad");
 		Actividad a = (Actividad)session.getAttribute("actividadModificar");
 	%>
 </head>
