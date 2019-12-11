@@ -1,5 +1,6 @@
 package servlets;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,7 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Actividad;
+import entities.Persona;
+import entities.Inscripcion;
 import logic.ActividadControler;
+import logic.PersonaControler;
+import logic.InscripcionControler;
+
 
 @WebServlet("/Actividades")
 public class Actividades extends HttpServlet {
@@ -28,25 +34,48 @@ public class Actividades extends HttpServlet {
 		switch (request.getParameter("action")) {
 		case "agregar":
 			this.agregar(request,response);
+			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
-		case "listar":
+		/*case "listar":
 			this.listar(request,response);
-			break;
+			break;*/
 		case "actualizar":
-			this.actualizar(request,response);
+			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
 		case "eliminar":
 			this.eliminar(request,response);
+			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
 		case "gestionActividad":
 			this.listar(request,response);
+			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
 		case "nuevaActividad":
+			this.buscarPorId(request, response);
 			request.getRequestDispatcher("/WEB-INF/nuevaActividad.jsp").forward(request, response);
 			break;
 		case "modificarActividad":
 			this.buscarPorId(request,response);
 			request.getRequestDispatcher("/WEB-INF/modificarActividad.jsp").forward(request, response);
+			break;
+		case "inscripcionActividad":
+			this.listar(request,response);
+			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
+			break;
+		case "nuevaInscripcion":
+			this.buscarPorId(request, response);
+			request.getRequestDispatcher("/WEB-INF/nuevaInscripcion.jsp").forward(request, response);
+			break;
+		case "confirmarInscripcion":
+			request.getRequestDispatcher("/WEB-INF/confirmarInscripcion.jsp").forward(request, response);
+			break;
+		case "inscribirse":
+			try {
+				this.inscribirse(request,response);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
 			break;
 		case "homeUser":
 			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
@@ -54,6 +83,7 @@ public class Actividades extends HttpServlet {
 		default:
 			System.out.println("Error: opcion no disponible");
 			break;
+			
 		}
 	}
 	
@@ -68,6 +98,24 @@ public class Actividades extends HttpServlet {
 		actCtrl.altaActividad(a);
 		this.listar(request, response);
 	}
+	
+	private void inscribirse (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, ParseException{
+		Inscripcion i = new Inscripcion();
+		Actividad a = new Actividad();
+		Persona p = new Persona();
+
+		InscripcionControler resCtrl = new InscripcionControler();
+		
+		a = (Actividad) request.getSession().getAttribute("actividad");
+		p = (Persona) request.getSession().getAttribute("usuario");
+		
+		i.setAct(a);
+		i.setPer(p);
+		
+		resCtrl.altaInscripcion(i);
+		this.listar(request, response);
+	} 
+	
 	
 	private void buscarPorId(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Actividad a = new Actividad();

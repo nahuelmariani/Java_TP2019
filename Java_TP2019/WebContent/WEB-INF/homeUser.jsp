@@ -48,6 +48,10 @@
 				<input type="hidden" name="action" value="reservaInstalacion">
 				<button>Instalaciones</button>
 			</form>
+			<form method="post" action="Actividades">
+				<input type="hidden" name="action" value="inscripcionActividad">
+				<button>Actividades</button>
+			</form>
 			<%
 		}
 
