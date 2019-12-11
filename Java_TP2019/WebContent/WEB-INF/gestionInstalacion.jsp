@@ -6,7 +6,8 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Gestion de Instalaciones - Club</title>
-<% 
+<%
+	System.out.println("Index -> Home Admin -> Gestión de instalaciones");
 	ArrayList<Instalacion> li = (ArrayList<Instalacion>) session.getAttribute("listaInstalaciones");
 %>
 </head>

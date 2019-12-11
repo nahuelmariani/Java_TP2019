@@ -8,7 +8,8 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Gestion de instalaciones - Club</title>
-	<% 
+	<%
+		System.out.println("Index -> Home Admin -> Gestión de instalaciones -> Modificar instalación");
 		Instalacion i = (Instalacion)session.getAttribute("instalacion");
 	%>
 </head>

@@ -6,7 +6,8 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Reserva de Instalaciones - Club</title>
-<% 
+<%
+	System.out.println("Index -> Home Socio -> Lista de instalaciones");
 	ArrayList<Instalacion> li = (ArrayList<Instalacion>)session.getAttribute("listaInstalaciones");
 %>
 </head>

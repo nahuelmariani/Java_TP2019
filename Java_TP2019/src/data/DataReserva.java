@@ -1,16 +1,62 @@
 package data;
-
+import entities.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 //import java.sql.Timestamp;
 //import java.util.ArrayList;
 //import java.util.Date;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
-import entities.Reserva;
 
 public class DataReserva {
+	public ArrayList<Reserva> getAll(int id){
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Reserva> res = new ArrayList<>();
+		
+		try {
+		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+				"select r.id_reserva, i.nom_instalacion, r.fecha_reserva, r.fecha_hora_desde, r.fecha_hora_hasta, r.fecha_cancelacion from reserva r "
+				+ "inner join instalacion i on i.id_instalacion=r.id_instalacion where r.id_usuario=?"
+				);
+		stmt.setInt(1, id);
+		rs=stmt.executeQuery();
+		if(rs!=null) {
+			while(rs.next()) {
+				Reserva r = new Reserva();
+				Instalacion i = new Instalacion();
+				
+				i.setNom_instalacion(rs.getString("i.nom_instalacion"));
+			    r.setId_reserva(rs.getInt("r.id_reserva"));	 
+			    r.setFecha_reserva(rs.getTimestamp("r.fecha_reserva"));
+			    r.setFecha_hora_desde(rs.getTimestamp("r.fecha_hora_desde"));
+			    r.setFecha_hora_hasta(rs.getTimestamp("r.fecha_hora_hasta"));
+			    r.setFecha_cancelacion(rs.getTimestamp("r.fecha_cancelacion"));
+			    r.setInst(i);
+				res.add(r);
+			}
+		}
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}finally {
+		try {
+			if(rs!=null) {rs.close();}
+			if(stmt!=null) {stmt.close();}
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+		
+		return res;
+	}
 	
 	//ALTA RESERVA
 	public void add(Reserva r) {
@@ -58,14 +104,15 @@ public class DataReserva {
 	
 	
 	//BAJA RESERVA
-	/*public void delete(int idInstalacion) {
+	public void cancelar(int id) {
 		PreparedStatement stmt= null;
+		Date objDate = new Date();
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
-					prepareStatement("update from instalacion where id_instalacion=?");
-			
-			stmt.setInt(1, idInstalacion);
+					prepareStatement("update reserva set fecha_cancelacion=? where id_reserva=?");
+			stmt.setTimestamp(1, new java.sql.Timestamp(objDate.getTime()));
+			stmt.setInt(2, id);
 			stmt.executeUpdate();
 		}  catch (SQLException e) {
           e.printStackTrace();
@@ -77,7 +124,7 @@ public class DataReserva {
           	e.printStackTrace();
           }
 		}
-  } */
+  } 
 	
 
 	

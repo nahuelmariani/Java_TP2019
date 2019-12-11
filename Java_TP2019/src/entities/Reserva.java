@@ -9,8 +9,11 @@ public class Reserva {
 	private Date fecha_cancelacion;
 	private Instalacion inst;
 	private Persona per;
+
 	
-	
+	public double getDuracion() {
+		return (double) (this.fecha_hora_hasta.getTime() - this.fecha_hora_desde.getTime())/1000/60/60;
+	}
 	public int getId_reserva() {
 		return id_reserva;
 	}

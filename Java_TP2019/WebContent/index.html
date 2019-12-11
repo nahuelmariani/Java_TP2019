@@ -5,13 +5,21 @@
 <title>Inicio - Club</title>
 </head>
 <body>
-    <form action="Signin" method="post">
-      <h1>Iniciar sesión</h1>
-      <label for="inputEmail">Mail:</label>
-      <input id="inputEmail" name="email" placeholder="Ingrese mail" required autofocus type="email">
-      <label for="inputPassword">Contraseña:</label>
-      <input id="inputPassword" name="password" placeholder="Ingrese contraseña" required type="password">
-      <button type="submit">Ingresar</button>
-    </form>
+	<div align="center">
+		<form action="Signin" method="post">
+			<h1>Iniciar sesión</h1>
+			<label for="inputEmail">Mail</label><br>
+			<input id="inputEmail" name="email" placeholder="Ingrese mail" required autofocus type="email"><br>
+			<label for="inputPassword">Contraseña</label><br>
+			<input id="inputPassword" name="password" placeholder="Ingrese contraseña" required type="password"><br>
+			<p>
+				<button type="submit" name="action" value="ingresar">Ingresar</button>
+			</p>
+		</form>
+		<form action="Signin" method="post">
+		
+			<button type="submit" name="action" value="registrar">Registrar</button>
+		</form>
+	</div>
 </body>
 </html>

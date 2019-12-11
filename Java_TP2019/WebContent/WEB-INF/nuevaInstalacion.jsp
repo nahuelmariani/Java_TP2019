@@ -6,7 +6,9 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Gestion de instalaciones - Club</title>
-
+<%
+	System.out.println("Index -> Home Admin -> Gestión de instalaciones -> Nueva instalación");
+%>
 </head>
 <body>
     <form action="Instalaciones" method="post">

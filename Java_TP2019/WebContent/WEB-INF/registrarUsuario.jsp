@@ -7,9 +7,9 @@
 
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Gestion de usuarios - Club</title>
+	<title>Registrar usuario - Club</title>
 	<%
-		System.out.println("Index -> Home Admin -> Gestión de usuarios -> Nuevo usuario");
+		System.out.println("Index -> Registrar usuario");
 	%>
 </head>
 
@@ -38,24 +38,14 @@
 		<label for="inputTelefono">Telefono:</label>
 		<input id="inputTelefono" name="tel" placeholder="Ingrese Telefono" required type="text"><br>
 		
-		<label for="inputHabilitado">Habilitado:</label>
-		<select id="inputHabilitado" name="habilitado">
-			<option value="1">Habilitado</option>
-			<option value="0">Inhabilitado</option>
-		</select>
+		<input type="hidden" name="habilitado" value="1">
 		
-		<label for="inputRol">Rol:</label>
-		<select id="inputRol" name="rol">
-			<option value="Socio">Socio</option>
-			<option value="Empleado">Empleado</option>
-			<option value="Administrador">Administrador</option>
-		</select>
+		<input type="hidden" name="rol" value="Socio">
 		
-		<button type="submit" name="action" value="agregar">Registrar</button>
+		<button type="submit" name="action" value="registrar">Registrar</button>
 	</form>
-	
-	<form action="Usuarios" method="post">
-		<button type="submit" name="action" value="listar">Cancelar</button>
+	<form action="Signin" method="get">
+		<button type="submit">Cancelar</button>
 	</form>
 </body>
 

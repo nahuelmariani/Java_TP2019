@@ -18,7 +18,7 @@
 		<h3>Menu:</h3>
 		<% 
         if (p.getRol().equals("Administrador")) {
-        	System.out.println("Administrador");
+        	System.out.println("Index -> Home Administrador");
         	%>
 			<form method="post" action="Usuarios">
 				<input type="hidden" name="action" value="gestionUsuario">
@@ -36,21 +36,28 @@
 		<%
 		}
 		if (p.getRol().equals("Empleado")) {
-			System.out.println("Empleado del club");
+			System.out.println("Index -> Home Empleado");
         	%>
 			<h3> Realizar cobros </h3>
 			<%
 		}
         if (p.getRol().equals("Socio")) {
-        	System.out.println("Socio del club");
+        	System.out.println("Index -> Home Socio");
         	%>
 			<form method="post" action="Instalaciones">
 				<input type="hidden" name="action" value="reservaInstalacion">
 				<button>Instalaciones</button>
 			</form>
+
 			<form method="post" action="Actividades">
 				<input type="hidden" name="action" value="inscripcionActividad">
 				<button>Actividades</button>
+			</form>
+
+			<form method="post" action="Instalaciones">
+				<input type="hidden" name="action" value="misReservas">
+				<button>Mis Reservas</button>
+
 			</form>
 			<%
 		}
