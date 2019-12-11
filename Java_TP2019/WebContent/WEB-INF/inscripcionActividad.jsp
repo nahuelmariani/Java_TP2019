@@ -1,17 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Actividad"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Inscripcion Actividades - Club</title>
-
-<% 
-	ArrayList< Actividad> la = (ArrayList< Actividad>)session.getAttribute("lista Actividades");
-%>
-
+	<meta charset="ISO-8859-1">
+	<title>Inscripcion Actividades - Club</title>
+	<%
+		System.out.println("Index -> Home Socio -> Lista de actividades");
+		ArrayList<Actividad> la = (ArrayList< Actividad>)session.getAttribute("listaActividades");
+	%>
 </head>
 
 <body>

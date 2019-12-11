@@ -7,12 +7,12 @@
 <html>
 
 <head>
-<meta charset="ISO-8859-1">
-<title>Inscripcion a Actividades</title>
-
-<%
+	<meta charset="ISO-8859-1">
+	<title>Inscripcion a Actividades</title>
+	<%
+		System.out.println("Index -> Home Socio -> Lista de actividades -> Inscripcion");
 		Persona p = (Persona)session.getAttribute("usuario");
-		Actividad a = (Actividad)session.getAttribute("actividad");
+		Actividad a = (Actividad)session.getAttribute("actividadModificar");
 	%>
 </head>
 
@@ -29,7 +29,7 @@
 		<p>A nombre de: <%=p.getNombre()%> <%=p.getApellido()%> (ID=<%=p.getId()%>) </p>
 		
 		
-		<button type="submit" name="action" value="inscribir">Inscribirse</button>
+		<button type="submit" name="action" value="inscribirse">Inscribirse</button>
 	</form>
 	
 	<form action="Actvidades" method="post">

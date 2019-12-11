@@ -36,9 +36,6 @@ public class Actividades extends HttpServlet {
 			this.agregar(request,response);
 			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
-		/*case "listar":
-			this.listar(request,response);
-			break;*/
 		case "actualizar":
 			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
@@ -106,7 +103,7 @@ public class Actividades extends HttpServlet {
 
 		InscripcionControler resCtrl = new InscripcionControler();
 		
-		a = (Actividad) request.getSession().getAttribute("actividad");
+		a = (Actividad) request.getSession().getAttribute("actividadModificar");
 		p = (Persona) request.getSession().getAttribute("usuario");
 		
 		i.setAct(a);
@@ -134,7 +131,7 @@ public class Actividades extends HttpServlet {
 		actividades = actCtrl.getAll();
 		request.getSession().setAttribute("listaActividades", actividades);
 		
-		request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);
+		//request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);
 	}
 	
 	private void actualizar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
