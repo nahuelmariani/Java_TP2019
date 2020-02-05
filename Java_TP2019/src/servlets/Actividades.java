@@ -37,6 +37,7 @@ public class Actividades extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
 		case "actualizar":
+			this.actualizar(request,response);
 			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
 		case "eliminar":
@@ -48,7 +49,7 @@ public class Actividades extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);	
 			break;
 		case "nuevaActividad":
-			this.buscarPorId(request, response);
+		//	this.buscarPorId(request, response);
 			request.getRequestDispatcher("/WEB-INF/nuevaActividad.jsp").forward(request, response);
 			break;
 		case "modificarActividad":
