@@ -38,7 +38,10 @@
 		if (p.getRol().equals("Empleado")) {
 			System.out.println("Index -> Home Empleado");
         	%>
-			<h3> Realizar cobros </h3>
+			<form method="post" action="Usuarios">
+				<input type="hidden" name="action" value="realizarcobros">
+				<button>Realizar cobros</button>
+			</form>
 			<%
 		}
         if (p.getRol().equals("Socio")) {

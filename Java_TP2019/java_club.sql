@@ -29,7 +29,7 @@ CREATE TABLE `actividad` (
   `cupo` int(11) DEFAULT NULL,
   `importe_adicional` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_actividad`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,8 +38,37 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
-INSERT INTO `actividad` VALUES (2,'Natacion','Libre',5,'200'),(3,'Futbol 5','Amateur',5,'300'),(4,'Gimnasio','Maquinas',10,'320'),(5,'Running','Grupal',15,'550'),(6,'Voley','Femenino',NULL,'490.0');
+INSERT INTO `actividad` VALUES (2,'Natacion','Libre',5,'200'),(3,'Futbol 5','Amateur',5,'300'),(4,'Gimnasio','Maquinas',10,'320'),(5,'Running','Grupal',15,'550'),(6,'Voley','Femenino',NULL,'490.0'),(7,'Hockey','grupos reducidos',23,'500.0');
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cuota`
+--
+
+DROP TABLE IF EXISTS `cuota`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `cuota` (
+  `idcuota` int(11) NOT NULL AUTO_INCREMENT,
+  `mes` varchar(45) NOT NULL,
+  `anio` varchar(45) NOT NULL,
+  `importe` float NOT NULL,
+  `fecha_pago` datetime DEFAULT NULL,
+  `idPersona` int(11) NOT NULL,
+  PRIMARY KEY (`idcuota`),
+  KEY `idPersona_idx` (`idPersona`),
+  CONSTRAINT `idPersona` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cuota`
+--
+
+LOCK TABLES `cuota` WRITE;
+/*!40000 ALTER TABLE `cuota` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cuota` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -245,4 +274,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-05 19:14:10
+-- Dump completed on 2020-02-19 20:32:10

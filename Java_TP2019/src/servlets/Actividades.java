@@ -92,6 +92,7 @@ public class Actividades extends HttpServlet {
 		a.setNom_actividad(request.getParameter("nom_actividad"));
 		a.setDesc_actividad(request.getParameter("desc_actividad"));
 		a.setImporte_adicional(Double.parseDouble(request.getParameter("importe_adicional")));
+		a.setCupo(Integer.parseInt(request.getParameter("cupo")));
 		
 		actCtrl.altaActividad(a);
 		this.listar(request, response);
@@ -144,6 +145,7 @@ public class Actividades extends HttpServlet {
 		
 		a.setNom_actividad(request.getParameter("nom_actividad"));
 		a.setDesc_actividad(request.getParameter("desc_actividad"));
+		a.setCupo(Integer.parseInt(request.getParameter("cupo")));
 		System.out.println(request.getParameter("importe_adicional"));
 		Double importe_adicional = Double.parseDouble(request.getParameter("importe_adicional"));
 		a.setImporte_adicional(importe_adicional);
