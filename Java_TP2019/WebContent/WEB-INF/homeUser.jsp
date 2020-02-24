@@ -32,14 +32,18 @@
 				<input type="hidden" name="action" value="gestionActividad">
 				<button>Gestión de actividades</button>
 			</form>
+			<form method="post" action="Cuotas">
+				<input type="hidden" name="action" value="gestionCuota">
+				<button>Gestion de cuotas</button>
+			</form>
 			
 		<%
 		}
 		if (p.getRol().equals("Empleado")) {
 			System.out.println("Index -> Home Empleado");
         	%>
-			<form method="post" action="Usuarios">
-				<input type="hidden" name="action" value="realizarcobros">
+			<form method="post" action="Cuotas">
+				<input type="hidden" name="action" value="gestionCobro">
 				<button>Realizar cobros</button>
 			</form>
 			<%

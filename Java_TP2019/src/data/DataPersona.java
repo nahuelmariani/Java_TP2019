@@ -53,6 +53,55 @@ public class DataPersona {
 		return pers;
 	}
 	
+	public ArrayList<Persona> getSocios(){
+		//DataRol dr = new DataRol();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Persona> pers = new ArrayList<>();
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado,rol from persona where rol like ?"
+					);
+			stmt.setString(1, "Socio");
+			rs=stmt.executeQuery();
+			if(rs!=null) {
+				while(rs.next()) {
+					Persona p=new Persona();
+					p.setDocumento(new Documento());
+					p.setId(rs.getInt("id"));
+					p.setNombre(rs.getString("nombre"));
+					p.setApellido(rs.getString("apellido"));
+					p.getDocumento().setTipo(rs.getString("tipo_doc"));
+					p.getDocumento().setNro(rs.getString("nro_doc"));
+					p.setEmail(rs.getString("email"));
+					p.setTel(rs.getString("tel"));
+					
+					p.setHabilitado(rs.getBoolean("habilitado"));
+					p.setRol(rs.getString("rol"));
+					//dr.setRoles(p);
+					
+					pers.add(p);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return pers;
+	}
+	
 	public Persona getByUser(Persona per) {
 		//DataRol dr = new DataRol();
 		Persona p = null;//
