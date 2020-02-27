@@ -19,8 +19,15 @@ public class PersonaControler {
 		return dp.getAll();
 	}
 	
+	public ArrayList<Persona> getSocios(){
+		return dp.getSocios();
+	}
+	
 	public Persona buscarPersonaPorId(int dni){
 		return dp.getById(dni);
+	}
+	public Persona buscarPersonaPorDNI(Persona soc){
+		return dp.getByDocumento(soc);
 	}
 	public void altaPersona(Persona p){
 		dp.add(p);

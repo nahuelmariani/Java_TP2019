@@ -26,9 +26,13 @@
 		<label for="inputDescripcion">Descripcion:</label>
 		<input id="inputDescripcion" name="desc_actividad" placeholder="Ingrese Descripcion" required type="text" value="<%=a.getDesc_actividad()%>"><br>
 		
+		<label for="inputCupo">Cupo:</label>
+		<input id="inputCupo" name="cupo" placeholder="Ingrese cupo" required type="text" value="<%=a.getCupo()%>"><br>
+		
 		<label for="inputImporte">Importe:</label>
 		<input id="inputImporte" name="importe_adicional" placeholder="Ingrese importe" required type="text" value="<%=a.getImporte_adicional()%>"><br>
 		
+				
 		<button type="submit" name="action" value="actualizar">Guardar cambios</button>
 	</form>
 	

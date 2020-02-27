@@ -54,7 +54,7 @@ public Actividad getById(int idActividad) {
 	
 	try {
 		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-				"select id_actividad, nom_actividad, desc_actividad, importe_adicional from actividad where id_actividad=?"
+				"select id_actividad, nom_actividad, desc_actividad, cupo, importe_adicional from actividad where id_actividad=?"
 				);
 		stmt.setInt(1, idActividad);
 		rs=stmt.executeQuery();
@@ -63,6 +63,7 @@ public Actividad getById(int idActividad) {
 			a.setId_actividad(rs.getInt("id_actividad"));
 			a.setNom_actividad(rs.getString("nom_actividad"));
 			a.setDesc_actividad(rs.getString("desc_actividad"));
+			a.setCupo(rs.getInt("cupo"));
 			a.setImporte_adicional(rs.getDouble("importe_adicional"));
 		
 		}
@@ -88,13 +89,14 @@ public Actividad getById(int idActividad) {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement(
-							"insert into actividad(nom_actividad, desc_actividad, importe_adicional) values(?,?,?)",
+							"insert into actividad(nom_actividad, desc_actividad, cupo, importe_adicional) values(?,?,?,?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 			
 			stmt.setString(1, a.getNom_actividad());
 			stmt.setString(2, a.getDesc_actividad());
-			stmt.setDouble(3, a.getImporte_adicional());
+			stmt.setInt(3, a.getCupo());
+			stmt.setDouble(4, a.getImporte_adicional());
 			stmt.executeUpdate();
 			
 			keyResultSet=stmt.getGeneratedKeys();
@@ -122,12 +124,13 @@ public Actividad getById(int idActividad) {
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
-					prepareStatement("update actividad set nom_actividad=?, desc_actividad=?, importe_adicional=? where id_actividad=?");
+					prepareStatement("update actividad set nom_actividad=?, desc_actividad=?, cupo=?, importe_adicional=? where id_actividad=?");
 			
 			stmt.setString(1,a.getNom_actividad());
 			stmt.setString(2,a.getDesc_actividad());
-			stmt.setDouble(3,a.getImporte_adicional());
-			stmt.setInt(4, idActividad);
+			stmt.setInt(3, a.getCupo());
+			stmt.setDouble(4,a.getImporte_adicional());
+			stmt.setInt(5, idActividad);
 			stmt.executeUpdate();
 			
 		}  catch (SQLException e) {

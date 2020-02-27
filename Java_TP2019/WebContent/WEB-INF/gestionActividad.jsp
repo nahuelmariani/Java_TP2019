@@ -33,6 +33,7 @@
 			<th>Id</th>
 			<th>Nombre</th>
 			<th>Descripcion</th>
+			<th>Cupo</th>
 			<th>Importe Adicional</th>
 			<th colspan="2">Acciones</th>
 		</tr>
@@ -44,6 +45,7 @@
 			<td><%=act.getId_actividad()%></td>
 			<td><%=act.getNom_actividad()%></td>
 			<td><%=act.getDesc_actividad()%></td>
+			<td><%=act.getCupo()%></td>
 			<td><%=act.getImporte_adicional()%></td>
 		
 			<td colspan="2">

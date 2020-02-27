@@ -25,13 +25,16 @@
       <label for="inputImporte">Importe:</label>
       <input id="inputImporte" name="importe_adicional" placeholder="Ingrese importe adicional" required type="text"><br>
       
+      <label for="inputCupo">Cupo:</label>
+      <input id="inputCupo" name="cupo" placeholder="Ingrese cupo" required type="text"><br>
  
       
       <button type="submit" name="action" value="agregar">Registrar</button>
     </form>
     
     <form action="Actividades" method="post">
-    	<button type="submit" name="action" value="gestionActividad">Cancelar</button>
+	<button type="submit" name="action" value="gestionActividad">Cancelar</button>
+
     </form>
 
 
