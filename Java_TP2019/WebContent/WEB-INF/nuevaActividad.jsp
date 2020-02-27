@@ -31,7 +31,7 @@
     </form>
     
     <form action="Actividades" method="post">
-    	<button type="submit" name="action" value="listar">Cancelar</button>
+    	<button type="submit" name="action" value="gestionActividad">Cancelar</button>
     </form>
 
 

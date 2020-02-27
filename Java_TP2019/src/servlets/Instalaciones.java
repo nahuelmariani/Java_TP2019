@@ -10,19 +10,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Part;
 
 import entities.*;
-import logic.InstalacionControler;
-import logic.PersonaControler;
-import logic.ReservaControler;
+import logic.*;
 import java.util.Date;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+import static logic.Constants.UPLOAD_DIRECTORY;
 
 @WebServlet("/Instalaciones")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class Instalaciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     public Instalaciones() {
         super();
+    }
+    
+    private String getFileName(Part part) {
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename"))
+                return content.substring(content.indexOf("=") + 2, content.length() - 1);
+        }
+        return Constants.DEFAULT_FILENAME;
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -101,14 +114,34 @@ public class Instalaciones extends HttpServlet {
 	private void agregar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Instalacion i = new Instalacion();
 		InstalacionControler instCtrl = new InstalacionControler();
-		
+
+		String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY; // Ruta para guardar el archivo en la carpeta "upload_directory", declarada en Constant.java
+		File uploadDir = new File(uploadPath);
+        
+		if (!uploadDir.exists()) { // Si no existe la carpeta, la crea
+            uploadDir.mkdir();
+        }
+        
+        try {
+        	Part filePart = request.getPart("imagen");
+        	String fileName = getFileName(filePart);
+        	filePart.write(uploadPath + File.separator + fileName);
+        	i.setImagen(fileName);
+            //request.setAttribute("message", "File " + fileName + " has uploaded successfully!");
+        } catch (FileNotFoundException fne) {
+            //request.setAttribute("message", "There was an error: " + fne.getMessage());
+        }
+
 		i.setNom_instalacion(request.getParameter("nom_instalacion"));
 		i.setDesc_instalacion(request.getParameter("desc_instalacion"));
 		i.setImporte(Double.parseDouble(request.getParameter("importe")));
 		
 		instCtrl.altaInstalacion(i);
+		
 		this.listar(request, response);
 	}
+	
+	// WORKSPACE\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\UploadServletApp\ upload
 	
 	private void buscarPorId(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Instalacion i = new Instalacion();
@@ -129,16 +162,32 @@ public class Instalaciones extends HttpServlet {
 	
 	private void actualizar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Instalacion i = new Instalacion();
-	
 		InstalacionControler instCtrl = new InstalacionControler();
-		int idInstalacion = Integer.parseInt(request.getParameter("idInstalacion"));
 		
+		String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY; // Ruta para guardar el archivo en la carpeta "upload_directory", declarada en Constant.java
+		File uploadDir = new File(uploadPath);
+        
+		if (!uploadDir.exists()) { // Si no existe la carpeta, la crea
+            uploadDir.mkdir();
+        }
+        
+        try {
+        	Part filePart = request.getPart("imagen");
+        	String fileName = getFileName(filePart);
+        	filePart.write(uploadPath + File.separator + fileName);
+        	i.setImagen(fileName);
+            //request.setAttribute("message", "File " + fileName + " has uploaded successfully!");
+        } catch (FileNotFoundException fne) {
+            //request.setAttribute("message", "There was an error: " + fne.getMessage());
+        }
+		
+		int idInstalacion = Integer.parseInt(request.getParameter("idInstalacion"));
 		i.setNom_instalacion(request.getParameter("nom_instalacion"));
 		i.setDesc_instalacion(request.getParameter("desc_instalacion"));
-		Double importe = Double.parseDouble(request.getParameter("importe"));
-		i.setImporte(importe);
+		i.setImporte(Double.parseDouble(request.getParameter("importe")));
 		
 		instCtrl.modificarInstalacion(i, idInstalacion);
+		
 		this.listar(request, response);
 	}
 	

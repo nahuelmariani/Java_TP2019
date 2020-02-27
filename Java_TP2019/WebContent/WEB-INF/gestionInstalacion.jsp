@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Instalacion"%>
+<%@page import="logic.Constants"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +36,7 @@
 			<th>Nombre</th>
 			<th>Descripcion</th>
 			<th>Importe</th>
+			<th>Imagen</th>
 			<th colspan="2">Acciones</th>
 		</tr>
 	</thead>
@@ -45,7 +48,9 @@
 			<td><%=inst.getNom_instalacion()%></td>
 			<td><%=inst.getDesc_instalacion()%></td>
 			<td><%=inst.getImporte()%></td>
-		
+			<td>
+				<img src="upload/<%=inst.getImagen()%>" height="50" width="50">
+			</td>
 			<td colspan="2">
 				<form method="post" action="Instalaciones">
 					<input type="hidden" name="idInstalacion" value="<%= inst.getId_instalacion() %>">

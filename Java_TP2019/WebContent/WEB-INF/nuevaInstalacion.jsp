@@ -2,16 +2,19 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Instalacion"%>
 <!DOCTYPE html>
+
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Gestion de instalaciones - Club</title>
-<%
-	System.out.println("Index -> Home Admin -> Gestión de instalaciones -> Nueva instalación");
-%>
+	<meta charset="ISO-8859-1">
+	<title>Gestion de instalaciones - Club</title>
+	<%
+		System.out.println("Index -> Home Admin -> Gestión de instalaciones -> Nueva instalación");
+	
+	%>
 </head>
+
 <body>
-    <form action="Instalaciones" method="post">
+    <form enctype="multipart/form-data" action="Instalaciones" method="post">
       <h3>Registrar nueva instalacion:</h3>
       
       <label for="inputNombre">Nombre:</label>
@@ -23,9 +26,11 @@
       <label for="inputImporte">Importe:</label>
       <input id="inputImporte" name="importe" placeholder="Ingrese importe" required type="text"><br>
       
- 
+      <label for="inputImagen">Selecciona la imagen: </label>
+      <input id="inputImagen" type="file" name="imagen"/>
       
-      <button type="submit" name="action" value="agregar">Registrar</button>
+      <input type="submit" name="action" value="agregar"/>
+
     </form>
     
     <form action="Instalaciones" method="post">

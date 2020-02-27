@@ -16,6 +16,8 @@ public class ReservaControler {
 	
 	public void altaReserva(Reserva r){
 		dr.add(r);
+		//validar
+		//confirmar
 	}
 	
 	public ArrayList<Reserva> getAll(int id){

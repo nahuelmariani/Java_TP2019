@@ -5,8 +5,7 @@ public class Instalacion {
 	private String nom_instalacion;
 	private String desc_instalacion;
 	private Double importe;
-	// private   imagen
-	
+	private String imagen;
 	
 	public int getId_instalacion() {
 		return id_instalacion;
@@ -31,6 +30,12 @@ public class Instalacion {
 	}
 	public void setImporte(Double importe) {
 		this.importe = importe;
+	}
+	public String getImagen() {
+		return imagen;
+	}
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
  
 }

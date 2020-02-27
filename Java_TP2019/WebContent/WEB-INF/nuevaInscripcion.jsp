@@ -32,8 +32,8 @@
 		<button type="submit" name="action" value="inscribirse">Inscribirse</button>
 	</form>
 	
-	<form action="Actvidades" method="post">
-		<button type="submit" name="action" value="inscribirActividad">Cancelar</button>
+	<form action="Actividades" method="post">
+		<button type="submit" name="action" value="inscripcionActividad">Cancelar</button>
 	</form>
 
 

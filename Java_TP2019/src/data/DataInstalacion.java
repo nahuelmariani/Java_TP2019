@@ -15,7 +15,7 @@ public class DataInstalacion {
 		
 		try {
 			stmt= FactoryConexion.getInstancia().getConn().createStatement();
-			rs= stmt.executeQuery("select id_instalacion, nom_instalacion, desc_instalacion, importe from instalacion");
+			rs= stmt.executeQuery("select id_instalacion, nom_instalacion, desc_instalacion, importe, imagen from instalacion");
 	
 			if(rs!=null) {
 				while(rs.next()) {
@@ -24,7 +24,7 @@ public class DataInstalacion {
 				    i.setNom_instalacion(rs.getString("nom_instalacion"));
 					i.setDesc_instalacion(rs.getString("desc_instalacion"));
 					i.setImporte(rs.getDouble("importe"));
-			
+					i.setImagen(rs.getString("imagen"));
 					
 					inst.add(i);
 				}
@@ -97,7 +97,7 @@ public class DataInstalacion {
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_instalacion, nom_instalacion, desc_instalacion, importe from instalacion where id_instalacion=?"
+					"select id_instalacion, nom_instalacion, desc_instalacion, importe, imagen from instalacion where id_instalacion=?"
 					);
 			stmt.setInt(1, idInstalacion);
 			rs=stmt.executeQuery();
@@ -107,7 +107,7 @@ public class DataInstalacion {
 				i.setNom_instalacion(rs.getString("nom_instalacion"));
 				i.setDesc_instalacion(rs.getString("desc_instalacion"));
 				i.setImporte(rs.getDouble("importe"));
-			
+				i.setImagen(rs.getString("imagen"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -135,13 +135,14 @@ public class DataInstalacion {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement(
-							"insert into instalacion(nom_instalacion, desc_instalacion, importe) values(?,?,?)",
+							"insert into instalacion(nom_instalacion, desc_instalacion, importe, imagen) values(?,?,?,?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 			
 			stmt.setString(1, i.getNom_instalacion());
 			stmt.setString(2, i.getDesc_instalacion());
 			stmt.setDouble(3, i.getImporte());
+			stmt.setString(4, i.getImagen());
 			stmt.executeUpdate();
 			
 			keyResultSet=stmt.getGeneratedKeys();
@@ -169,12 +170,13 @@ public class DataInstalacion {
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
-					prepareStatement("update instalacion set nom_instalacion=?, desc_instalacion=?, importe=? where id_instalacion=?");
+					prepareStatement("update instalacion set nom_instalacion=?, desc_instalacion=?, importe=?, imagen=? where id_instalacion=?");
 			
 			stmt.setString(1, i.getNom_instalacion());
-			stmt.setString(2,i.getDesc_instalacion());
-			stmt.setDouble(3,i.getImporte());
-			stmt.setInt(4, idInstalacion);
+			stmt.setString(2, i.getDesc_instalacion());
+			stmt.setDouble(3, i.getImporte());
+			stmt.setString(4, i.getImagen());
+			stmt.setInt(5, idInstalacion);
 			stmt.executeUpdate();
 			
 		}  catch (SQLException e) {

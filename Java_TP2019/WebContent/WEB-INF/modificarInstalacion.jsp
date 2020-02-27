@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 
 <html>
-
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Gestion de instalaciones - Club</title>
@@ -15,7 +14,7 @@
 </head>
 
 <body>
-	<form action="Instalaciones" method="post">
+	<form enctype="multipart/form-data" action="Instalaciones" method="post">
 		<h3>Modificar instalacion:</h3>
 		
 		<input type="hidden" name="idInstalacion" value="<%= i.getId_instalacion() %>">
@@ -29,7 +28,10 @@
 		<label for="inputImporte">Importe:</label>
 		<input id="inputImporte" name="importe" placeholder="Ingrese importe" required type="text" value="<%=i.getImporte()%>"><br>
 		
-		<button type="submit" name="action" value="actualizar">Guardar cambios</button>
+		<label for="inputImagen">Selecciona la imagen: </label>
+        <input id="inputImagen" type="file" name="imagen"/>
+		
+		<input type="submit" name="action" value="actualizar"/>
 	</form>
 	
 	<form action="Instalaciones" method="post">
