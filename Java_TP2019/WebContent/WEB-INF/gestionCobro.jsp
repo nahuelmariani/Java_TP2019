@@ -12,21 +12,22 @@
 <body>
 <form method="post" action="Cuotas">
 <p>
-<label for="inputTipoDNI">Ingrese tipo de DNI del socio</label>
+<label for="inputTipoDNI">Ingrese tipo de documento del socio</label>
       <select id="inputTipoDNI" name="tipoDNI">
         <option disabled selected value>Seleccione</option>
       	<option value="DNI">DNI</option>
       	<option value="LE">LE</option>
       	<option value="DUI">DUI</option>
   	 </select>
- <label for="inputDNI">Ingrese DNI del socio</label>
- <input id="inputDNI" name="dni" placeholder="ingrese dni" required type="number">
+ 
+ <label for="inputDNI">Ingrese número de documento del socio</label>
+ <input id="inputDNI" name="dni" placeholder="Ingresar n° doc" required type="number">
 </p>
  <p>
  <br>	
  <tr>      
-    <label for="inputMes">Ingrese mes a cobrar:</label>
-    <input id="inputMes" name="mes" placeholder="ingrese nro de mes" required type="number">
+    <label for="inputMes">Ingrese el número del mes a cobrar:</label>
+    <input id="inputMes" name="mes" placeholder="Ingresar n° de mes" required type="number">
 </tr>      
 <br>
 </p>
