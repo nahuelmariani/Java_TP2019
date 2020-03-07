@@ -28,6 +28,8 @@
  <tr>      
     <label for="inputMes">Ingrese el número del mes a cobrar:</label>
     <input id="inputMes" name="mes" placeholder="Ingresar n° de mes" required type="number">
+    <label for="inputAnio">Ingrese año a cobrar:</label>
+    <input id="inputAnio" name="anio" placeholder="Ingresar año" required type="number">
 </tr>      
 <br>
 </p>

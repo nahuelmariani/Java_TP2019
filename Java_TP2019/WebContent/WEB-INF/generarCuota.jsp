@@ -15,11 +15,14 @@
      
       <input id="inputImporte" name="importe" placeholder="Ingrese importe" required type="text"><br>
       
-      <tr>      
-      <button type="submit" name="action" value="agregar">Generar</button>
+      <tr> 
+      <br>     
+      <button type="submit" name="action" value="agregar">Generar a todos</button>
+      <button type="submit" name="action" value="agregarASoc">Generar a socio</button>
    	</tr>
+   	
 </form>
-    
+    <br>
     <form action="Cuotas" method="post">
     	<button type="submit" name="action" value="gestionCuota">Cancelar</button>
     </form>

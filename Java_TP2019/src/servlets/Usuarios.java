@@ -82,6 +82,8 @@ public class Usuarios extends HttpServlet {
 		
 		perCtrl.altaPersona(p);
 		//this.listar(request, response);
+		
+		
 	}
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
