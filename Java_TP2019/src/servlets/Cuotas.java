@@ -51,6 +51,7 @@ public class Cuotas extends HttpServlet {
 		case "nuevoCobro":
 			this.confirmarCobro(request,response);
 			request.getRequestDispatcher("/WEB-INF/confirmarCobro.jsp").forward(request, response);
+			break;
 		case "registrarCobro":
 			this.registrarCobro(request, response);
 			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
@@ -83,8 +84,7 @@ public class Cuotas extends HttpServlet {
 		// recupero el mes ingresado, lo seteo en cuota y lo guardo en la sesion
 		int mes = Integer.parseInt(request.getParameter("mes"));
 		cuota.setMes(mes);
-		request.getSession().setAttribute("Cuota", cuota);
-		
+		request.getSession().setAttribute("Cuota", cuota);	
 	}
 
 	private void registrarCobro(HttpServletRequest request, HttpServletResponse response) {

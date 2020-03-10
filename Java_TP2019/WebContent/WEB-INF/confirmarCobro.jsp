@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-   <%@page import="entities.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="entities.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,13 +16,14 @@
 		<h3>Confirmar cobro:</h3>
 		
 		<p>Socio:
-		 <%=soc.getNombre() %>
-		 <%=soc.getApellido() %></p>
+		 <%=soc.getNombre()%>
+		 <%=soc.getApellido()%></p>
 			
 		<p>Mes a cobrar:
-		 <%=cuota.getMes() %></p>
+		 <%=cuota.getMes()%></p>
 
 <button type="submit" name="action" value="registrarCobro">Confirmar</button>
+</form>
 <form method="post" action="Cuotas">
 	<input type="hidden" name="action" value="gestionCobro">
 	<button>Cancelar</button>

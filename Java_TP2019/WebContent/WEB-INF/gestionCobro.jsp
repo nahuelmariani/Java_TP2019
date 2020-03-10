@@ -14,7 +14,7 @@
 <p>
 <label for="inputTipoDNI">Ingrese tipo de DNI del socio</label>
       <select id="inputTipoDNI" name="tipoDNI">
-        <option disabled selected value>Seleccione</option>
+        <option disabled selected>Seleccione</option>
       	<option value="DNI">DNI</option>
       	<option value="LE">LE</option>
       	<option value="DUI">DUI</option>
@@ -24,10 +24,10 @@
 </p>
  <p>
  <br>	
- <tr>      
+      
     <label for="inputMes">Ingrese mes a cobrar:</label>
     <input id="inputMes" name="mes" placeholder="ingrese nro de mes" required type="number">
-</tr>      
+     
 <br>
 </p>
 <button type="submit" name="action" value="nuevoCobro">Cobrar</button>
