@@ -13,8 +13,18 @@ public class CuotaControler {
 		dc.add(c);
 	}
 
-	public void cobrar(int mes, Persona soc) {
+	public int cobrar(Cuota cuota, Persona soc) {
 		// TODO Auto-generated method stub
-		dc.actualizar(mes, soc);
+		Cuota cuo = new Cuota();
+		int existe;
+		cuo = dc.buscarCuota(cuota, soc);
+		if (cuo != null) {
+			existe = 1;
+		}
+		else {
+		dc.actualizar(cuota, soc);
+		existe = 0;
+		}
+		return existe;
 	}
 }

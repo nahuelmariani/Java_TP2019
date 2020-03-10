@@ -15,7 +15,7 @@
 
 <body>
 		<h2>Hola <%=p.getNombre()+" "+p.getApellido()%></h2>
-		<h3>Menu:</h3>
+		<h3>Menú:</h3>
 		<% 
         if (p.getRol().equals("Administrador")) {
         	System.out.println("Index -> Home Administrador");
@@ -24,19 +24,23 @@
 				<input type="hidden" name="action" value="gestionUsuario">
 				<button>Gestión de usuarios</button>
 			</form>
+			<br>
 			<form method="post" action="Instalaciones">
 				<input type="hidden" name="action" value="gestionInstalacion">
 				<button>Gestión de instalaciones</button>
 			</form>
+			<br>
 			<form method="post" action="Actividades">
 				<input type="hidden" name="action" value="gestionActividad">
 				<button>Gestión de actividades</button>
 			</form>
+			<br>
 			<form method="post" action="Cuotas">
 				<input type="hidden" name="action" value="gestionCuota">
 				<button>Gestion de cuotas</button>
 			</form>
-			
+			<br>
+			<br>
 		<%
 		}
 		if (p.getRol().equals("Empleado")) {
@@ -70,6 +74,7 @@
 		}
 
 %>
+
 <p>
 <form action="Signin" method="get">
 <button type="submit">Cerrar sesion</button>

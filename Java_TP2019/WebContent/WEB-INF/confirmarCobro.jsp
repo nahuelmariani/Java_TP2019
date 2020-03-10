@@ -20,7 +20,10 @@
 		 <%=soc.getApellido()%></p>
 			
 		<p>Mes a cobrar:
-		 <%=cuota.getMes()%></p>
+
+		 <%=cuota.getMes() %>
+		 Año a cobrar: <%=cuota.getAnio() %> </p>
+
 
 <button type="submit" name="action" value="registrarCobro">Confirmar</button>
 </form>
