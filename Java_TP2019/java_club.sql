@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.11, for Win64 (x86_64)
 --
 -- Host: localhost    Database: java_club
 -- ------------------------------------------------------
--- Server version	8.0.13
+-- Server version	8.0.11
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -38,7 +38,7 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
-INSERT INTO `actividad` VALUES (2,'Natacion','Libre',5,'200'),(3,'Futbol 5','Amateur',5,'300'),(4,'Gimnasio','Maquinas',10,'320'),(5,'Running','Grupal',15,'550'),(6,'Voley','Femenino',NULL,'490.0'),(7,'Hockey','grupos reducidos',23,'500.0');
+INSERT INTO `actividad` VALUES (2,'Natacion','Libre',5,'200'),(3,'Futbol 5','Amateur',5,'300'),(4,'Gimnasio','Maquinas',10,'320'),(5,'Running','Grupal',15,'550'),(6,'Voley','Femenino',20,'490.0'),(7,'Hockey','grupos reducidos',23,'500.0');
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,6 +83,7 @@ CREATE TABLE `inscripcion` (
   `id_actividad` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha_inscripcion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `confirmada` tinyint(1) NOT NULL,
   KEY `id_usuario_fk_idx` (`id_usuario`),
   KEY `id_actividad_fk_idx` (`id_actividad`),
   CONSTRAINT `id_actividad_fk` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`),
@@ -96,7 +97,7 @@ CREATE TABLE `inscripcion` (
 
 LOCK TABLES `inscripcion` WRITE;
 /*!40000 ALTER TABLE `inscripcion` DISABLE KEYS */;
-INSERT INTO `inscripcion` VALUES (2,3,'2019-12-11 15:38:50'),(3,3,'2020-02-05 17:49:40'),(4,3,'2019-12-11 03:07:51'),(5,3,'2019-12-11 15:39:00');
+INSERT INTO `inscripcion` VALUES (2,3,'2019-12-11 15:38:50',1),(3,3,'2020-02-05 17:49:40',1),(4,3,'2019-12-11 03:07:51',1),(5,3,'2019-12-11 15:39:00',1),(3,3,'2020-03-11 16:20:02',1),(6,3,'2020-03-11 16:22:06',1),(7,3,'2020-03-11 16:22:16',1),(5,21,'2020-03-11 16:23:06',1),(2,21,'2020-03-11 16:25:50',1);
 /*!40000 ALTER TABLE `inscripcion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,4 +227,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-10 21:35:56
+-- Dump completed on 2020-03-11 18:11:10
