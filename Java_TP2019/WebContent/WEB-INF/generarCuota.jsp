@@ -10,12 +10,7 @@
 <form action="Cuotas" method="post">
       <h3>Registrar cuotas de socios:</h3>
       
-        	
-      <label for="inputImporte">Ingrese importe de las cuotas:</label>
-     
-      <input id="inputImporte" name="importe" placeholder="Ingrese importe" required type="text"><br>
-      
-      <tr> 
+   
       <br>     
       <button type="submit" name="action" value="agregar">Generar a todos</button>
       <button type="submit" name="action" value="agregarASoc">Generar a socio</button>

@@ -40,6 +40,7 @@ public class Cuotas extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/genCuoSocio.jsp").forward(request, response);	
 			break;
 		case "nuevaCuota":
+			
 			request.getRequestDispatcher("/WEB-INF/generarCuota.jsp").forward(request, response);	
 			break;
 		case "genCuotaSoc":
@@ -190,7 +191,7 @@ public class Cuotas extends HttpServlet {
 				c.setMes(i);
 				c.setP(per);
 				c.setAnio(anio);
-				c.setImporte(Double.parseDouble(request.getParameter("importe")));
+				//c.setImporte(Double.parseDouble(request.getParameter("importe")));
 				cuotaCtrl.agregar(c);
 			}
 		}

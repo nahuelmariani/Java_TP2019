@@ -12,5 +12,9 @@
 	<input type="hidden" name="action" value="nuevaCuota">
 	<button>Generar cuotas</button>
 </form>
+<form method="post" action="Cuotas">
+	<input type="hidden" name="action" value="nuevoValorCuota">
+	<button>Actualizar precio cuota</button>
+</form>
 </body>
 </html>
