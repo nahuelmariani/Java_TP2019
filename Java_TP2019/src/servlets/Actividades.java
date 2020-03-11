@@ -1,7 +1,10 @@
 package servlets;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import entities.Actividad;
 import entities.Persona;
+import entities.Reserva;
 import entities.Inscripcion;
+import entities.Instalacion;
 import logic.ActividadControler;
 import logic.PersonaControler;
+import logic.ReservaControler;
 import logic.InscripcionControler;
 
 
@@ -64,15 +70,24 @@ public class Actividades extends HttpServlet {
 			this.buscarPorId(request, response);
 			request.getRequestDispatcher("/WEB-INF/nuevaInscripcion.jsp").forward(request, response);
 			break;
-		case "confirmarInscripcion":
+		case "confirmarInscripcion": //NO SE USAAA
 			request.getRequestDispatcher("/WEB-INF/confirmarInscripcion.jsp").forward(request, response);
 			break;
 		case "inscribirse":
-			try {
-				this.inscribirse(request,response);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			this.inscribirse(request,response);
+			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
+			break;
+		case "preInscribir": //PROBANDO 
+			this.preInscribir(request,response);
+			request.getRequestDispatcher("/WEB-INF/nuevaInscripcion.jsp").forward(request, response);
+			break;
+		case "inscribir": //PROBANDO
+			this.inscribir(request,response);
+			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
+			break;
+		case "borrarPreInscripcion": //PROBANDO
+			this.borrarPreInscripcion(request, response);
+			//this.listar(request,response);
 			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
 			break;
 		case "homeUser":
@@ -98,7 +113,7 @@ public class Actividades extends HttpServlet {
 		this.listar(request, response);
 	}
 	
-	private void inscribirse (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, ParseException{
+	private void inscribirse (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Inscripcion i = new Inscripcion();
 		Actividad a = new Actividad();
 		Persona p = new Persona();
@@ -129,9 +144,12 @@ public class Actividades extends HttpServlet {
 	private void listar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		ActividadControler actCtrl = new ActividadControler();
 		ArrayList<Actividad> actividades = new ArrayList<Actividad>();
+		HashMap<Integer,Integer> inscriptos = new HashMap<Integer,Integer>();
 		
 		actividades = actCtrl.getAll();
+		inscriptos = actCtrl.getInscriptos();
 		request.getSession().setAttribute("listaActividades", actividades);
+		request.getSession().setAttribute("inscriptos", inscriptos);
 		
 		//request.getRequestDispatcher("/WEB-INF/gestionActividad.jsp").forward(request, response);
 	}
@@ -165,6 +183,68 @@ public class Actividades extends HttpServlet {
 		
 		
 	}
+	
+	
+	private void preInscribir (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		
+		// Busca la actividad por ID a la que se quiere preinscribir
+		Actividad a = new Actividad();
+		ActividadControler actCtrl = new ActividadControler();
+		int idActividad = Integer.parseInt(request.getParameter("idActividad"));
+		a = actCtrl.buscarActividadPorId(idActividad);
+		request.getSession().setAttribute("actividad", a);
+		
+		
+		
+		Inscripcion i = new Inscripcion();
+		Persona p = new Persona();
+
+		InscripcionControler inscCtrl = new InscripcionControler();
+		
+		//a = (Actividad) request.getSession().getAttribute("actividadModificar");
+		p = (Persona) request.getSession().getAttribute("usuario");
+		
+		i.setAct(a);
+		i.setPer(p);
+		i.setConfirmada(false);
+		
+		System.out.println("preinscripcion realizada");
+		
+		request.getSession().setAttribute("inscripcion", i);
+		
+
+		
+		inscCtrl.altaPreInscripcion(i);
+		this.listar(request, response);
+		
+	}
+	
+	private void inscribir (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		
+		Inscripcion i = new Inscripcion();
+		InscripcionControler inscCtrl = new InscripcionControler();
+		
+		i = (Inscripcion) request.getSession().getAttribute("inscripcion");
+		i.setConfirmada(true);
+		
+		inscCtrl.confirmaInscripcion(i);
+		this.listar(request, response);
+		
+	}
+	
+	private void borrarPreInscripcion(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		Inscripcion i = new Inscripcion();
+		InscripcionControler inscCtrl = new InscripcionControler();
+		
+		i = (Inscripcion) request.getSession().getAttribute("inscripcion");
+			
+		inscCtrl.bajaPreInscripcion(i);
+		this.listar(request, response);
+		
+	}
+	
+	
+	
 
 }
 

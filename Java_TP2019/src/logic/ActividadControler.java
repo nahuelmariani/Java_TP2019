@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import data.DataActividad;
 //import data.Actividad;
@@ -18,6 +19,11 @@ public class ActividadControler {
 	public ArrayList<Actividad> getAll(){
 		return da.getAll();
 	}
+	
+	public HashMap<Integer, Integer> getInscriptos(){
+		return da.getInscriptos();
+	}
+
 	
 	public Actividad buscarActividadPorId(int id){
 		return da.getById(id);

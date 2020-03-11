@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="entities.Actividad"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +10,8 @@
 	<title>Inscripcion Actividades - Club</title>
 	<%
 		System.out.println("Index -> Home Socio -> Lista de actividades");
-		ArrayList<Actividad> la = (ArrayList< Actividad>)session.getAttribute("listaActividades");
+		ArrayList<Actividad> la = (ArrayList<Actividad>)session.getAttribute("listaActividades");
+		HashMap<Integer,Integer> insc = (HashMap<Integer,Integer>)session.getAttribute("inscriptos");
 	%>
 </head>
 
@@ -29,6 +32,7 @@
 			<th>Id</th>
 			<th>Nombre</th>
 			<th>Descripcion</th>
+			<th>Cupo</th>
 			<th>Importe Adicional</th>
 			<th colspan="2">Acciones</th>
 		</tr>
@@ -40,11 +44,13 @@
 			<td><%=act.getId_actividad()%></td>
 			<td><%=act.getNom_actividad()%></td>
 			<td><%=act.getDesc_actividad()%></td>
+			<td><%=insc.get(act.getId_actividad())%>/<%=act.getCupo()%></td>
 			<td><%=act.getImporte_adicional()%></td>
 			<td colspan="2">
 				<form method="post" action="Actividades">
-					<input type="hidden" name="idActividad" value="<%= act.getId_actividad() %>">
-					<button type="submit" name="action" value="nuevaInscripcion">Inscribirse</button>
+					<input type="hidden" name="idActividad" value="<%=act.getId_actividad()%>">
+					<%-- <button type="submit" name="action" value="nuevaInscripcion">Inscribirse</button> --%>
+					<button type="submit" name="action" value="preInscribir">Inscribirse</button>
 				</form>
 			</td>
 		</tr>

@@ -3,6 +3,7 @@ import entities.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DataActividad {
 	
@@ -166,6 +167,42 @@ public Actividad getById(int idActividad) {
           }
 		}
   }
+
+	public HashMap<Integer, Integer> getInscriptos() {
+		Statement stmt = null;
+		ResultSet rs = null;
+		HashMap<Integer,Integer> inscriptos = new HashMap<Integer,Integer>();
+		
+		try {
+			stmt= FactoryConexion.getInstancia().getConn().createStatement();
+			rs= stmt.executeQuery("select a.id_Actividad actividad, count(distinct i.id_usuario) cantidad\r\n" + 
+					"from actividad a\r\n" + 
+					"left join inscripcion i\r\n" + 
+					"on i.id_Actividad = a.id_Actividad\r\n" + 
+					"group by a.id_Actividad;");
+	
+			if(rs!=null) {
+				while(rs.next()) {
+					inscriptos.put(rs.getInt("actividad"),rs.getInt("cantidad"));
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return inscriptos;
+	}
 	
 
 }

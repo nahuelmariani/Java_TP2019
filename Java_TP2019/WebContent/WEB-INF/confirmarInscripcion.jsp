@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
 <%@page import="entities.Actividad"%>
 <%@page import="entities.Persona"%>
 <!DOCTYPE html>
 <html>
+<%-- PARECERIA QUE NO SE USA ESTE JSP --%>
 <head>
 <meta charset="ISO-8859-1">
 <title>Confirmar Inscripcion</title>

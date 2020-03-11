@@ -2,10 +2,20 @@ package entities;
 import java.util.*;
 
 public class Inscripcion {
-	private int id_inscripcion;
+	private int id_inscripcion; //no tiene
 	private Date fecha_inscripcion;
 	private Actividad act;
 	private Persona per;
+	private Boolean confirmada;
+	
+	public Boolean getConfirmada() {
+		return confirmada;
+	}
+
+	public void setConfirmada(Boolean confirmada) {
+		this.confirmada = confirmada;
+	}
+
 	public int getId_inscripcion() {
 		return id_inscripcion;
 	}

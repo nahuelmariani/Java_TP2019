@@ -2,6 +2,7 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import entities.Documento;
 import entities.Persona;
 import logic.PersonaControler;
+import servlets.*;
 
 @WebServlet("/Usuarios")
 public class Usuarios extends HttpServlet {
