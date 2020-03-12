@@ -11,19 +11,18 @@ public class DataCuota {
 	public void add(Cuota c) {
 		PreparedStatement stmt= null;
 		ResultSet keyResultSet=null;
+		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement(
 							" insert into cuota(mes, anio, importe, idPersona) values (?,?,?,?)",
-							//"insert into cuota(mes, anio, importe, idPersona) values(?,?,?,?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 			
 			stmt.setInt(1, c.getMes());
 			stmt.setInt(2,  c.getAnio());
-			//stmt.setDouble(3,  c.getImporte());
-		    stmt.setDouble(3,  this.getUltValor());
-			stmt.setInt(4,  c.getP().getId());
+		    stmt.setDouble(3, c.getImporte());
+			stmt.setInt(4, c.getPer().getId());
 			stmt.executeUpdate();
 			
 			keyResultSet=stmt.getGeneratedKeys();
@@ -45,8 +44,10 @@ public class DataCuota {
 		}
   }
 
+	//AL LLAMAR A LA TABLA VALORES_CUOTA ERA CORRECTO PONER EL
+	//METODO EN DATAVALORESCUOTA.JAVA
 	
-	public Double getUltValor() {
+	/*public Double getUltValor() {
 		Valores_Cuota vc = null;
 	    Statement stmt = null;
 	    PreparedStatement stmt1 = null;
@@ -57,8 +58,8 @@ public class DataCuota {
 			rs1= stmt.executeQuery("select max(fecha) fecha1 from valores_cuota");
 			if(rs1!=null && rs1.next()) {
 				vc = new Valores_Cuota();
-			    vc.setFecha(rs1.getDate("fecha1"));
-				
+			    //vc.setFecha(rs1.getDate("fecha1"));
+			    vc.setFecha(rs1.getTimestamp("fecha1"));
 			}
 			
 		} catch (SQLException e) {
@@ -99,7 +100,7 @@ public class DataCuota {
 		
 
 		return vc.getValor();
-	}
+	}*/
 	
 	public void actualizar(Cuota cuota, Persona soc) {
 		// TODO Auto-generated method stub
@@ -150,7 +151,7 @@ public class DataCuota {
 				c.setAnio(rs.getInt("anio"));
 				c.setImporte(rs.getDouble("importe"));
 				
-				c.setP(p);
+				c.setPer(p);
 				
 			}
 		} catch (SQLException e) {

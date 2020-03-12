@@ -31,27 +31,38 @@ public class Cuotas extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		switch (request.getParameter("action")) {
-		case "agregar":
-			this.agregar(request,response);
+		case "agregarATodos": //Botón GENERAR A TODOS de generarCuotas.jsp
+			this.agregarATodos(request,response);
 			request.getRequestDispatcher("/WEB-INF/gestionCuota.jsp").forward(request, response);	
 			break;
-		case "agregarASoc":
-			this.setearImporte(request,response);//metodo para guardar el importe de la cuota que se recibe del jsp
+		case "agregarASocio": //Botón GENERAR A SOCIO de generarCuotas.jsp
+			//this.setearImporte(request,response);//metodo para guardar el importe de la cuota que se recibe del jsp
 			request.getRequestDispatcher("/WEB-INF/genCuoSocio.jsp").forward(request, response);	
 			break;
-		case "nuevaCuota":
-			
+		case "generarCuotas": //Botón GENERAR CUOTAS de gestionCuotas.jsp
 			request.getRequestDispatcher("/WEB-INF/generarCuota.jsp").forward(request, response);	
 			break;
-		case "genCuotaSoc":
-			this.generarASoc(request,response);
+		case "generarCuotaSocio": //Botón ACEPTAR de genCuoSocio.jsp
+			this.generarASocio(request,response);
 			request.getRequestDispatcher("/WEB-INF/gestionCuota.jsp").forward(request, response);	
 			break;
 		case "gestionCuota":
 			request.getRequestDispatcher("/WEB-INF/gestionCuota.jsp").forward(request, response);	
 			break;
-		case "homeUser":
+		case "homeUser": //Botón VOLVER de gestionCuotas.jsp
 			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);	
+			break;
+		case "nuevoValorCuota": //Botón ACTUALIZAR PRECIO CUOTAS de gestionCuotas.jsp
+			this.listarValoresCuotas(request, response);
+			request.getRequestDispatcher("/WEB-INF/nuevoValorCuota.jsp").forward(request, response);	
+			break;
+		case "agregarNuevoValorCuota":
+			try {
+				this.nuevoValorCuota(request,response);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("/WEB-INF/gestionCuota.jsp").forward(request, response);	
 			break;
 		case "gestionCobro":
 		//	this.listarSocios(request,response);
@@ -74,16 +85,47 @@ public class Cuotas extends HttpServlet {
 	
 	
 	
+	private void nuevoValorCuota(HttpServletRequest request, HttpServletResponse response)  throws IOException, ServletException, ParseException{
+		CuotaControler cuotaCtrl = new CuotaControler();
+		Valores_Cuota vc = new Valores_Cuota();
+		
+		
 
+			//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+
+			Date fecha = sdf.parse(request.getParameter("fecha_desde"));
+			Double valor = Double.parseDouble(request.getParameter("valor"));
+			
+			vc.setFecha(fecha);
+			vc.setValor(valor);
+			
+			cuotaCtrl.agregarValorCuota(vc);
+			
+			this.listarValoresCuotas(request, response);
+		
+		
+	}
+	
+	private void listarValoresCuotas(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		CuotaControler cuotaCtrl = new CuotaControler();
+		ArrayList<Valores_Cuota> vcs = new ArrayList<>();
+		
+		vcs = cuotaCtrl.getAll();
+		request.getSession().setAttribute("listaValoresCuotas", vcs);
+	}
+
+	/*
 	private void setearImporte(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		Cuota c = new Cuota();
 		
 		c.setImporte(Double.parseDouble(request.getParameter("importe")));
 		request.getSession().setAttribute("Cuota", c);	
-	}
+	}*/
 
-	private void generarASoc(HttpServletRequest request, HttpServletResponse response) {
+	private void generarASocio(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		Cuota c = new Cuota();
 		CuotaControler cuotaCtrl = new CuotaControler();
@@ -94,16 +136,17 @@ public class Cuotas extends HttpServlet {
 		// recupero tipo y nro de doc y obtengo el socio. Lo seteo en la sesion
 		doc.setNro(request.getParameter("dni"));
 		doc.setTipo(request.getParameter("tipoDNI"));
-		
-				
+						
 		soc.setDocumento(doc);
-		soc = perCtrl.buscarPersonaPorDNI(soc);
+		soc=perCtrl.buscarPersonaPorDNI(soc);
 				
 		//recupero cuota de la sesi�n con el importe seteado
-		Cuota cuota = (Cuota) request.getSession().getAttribute("Cuota");	
-		
+		//Cuota cuota = (Cuota) request.getSession().getAttribute("Cuota");	
+				
 		//Seteo socio a la cuota
-		cuota.setP(soc);
+		//cuota.setP(soc);
+		c.setPer(soc);
+		c.setImporte(cuotaCtrl.valorCuota());
 		
 		Calendar c1 = Calendar.getInstance();
 		System.out.println(c1.get(Calendar.YEAR));
@@ -112,9 +155,9 @@ public class Cuotas extends HttpServlet {
 	
 		// el mes enero lo toma como cero por lo tanto todos van a ser un mes mes por eso pongo mes+1
 		for(int i = mes+1; i < 13; i++) {
-			cuota.setMes(i);
-			cuota.setAnio(anio);
-		    cuotaCtrl.agregar(cuota);
+			c.setMes(i);
+			c.setAnio(anio);
+		    cuotaCtrl.agregarCuota(c);
 		}
 		
 		
@@ -176,7 +219,7 @@ public class Cuotas extends HttpServlet {
 		request.getSession().setAttribute("listaSocios", socios);		
 		
 	}
-	private void agregar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+	private void agregarATodos(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Cuota c = new Cuota();
 		CuotaControler cuotaCtrl = new CuotaControler();
 		PersonaControler perCtrl = new PersonaControler();
@@ -189,10 +232,10 @@ public class Cuotas extends HttpServlet {
 		for (Persona per: usuarios) {
 			for(int i = 1; i < 13; i++) {
 				c.setMes(i);
-				c.setP(per);
+				c.setPer(per);
 				c.setAnio(anio);
 				//c.setImporte(Double.parseDouble(request.getParameter("importe")));
-				cuotaCtrl.agregar(c);
+				cuotaCtrl.agregarCuota(c);
 			}
 		}
 		

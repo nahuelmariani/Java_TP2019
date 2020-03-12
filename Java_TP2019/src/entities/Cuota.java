@@ -7,7 +7,7 @@ public class Cuota {
 		private int anio;
 		private Double importe;
 		private Date fecha_pago;
-		private Persona p;
+		private Persona per;
 	
 		public int getId_cuota() {
 		return id_cuota;
@@ -35,11 +35,11 @@ public class Cuota {
 	}
 	
 	
-	public Persona getP() {
-		return p;
+	public Persona getPer() {
+		return per;
 	}
-	public void setP(Persona p) {
-		this.p = p;
+	public void setPer(Persona per) {
+		this.per = per;
 	}
 	public Date getFecha_pago() {
 		return fecha_pago;

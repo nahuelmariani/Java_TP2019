@@ -24,7 +24,7 @@
 	</p>
  <p>
  <br>	 
-      <button type="submit" name="action" value="genCuotaSoc">Aceptar</button>
+      <button type="submit" name="action" value="generarCuotaSocio">Aceptar</button>
 
    	</tr>
    	

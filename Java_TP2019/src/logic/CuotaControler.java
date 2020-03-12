@@ -7,9 +7,9 @@ import entities.*;
 
 public class CuotaControler {
 	DataCuota dc = new DataCuota();
+	DataValoresCuota dvc = new DataValoresCuota();
 
-	public void agregar(Cuota c) {
-		// TODO Auto-generated method stub
+	public void agregarCuota(Cuota c) {
 		dc.add(c);
 	}
 
@@ -26,5 +26,20 @@ public class CuotaControler {
 		existe = 0;
 		}
 		return existe;
+	}
+	
+	public ArrayList<Valores_Cuota> getAll(){
+		return dvc.getAll();
+	}
+	
+	
+	public void agregarValorCuota(Valores_Cuota vc) {
+		dvc.add(vc);
+	}
+	
+	
+	
+	public Double valorCuota() {
+		return dvc.getUltValor();
 	}
 }
