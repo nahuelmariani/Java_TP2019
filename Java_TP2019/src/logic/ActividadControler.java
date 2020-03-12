@@ -23,6 +23,18 @@ public class ActividadControler {
 	public HashMap<Integer, Integer> getInscriptos(){
 		return da.getInscriptos();
 	}
+	
+
+	
+	public boolean validarCupo(Actividad a) {
+		HashMap<Integer,Integer> inscriptos = new HashMap<Integer,Integer>();
+		inscriptos = da.getInscriptos();
+		if (inscriptos.get(a.getId_actividad()) < a.getCupo()) {
+			return true;
+		} else  {
+			return false;
+		}
+	}
 
 	
 	public Actividad buscarActividadPorId(int id){

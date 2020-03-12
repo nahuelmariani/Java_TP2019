@@ -62,41 +62,42 @@ public class Actividades extends HttpServlet {
 			this.buscarPorId(request,response);
 			request.getRequestDispatcher("/WEB-INF/modificarActividad.jsp").forward(request, response);
 			break;
-		case "inscripcionActividad":
-			this.listar(request,response);
-			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
-			break;
-		case "nuevaInscripcion":
+		/*case "nuevaInscripcion": //se usa?
 			this.buscarPorId(request, response);
 			request.getRequestDispatcher("/WEB-INF/nuevaInscripcion.jsp").forward(request, response);
 			break;
 		case "confirmarInscripcion": //NO SE USAAA
 			request.getRequestDispatcher("/WEB-INF/confirmarInscripcion.jsp").forward(request, response);
 			break;
-		case "inscribirse":
+		case "inscribirse": //se usa?
 			this.inscribirse(request,response);
 			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
+			break;*/
+		case "inscripcionActividad": //Botón ACTIVIDADES de homeUser.jsp
+			this.listar(request,response);
+			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
 			break;
-		case "preInscribir": //PROBANDO 
+		case "preInscribir": //Botón INSCRIBIRSE de inscripcionActividad.jsp
+			//es aca. Si [cantinsc(act) < cupo(act)] preinscribir, si no, mensaje y refrescar inscrip activ.
+			// if (validaCupo(actividad))
 			this.preInscribir(request,response);
-			request.getRequestDispatcher("/WEB-INF/nuevaInscripcion.jsp").forward(request, response);
+			//request.getRequestDispatcher("/WEB-INF/nuevaInscripcion.jsp").forward(request, response);
 			break;
-		case "inscribir": //PROBANDO
+		case "inscribir": //Botón INSCRIBIRSE de nuevaInscripcion.jsp
+			//aca debería hacer un if con la validacion, mm no
 			this.inscribir(request,response);
 			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
 			break;
-		case "borrarPreInscripcion": //PROBANDO
+		case "borrarPreInscripcion": //Botón CANCELAR de nuevaInscripcion.jsp
 			this.borrarPreInscripcion(request, response);
-			//this.listar(request,response);
 			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
 			break;
-		case "homeUser":
+		case "homeUser": //Botón VOLVER de homeUser.jsp
 			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
 			break;
 		default:
 			System.out.println("Error: opcion no disponible");
 			break;
-			
 		}
 	}
 	
@@ -113,7 +114,8 @@ public class Actividades extends HttpServlet {
 		this.listar(request, response);
 	}
 	
-	private void inscribirse (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+	//NO SE USA MAS
+	/*private void inscribirse (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Inscripcion i = new Inscripcion();
 		Actividad a = new Actividad();
 		Persona p = new Persona();
@@ -128,7 +130,7 @@ public class Actividades extends HttpServlet {
 		
 		resCtrl.altaInscripcion(i);
 		this.listar(request, response);
-	} 
+	} */
 	
 	
 	private void buscarPorId(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
@@ -180,8 +182,6 @@ public class Actividades extends HttpServlet {
 		
 		actCtrl.bajaActividad(idActividad);
 		this.listar(request, response);
-		
-		
 	}
 	
 	
@@ -190,32 +190,47 @@ public class Actividades extends HttpServlet {
 		// Busca la actividad por ID a la que se quiere preinscribir
 		Actividad a = new Actividad();
 		ActividadControler actCtrl = new ActividadControler();
+		
 		int idActividad = Integer.parseInt(request.getParameter("idActividad"));
 		a = actCtrl.buscarActividadPorId(idActividad);
-		request.getSession().setAttribute("actividad", a);
 		
-		
-		
-		Inscripcion i = new Inscripcion();
-		Persona p = new Persona();
+		//validar aca?
+		if (actCtrl.validarCupo(a)) {
+			Persona p = new Persona();
+			InscripcionControler inscCtrl = new InscripcionControler();
+			p = (Persona) request.getSession().getAttribute("usuario");
+			if (!inscCtrl.validarExistencia(p,a)) {
+				Inscripcion i = new Inscripcion();
+				
+				i.setAct(a);
+				i.setPer(p);
+				i.setConfirmada(false);
+				
+				System.out.println("preinscripcion realizada");
+				
+				request.getSession().setAttribute("actividad", a); //no sería necesario, saco la info de inscripcion
+				request.getSession().setAttribute("inscripcion", i);
 
-		InscripcionControler inscCtrl = new InscripcionControler();
+				inscCtrl.altaPreInscripcion(i);
+				this.listar(request, response);
+				request.getRequestDispatcher("/WEB-INF/nuevaInscripcion.jsp").forward(request, response);
+			} else {
+				request.getSession().setAttribute("message", "Ya estás inscripto a esta actividad");
+				this.listar(request, response);
+				request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
+			}
+			
+			//actCtrl.validarCupo(a);
+
+		} else {
+			request.getSession().setAttribute("message", "No hay más cupos para esta actividad");
+			this.listar(request, response);
+			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
+		}
 		
-		//a = (Actividad) request.getSession().getAttribute("actividadModificar");
-		p = (Persona) request.getSession().getAttribute("usuario");
 		
-		i.setAct(a);
-		i.setPer(p);
-		i.setConfirmada(false);
-		
-		System.out.println("preinscripcion realizada");
-		
-		request.getSession().setAttribute("inscripcion", i);
 		
 
-		
-		inscCtrl.altaPreInscripcion(i);
-		this.listar(request, response);
 		
 	}
 	
@@ -235,7 +250,6 @@ public class Actividades extends HttpServlet {
 	private void borrarPreInscripcion(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		Inscripcion i = new Inscripcion();
 		InscripcionControler inscCtrl = new InscripcionControler();
-		
 		i = (Inscripcion) request.getSession().getAttribute("inscripcion");
 			
 		inscCtrl.bajaPreInscripcion(i);

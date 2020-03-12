@@ -2,6 +2,10 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import entities.Actividad;
 import entities.Inscripcion;
 import entities.Persona;
 
@@ -83,6 +87,7 @@ public class DataInscripcion {
 			stmt.setInt(1, i.getAct().getId_actividad());
 			stmt.setInt(2, i.getPer().getId());
 			stmt.executeUpdate();
+			System.out.println(i.getAct().getId_actividad() + ", "+ i.getPer().getId());
 		}  catch (SQLException e) {
             e.printStackTrace();
 		} finally {
@@ -95,7 +100,43 @@ public class DataInscripcion {
 		}
     }
 	
-	
+	public boolean validarExistencia(Persona p, Actividad a){
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Boolean existe = false;
+		//ArrayList<Inscripcion> act = new ArrayList<>();
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select * from inscripcion where id_actividad=? and id_usuario=?");
+			stmt.setInt(1, a.getId_actividad());
+			stmt.setInt(2, p.getId());
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()) {
+				existe = true;
+				System.out.println("existe");
+			} else {
+				existe = false;
+				System.out.println("no existe");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return existe;
+	}
 	
 
 }

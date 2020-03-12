@@ -2,6 +2,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="entities.Actividad"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <!DOCTYPE html>
 <html>
@@ -12,6 +13,7 @@
 		System.out.println("Index -> Home Socio -> Lista de actividades");
 		ArrayList<Actividad> la = (ArrayList<Actividad>)session.getAttribute("listaActividades");
 		HashMap<Integer,Integer> insc = (HashMap<Integer,Integer>)session.getAttribute("inscriptos");
+		
 	%>
 </head>
 
@@ -25,6 +27,7 @@
 </form>
 
 <div align="center">
+
 <table border="1" cellpadding="5">
 	<caption><h2>Listado de Actividades</h2></caption>
 	<thead>
@@ -58,6 +61,10 @@
 	</tbody>
 	
 </table>
+<br>
+<font size="5" color="red">${message}</font>
+<c:remove var="message" scope="session" />
+
 </div>
 
 
