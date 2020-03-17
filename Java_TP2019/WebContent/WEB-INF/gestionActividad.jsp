@@ -37,7 +37,7 @@
 			<th>Descripcion</th>
 			<th>Inscriptos/Cupo Total</th>
 			<th>Importe Adicional</th>
-			<th colspan="2">Acciones</th>
+			<th colspan="3">Acciones</th>
 		</tr>
 	</thead>
 	
@@ -50,11 +50,12 @@
 			<td><%=insc.get(act.getId_actividad())%>/<%=act.getCupo()%></td>
 			<td><%=act.getImporte_adicional()%></td>
 		
-			<td colspan="2">
+			<td colspan="3">
 				<form method="post" action="Actividades">
 					<input type="hidden" name="idActividad" value="<%= act.getId_actividad() %>">
 					<button type="submit" name="action" value="modificarActividad">Editar</button>
 					<button type="submit" name="action" value="eliminar">Eliminar</button>
+					<button>Ver inscriptos</button>
 				</form>
 			</td>
 		</tr>
