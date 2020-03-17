@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Actividad"%>
+<%@page import="java.util.HashMap"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +10,7 @@
 <%
 	System.out.println("Index -> Home Admin -> Gestión de actividades");
 	ArrayList<Actividad> la = (ArrayList<Actividad>) session.getAttribute("listaActividades");
+	HashMap<Integer,Integer> insc = (HashMap<Integer,Integer>)session.getAttribute("inscriptos");
 %>
 </head>
 
@@ -33,7 +35,7 @@
 			<th>Id</th>
 			<th>Nombre</th>
 			<th>Descripcion</th>
-			<th>Cupo</th>
+			<th>Inscriptos/Cupo Total</th>
 			<th>Importe Adicional</th>
 			<th colspan="2">Acciones</th>
 		</tr>
@@ -45,7 +47,7 @@
 			<td><%=act.getId_actividad()%></td>
 			<td><%=act.getNom_actividad()%></td>
 			<td><%=act.getDesc_actividad()%></td>
-			<td><%=act.getCupo()%></td>
+			<td><%=insc.get(act.getId_actividad())%>/<%=act.getCupo()%></td>
 			<td><%=act.getImporte_adicional()%></td>
 		
 			<td colspan="2">
