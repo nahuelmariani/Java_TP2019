@@ -35,7 +35,7 @@
 			<th>Id</th>
 			<th>Nombre</th>
 			<th>Descripcion</th>
-			<th>Cupo</th>
+			<th>Inscriptos/Cupo Total</th>
 			<th>Importe Adicional</th>
 			<th colspan="2">Acciones</th>
 		</tr>
