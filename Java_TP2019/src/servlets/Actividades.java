@@ -263,11 +263,14 @@ public class Actividades extends HttpServlet {
 		InscripcionControler inscCtrl = new InscripcionControler();
 		ArrayList<Persona> inscriptos = new ArrayList<Persona>();
 		Actividad a = new Actividad();
+		int idActividad = Integer.parseInt(request.getParameter("idActividad"));
+		a.setId_actividad(idActividad);
 		
-		inscriptos = inscCtrl.verInscriptos(a.getId_actividad());
+		//inscriptos = inscCtrl.verInscriptos(a.getId_actividad());
+		inscriptos = inscCtrl.verInscriptos(a);
 		request.getSession().setAttribute("listaInscriptos", inscriptos);
 				
-		//int idActividad = Integer.parseInt(request.getParameter("idActividad"));
+		//
 		//a = actCtrl.buscarActividadPorId(idActividad);			
 		//inscCtrl.verInscriptos(idActividad);
 		

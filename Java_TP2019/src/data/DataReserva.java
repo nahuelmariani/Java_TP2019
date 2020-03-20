@@ -53,7 +53,6 @@ public class DataReserva {
 			e.printStackTrace();
 		}
 	}
-	
 		
 		return res;
 	}

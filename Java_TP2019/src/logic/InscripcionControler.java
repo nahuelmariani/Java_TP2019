@@ -43,8 +43,8 @@ public class InscripcionControler {
 		}
 	}*/
 	
-	public ArrayList<Persona> verInscriptos (int idActividad) {
-		return di.verInscriptos(idActividad);
+	public ArrayList<Persona> verInscriptos (Actividad a) {
+		return di.verInscriptos(a);
 		
 	}
 	

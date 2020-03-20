@@ -142,7 +142,7 @@ public class DataInscripcion {
 	
 	
 	//VER SI ES CORRECTO
-	public ArrayList<Persona> verInscriptos(int idActividad){
+	public ArrayList<Persona> verInscriptos(Actividad a){
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -150,16 +150,17 @@ public class DataInscripcion {
 		
 		try {
 		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-				"select p.nombre, p.apellido\r\n" + 
+				"select p.nombre, p.apellido, p.id\r\n" + 
 				"from persona p\r\n" + 
 				"inner join inscripcion i on i.id_usuario = p.id\r\n" + 
 				"where i.id_actividad = ? ;"
 				);
-		stmt.setInt(1, idActividad);
+		stmt.setInt(1, a.getId_actividad());
 		rs=stmt.executeQuery();
 		if(rs!=null) {
 			while(rs.next()) {
-				Persona p = new Persona();							
+				Persona p = new Persona();		
+				p.setId(rs.getInt("p.id"));
 				p.setNombre(rs.getString("p.nombre"));
 				p.setApellido(rs.getString("p.apellido"));
 				per.add(p);
