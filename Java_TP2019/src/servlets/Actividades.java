@@ -95,6 +95,11 @@ public class Actividades extends HttpServlet {
 		case "homeUser": //Botón VOLVER de homeUser.jsp
 			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
 			break;
+		case "verInscriptos":
+			this.obtenerInsc(request,response);
+			request.getRequestDispatcher("/WEB-INF/listadoInscriptos.jsp").forward(request, response);
+			break;
+			
 		default:
 			System.out.println("Error: opcion no disponible");
 			break;
@@ -227,11 +232,7 @@ public class Actividades extends HttpServlet {
 			this.listar(request, response);
 			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
 		}
-		
-		
-		
-
-		
+			
 	}
 	
 	private void inscribir (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
@@ -257,9 +258,21 @@ public class Actividades extends HttpServlet {
 		
 	}
 	
+	private void obtenerInsc (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		
+		InscripcionControler inscCtrl = new InscripcionControler();
+		ArrayList<Persona> inscriptos = new ArrayList<Persona>();
+		Actividad a = new Actividad();
+		
+		inscriptos = inscCtrl.verInscriptos(a.getId_actividad());
+		request.getSession().setAttribute("listaInscriptos", inscriptos);
+				
+		//int idActividad = Integer.parseInt(request.getParameter("idActividad"));
+		//a = actCtrl.buscarActividadPorId(idActividad);			
+		//inscCtrl.verInscriptos(idActividad);
+		
+	}
 	
-	
-
 }
 
 

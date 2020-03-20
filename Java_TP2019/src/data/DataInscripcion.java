@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import entities.Actividad;
 import entities.Inscripcion;
+import entities.Instalacion;
 import entities.Persona;
+import entities.Reserva;
 
 
 public class DataInscripcion {
@@ -138,5 +140,44 @@ public class DataInscripcion {
 		return existe;
 	}
 	
+	
+	//VER SI ES CORRECTO
+	public ArrayList<Persona> verInscriptos(int idActividad){
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Persona> per = new ArrayList<>();
+		
+		try {
+		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+				"select p.nombre, p.apellido\r\n" + 
+				"from persona p\r\n" + 
+				"inner join inscripcion i on i.id_usuario = p.id\r\n" + 
+				"where i.id_actividad = ? ;"
+				);
+		stmt.setInt(1, idActividad);
+		rs=stmt.executeQuery();
+		if(rs!=null) {
+			while(rs.next()) {
+				Persona p = new Persona();							
+				p.setNombre(rs.getString("p.nombre"));
+				p.setApellido(rs.getString("p.apellido"));
+				per.add(p);
+			}
+		}
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}finally {
+		try {
+			if(rs!=null) {rs.close();}
+			if(stmt!=null) {stmt.close();}
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+			
+		return per;
+	}	
 }
