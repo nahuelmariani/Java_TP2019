@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.*"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,7 @@
 <title>Nuevo Valor Cuota</title>
 <%
 	ArrayList<Valores_Cuota> vcs = (ArrayList<Valores_Cuota>) session.getAttribute("listaValoresCuotas");
+	//SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
 %>
 </head>
 <body>

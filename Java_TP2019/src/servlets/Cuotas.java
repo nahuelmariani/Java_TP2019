@@ -92,7 +92,7 @@ public class Cuotas extends HttpServlet {
 		
 
 			//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 
 
 			Date fecha = sdf.parse(request.getParameter("fecha_desde"));
@@ -225,6 +225,7 @@ public class Cuotas extends HttpServlet {
 		PersonaControler perCtrl = new PersonaControler();
 		ArrayList<Persona> usuarios = new ArrayList<>();
 		
+		
 		usuarios = perCtrl.getSocios();
 		Calendar c1 = Calendar.getInstance();
 		System.out.println(c1.get(Calendar.YEAR));
@@ -234,7 +235,7 @@ public class Cuotas extends HttpServlet {
 				c.setMes(i);
 				c.setPer(per);
 				c.setAnio(anio);
-				//c.setImporte(Double.parseDouble(request.getParameter("importe")));
+				c.setImporte(cuotaCtrl.valorCuota());
 				cuotaCtrl.agregarCuota(c);
 			}
 		}
