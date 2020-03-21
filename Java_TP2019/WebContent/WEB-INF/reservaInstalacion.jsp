@@ -2,7 +2,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Instalacion"%>
 <%@page import="logic.Constants"%>
-
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,6 +57,10 @@
 	</tbody>
 	
 </table>
+<br>
+<font size="5" color="red">${message}</font>
+<c:remove var="message" scope="session" />
+
 </div>
 
 </body>

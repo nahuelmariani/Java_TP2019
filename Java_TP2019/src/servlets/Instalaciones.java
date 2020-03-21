@@ -94,7 +94,7 @@ public class Instalaciones extends HttpServlet {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			request.getRequestDispatcher("/WEB-INF/confirmarReserva.jsp").forward(request, response);
+			
 			break;
 		case "reservar":
 			this.reservar(request,response);
@@ -204,6 +204,7 @@ public class Instalaciones extends HttpServlet {
 	private void preReservar (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, ParseException{
 		Reserva r = new Reserva();
 		Instalacion i = new Instalacion();
+		ReservaControler rc = new ReservaControler();
 		Persona p = new Persona();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
@@ -217,12 +218,25 @@ public class Instalaciones extends HttpServlet {
 		System.out.println("Fecha: " + fecha_hora_desde);
 		
 		i = (Instalacion) request.getSession().getAttribute("instalacion");
-		p = (Persona) request.getSession().getAttribute("usuario");
-		
 		r.setInst(i);
-		r.setPer(p);
 		
-		request.getSession().setAttribute("reserva", r);
+		if (rc.validarDisp(r)) {
+			
+			p = (Persona) request.getSession().getAttribute("usuario");
+			r.setPer(p);
+					
+			
+			request.getSession().setAttribute("reserva", r);
+			System.out.println("hola");
+			request.getRequestDispatcher("/WEB-INF/confirmarReserva.jsp").forward(request, response);
+			
+		} else
+		{
+			request.getSession().setAttribute("message", "No hay disponibilidad para las fechas solicitadas");
+			this.listar(request, response);
+			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
+		}
+		
 		
 		//El alta a la reserva lo hacemos en otro paso
 		//resCtrl.altaReserva(r);

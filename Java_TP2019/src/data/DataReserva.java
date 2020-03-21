@@ -126,7 +126,55 @@ public class DataReserva {
 		}
   } 
 	
-
+	public Boolean validarDisp(Reserva r) {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		//ArrayList<Reserva> res = new ArrayList<>();
+		Boolean existe = false;
+		
+		try {
+		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+				"select id_reserva, id_instalacion from reserva where id_instalacion = ? and ( (fecha_hora_hasta > ? and fecha_hora_hasta < ?) or (fecha_hora_desde > ? and fecha_hora_desde < ?) or (fecha_hora_desde < ? and fecha_hora_hasta > ?) )" 
+						 
+				);
+		
+		stmt.setInt(1, r.getInst().getId_instalacion());
+		stmt.setTimestamp(2, new java.sql.Timestamp(r.getFecha_hora_desde().getTime()));
+		stmt.setTimestamp(3, new java.sql.Timestamp(r.getFecha_hora_hasta().getTime()));
+		stmt.setTimestamp(4, new java.sql.Timestamp(r.getFecha_hora_desde().getTime()));
+		stmt.setTimestamp(5, new java.sql.Timestamp(r.getFecha_hora_hasta().getTime()));
+		stmt.setTimestamp(6, new java.sql.Timestamp(r.getFecha_hora_desde().getTime()));
+		stmt.setTimestamp(7, new java.sql.Timestamp(r.getFecha_hora_hasta().getTime()));
+		rs=stmt.executeQuery();
+		if(rs!=null && rs.next()) {
+			
+			existe = false;
+			System.out.println("no hay disp");
+		} else {
+			existe = true;
+			System.out.println("hay disp");
+		}
+		
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}finally {
+		try {
+			if(rs!=null) {rs.close();}
+			if(stmt!=null) {stmt.close();}
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+		
+		return existe;
+	
+	
+		
+		
+  } 
 	
 	
 	

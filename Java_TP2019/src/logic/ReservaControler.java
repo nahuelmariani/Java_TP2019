@@ -27,4 +27,9 @@ public class ReservaControler {
 		dr.cancelar(idReserva);
 	}
 	
+	public boolean validarDisp(Reserva r) {
+		
+		return dr.validarDisp(r);
+	
+	}
 }
