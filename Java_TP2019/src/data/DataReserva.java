@@ -64,7 +64,7 @@ public class DataReserva {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement(
-							"insert into reserva(fecha_hora_desde, fecha_hora_hasta,id_instalacion,id_usuario) values(?,?,?,?)",
+							"insert into reserva(fecha_hora_desde, fecha_hora_hasta,id_instalacion,id_usuario, confirmada) values(?,?,?,?,?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 			
@@ -75,6 +75,7 @@ public class DataReserva {
 			System.out.println("id inst: "+r.getInst().getId_instalacion());
 			stmt.setInt(3, r.getInst().getId_instalacion());
 			stmt.setInt(4, r.getPer().getId());
+			stmt.setBoolean(5, r.getConfirmada());
 			/*
 			stmt.setDate(1, (java.sql.Date) r.getFecha_hora_desde());
 			stmt.setDate(2, (java.sql.Date) r.getFecha_hora_hasta());
@@ -124,6 +125,29 @@ public class DataReserva {
           }
 		}
   } 
+	
+	public void delete(Reserva r) {
+		PreparedStatement stmt= null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().
+					prepareStatement("delete from reserva where id_reserva=?");
+			
+			stmt.setInt(1,r.getId_reserva());
+		
+			stmt.executeUpdate();
+			
+		}  catch (SQLException e) {
+            e.printStackTrace();
+		} finally {
+            try {
+                if(stmt!=null)stmt.close();
+                FactoryConexion.getInstancia().releaseConn();
+            } catch (SQLException e) {
+            	e.printStackTrace();
+            }
+		}
+    }
 	
 	public Boolean validarDisp(Reserva r) {
 		PreparedStatement stmt = null;
@@ -175,6 +199,27 @@ public class DataReserva {
 		
   } 
 	
-	
+	public void update(Reserva r) {
+		PreparedStatement stmt= null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().
+					prepareStatement("update reserva set confirmada=? where id_reserva=?");
+			stmt.setBoolean(1, true);
+			stmt.setInt(2, r.getId_reserva());
+			
+			stmt.executeUpdate();
+			
+		}  catch (SQLException e) {
+            e.printStackTrace();
+		} finally {
+            try {
+                if(stmt!=null)stmt.close();
+                FactoryConexion.getInstancia().releaseConn();
+            } catch (SQLException e) {
+            	e.printStackTrace();
+            }
+		}
+    }
 	
 }

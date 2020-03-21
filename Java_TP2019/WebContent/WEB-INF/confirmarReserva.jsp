@@ -33,7 +33,7 @@
 	</form>
 	
 	<form action="Instalaciones" method="post">
-		<button type="submit" name="action" value="reservaInstalacion">Cancelar</button>
+		<button type="submit" name="action" value="borrarPreReserva">Cancelar</button>
 	</form>
 </body>
 </html>
