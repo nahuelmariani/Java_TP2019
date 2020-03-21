@@ -1,4 +1,5 @@
 package logic;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import data.DataInscripcion;
@@ -42,9 +43,12 @@ public class InscripcionControler {
 		}
 	}*/
 	
+	public ArrayList<Persona> verInscriptos (Actividad a) {
+		return di.verInscriptos(a);
+		
+	}
+	
 
-	
-	
 	
 
 }

@@ -55,7 +55,7 @@
 					<input type="hidden" name="idActividad" value="<%= act.getId_actividad() %>">
 					<button type="submit" name="action" value="modificarActividad">Editar</button>
 					<button type="submit" name="action" value="eliminar">Eliminar</button>
-					<button>Ver inscriptos</button>
+					<button type="submit" name= "action" value="verInscriptos"> Ver inscriptos</button>
 				</form>
 			</td>
 		</tr>
