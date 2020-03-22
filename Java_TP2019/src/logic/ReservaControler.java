@@ -14,10 +14,15 @@ public class ReservaControler {
 
 	}
 	
-	public void altaReserva(Reserva r){
-		dr.add(r);
+	public void confirmarReserva(Reserva r){
+		dr.update(r);
 		//validar
 		//confirmar
+	}
+	
+	public void altaPreReserva(Reserva r){
+		dr.add(r);
+		
 	}
 	
 	public ArrayList<Reserva> getAll(int id){
@@ -31,5 +36,10 @@ public class ReservaControler {
 		
 		return dr.validarDisp(r);
 	
+	}
+
+	public void bajaPreReserva(Reserva r) {
+		// TODO Auto-generated method stub
+		dr.delete(r);
 	}
 }

@@ -9,8 +9,15 @@ public class Reserva {
 	private Date fecha_cancelacion;
 	private Instalacion inst;
 	private Persona per;
+	private Boolean confirmada;
 
 	
+	public Boolean getConfirmada() {
+		return confirmada;
+	}
+	public void setConfirmada(Boolean confirmada) {
+		this.confirmada = confirmada;
+	}
 	public double getDuracion() {
 		return (double) (this.fecha_hora_hasta.getTime() - this.fecha_hora_desde.getTime())/1000/60/60;
 	}

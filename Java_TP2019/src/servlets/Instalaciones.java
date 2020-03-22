@@ -100,6 +100,10 @@ public class Instalaciones extends HttpServlet {
 			this.reservar(request,response);
 			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
 			break;
+		case "borrarPreReserva":
+			this.borrarPreReserva(request, response);
+			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
+			break;
 		case "homeUser":
 			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
 			break;
@@ -109,6 +113,18 @@ public class Instalaciones extends HttpServlet {
 		}
 	}
 	
+	private void borrarPreReserva(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		Reserva r = new Reserva(); 
+		ReservaControler rc = new ReservaControler();
+		
+		r = (Reserva) request.getSession().getAttribute("reserva");
+			
+		rc.bajaPreReserva(r);
+
+		this.listar(request, response);
+	}
+
 	//INSTALACIONES
 	
 	private void agregar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
@@ -225,9 +241,12 @@ public class Instalaciones extends HttpServlet {
 			p = (Persona) request.getSession().getAttribute("usuario");
 			r.setPer(p);
 					
+			r.setConfirmada(false);
 			
 			request.getSession().setAttribute("reserva", r);
-			System.out.println("hola");
+			//guardo la reserva con confirmada en false para guardar el lugar 
+			rc.altaPreReserva(r);
+			
 			request.getRequestDispatcher("/WEB-INF/confirmarReserva.jsp").forward(request, response);
 			
 		} else
@@ -249,7 +268,7 @@ public class Instalaciones extends HttpServlet {
 		
 		r = (Reserva) request.getSession().getAttribute("reserva");
 		
-		resCtrl.altaReserva(r);
+		resCtrl.confirmarReserva(r);
 		this.listar(request, response);
 	} 
 	
