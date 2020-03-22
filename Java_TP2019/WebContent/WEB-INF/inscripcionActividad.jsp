@@ -19,7 +19,7 @@
 
 <body>
 
-<h2>Inscripcion Actividades:</h2>
+<h2>Inscripción Actividades:</h2>
 
 <form method="post" action="Actividades">
 	<input type="hidden" name="action" value="homeUser">

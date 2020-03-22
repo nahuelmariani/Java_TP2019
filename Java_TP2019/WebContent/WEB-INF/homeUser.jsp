@@ -15,7 +15,8 @@
 
 <body>
 		<h2>Hola <%=p.getNombre()+" "+p.getApellido()%></h2>
-		<h3>Menú:</h3>
+		<h3>Menú</h3>
+		<hr>
 		<% 
         if (p.getRol().equals("Administrador")) {
         	System.out.println("Index -> Home Administrador");
@@ -50,25 +51,36 @@
 				<input type="hidden" name="action" value="gestionCobro">
 				<button>Realizar cobros</button>
 			</form>
+			<br>
+			<br>
+			
 			<%
 		}
         if (p.getRol().equals("Socio")) {
         	System.out.println("Index -> Home Socio");
         	%>
+        	<h4>Opciones:</h4>
 			<form method="post" action="Instalaciones">
 				<input type="hidden" name="action" value="reservaInstalacion">
 				<button>Instalaciones</button>
 			</form>
-			<br>
+			
 			<form method="post" action="Actividades">
 				<input type="hidden" name="action" value="inscripcionActividad">
 				<button>Actividades</button>
 			</form>
-			<br>
+			
+			<h4>Seleccionados:</h4>					
 			<form method="post" action="Instalaciones">
 				<input type="hidden" name="action" value="misReservas">
 				<button>Mis Reservas</button>
 			</form>
+			
+			<form method="post" action="Actividades">
+				<input type="hidden" name="action" value="misActividades">
+				<button>Mis Actividades</button>
+			</form>
+			
 			<br>
 			<br>
 			<%

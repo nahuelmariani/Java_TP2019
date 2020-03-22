@@ -180,5 +180,48 @@ public class DataInscripcion {
 	}
 			
 		return per;
-	}	
+	}
+	
+	public ArrayList<Actividad> getAll(int id){
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Actividad> act = new ArrayList<>();
+		
+		try {
+		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+				"select a.id_actividad, a.nom_actividad, a.desc_actividad\r\n" + 
+				"from actividad a\r\n" + 
+				"inner join inscripcion i on i.id_actividad = a.id_actividad\r\n" + 
+				"where i.id_usuario = ?"
+				);
+		stmt.setInt(1, id);
+		rs=stmt.executeQuery();
+		if(rs!=null) {
+			while(rs.next()) {
+				
+				Actividad a = new Actividad();
+				
+				a.setId_actividad(rs.getInt("a.id_actividad"));
+				a.setNom_actividad(rs.getString("a.nom_actividad"));
+			    a.setDesc_actividad(rs.getString("a.desc_actividad"));	 
+			   			    
+				act.add(a);
+			}
+		}
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}finally {
+		try {
+			if(rs!=null) {rs.close();}
+			if(stmt!=null) {stmt.close();}
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+		
+		return act;
+	}
 }

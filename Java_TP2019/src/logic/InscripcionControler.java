@@ -48,6 +48,10 @@ public class InscripcionControler {
 		
 	}
 	
+	public ArrayList<Actividad> getAll(int id){
+		return di.getAll(id);
+	}
+	
 
 	
 

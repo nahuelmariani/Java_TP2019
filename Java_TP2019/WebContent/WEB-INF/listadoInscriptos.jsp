@@ -15,6 +15,13 @@
 %>
 </head>
 <body>
+<br>
+<br>
+<form method="post" action="Actividades">
+	<input type="hidden" name="action" value="homeUser">
+	<button>Volver</button>
+</form>
+
 <div align="center">
 <table border="1" cellpadding="2">
 	<caption><h2>Inscriptos</h2></caption>
