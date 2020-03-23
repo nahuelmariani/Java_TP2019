@@ -41,6 +41,11 @@
 				<button>Gestion de cuotas</button>
 			</form>
 			<br>
+			<form method="post" action="Instalaciones">
+				<input type="hidden" name="action" value="obtenerReservas">
+				<button>Reservas</button>
+			</form>
+			<br>
 			<br>
 		<%
 		}

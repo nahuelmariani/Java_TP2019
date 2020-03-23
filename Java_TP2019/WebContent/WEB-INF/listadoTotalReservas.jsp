@@ -2,14 +2,16 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Reserva"%>
 <%@page import="java.text.*"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Mis reservas</title>
+<title>Reservas</title>
 <%
-	System.out.println("Index -> Home Socio -> Mis Reservas");
-	ArrayList<Reserva> lr = (ArrayList<Reserva>) session.getAttribute("listaReservas");
+	System.out.println("Index -> Home Socio -> Total Reservas");
+	ArrayList<Reserva> lr = (ArrayList<Reserva>) session.getAttribute("totalReservas");
+	System.out.println(lr);
 	DateFormat df = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 %>
 </head>
@@ -21,7 +23,7 @@
 
 <div align="center">
 <table border="1" cellpadding="5">
-	<caption><h2>Mis reservas</h2></caption>
+	<caption><h2>Reservas</h2></caption>
 	<thead>
 		<tr>
 			<th>Id</th>
@@ -34,9 +36,9 @@
 			<th colspan="2">Accion</th>
 		</tr>
 	</thead>
-	
+	<%if (lr!=null) { %>
 	<tbody>
-	<% for (Reserva res : lr) {%>
+	 <%for (Reserva res : lr) {%>
 		<tr>
 			<td><%=res.getId_reserva()%></td>
 			<td><%=res.getInst().getNom_instalacion()%></td>
@@ -54,8 +56,12 @@
 		</tr>
 	<%} %>
 	</tbody>
-	
+	<%} %>
 </table>
+<br>
+<font size="5" color="red">${message}</font>
+<c:remove var="message" scope="session" />
+
 </div>
 
 </body>

@@ -66,8 +66,12 @@ public class Instalaciones extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
 			break;
 		case "misReservas":
-			this.listarReservas(request,response);
-			request.getRequestDispatcher("/WEB-INF/listadoReserva.jsp").forward(request, response);
+			this.listarResUsuario(request,response);
+			request.getRequestDispatcher("/WEB-INF/listadoReservas.jsp").forward(request, response);
+			break;
+		case "obtenerReservas":
+			this.listarResTodas(request,response);
+			request.getRequestDispatcher("/WEB-INF/listadoTotalReservas.jsp").forward(request, response);
 			break;
 		case "nuevaReserva":
 			this.buscarPorId(request, response);
@@ -85,8 +89,7 @@ public class Instalaciones extends HttpServlet {
 			break;
 		case "cancelarReserva":
 			this.cancelarReserva(request,response);
-			this.listarReservas(request,response);
-			request.getRequestDispatcher("/WEB-INF/listadoReserva.jsp").forward(request, response);
+			
 			break;
 		case "preReservar":
 			try {
@@ -113,6 +116,26 @@ public class Instalaciones extends HttpServlet {
 		}
 	}
 	
+	private void listarResTodas(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		ReservaControler resCtrl = new ReservaControler();
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+
+		
+		
+		reservas = resCtrl.getAll();
+		//uso empty porque si uso null no anda porque en sí esta en null yo necesito saber si no tiene nada
+		if (reservas.isEmpty()) {
+			System.out.println("no hay reservas");
+			request.getSession().setAttribute("message", "No hay reservas realizadas");
+		} else {
+			System.out.println("hay reservas");
+			request.getSession().setAttribute("totalReservas", reservas);
+			
+		}
+	
+	}
+
 	private void borrarPreReserva(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		Reserva r = new Reserva(); 
@@ -272,22 +295,41 @@ public class Instalaciones extends HttpServlet {
 		this.listar(request, response);
 	} 
 	
-	private void listarReservas(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+	private void listarResUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		ReservaControler resCtrl = new ReservaControler();
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 		Persona p = new Persona();
 		p = (Persona) request.getSession().getAttribute("usuario");
 		
-		reservas = resCtrl.getAll(p.getId());
-		request.getSession().setAttribute("listaReservas", reservas);
+		reservas = resCtrl.getByUsuario(p.getId());
+		//uso empty porque si uso null no anda porque en sí esta en null yo necesito saber si no tiene nada
+		if (reservas.isEmpty()) {
+			System.out.println("no hay reservas");
+			request.getSession().setAttribute("message", "No hay reservas realizadas");
+		} else {
+			System.out.println("hay reservas");
+			request.getSession().setAttribute("listaReservas", reservas);
+			
+		}
+	
 	}
 
 	private void cancelarReserva(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-	
+		Persona p = new Persona();
 		int idReserva = Integer.parseInt(request.getParameter("idReserva"));
 		ReservaControler resCtrl = new ReservaControler();
 		
 		resCtrl.cancelarRes(idReserva);
+		
+		p = (Persona) request.getSession().getAttribute("usuario");
+		if (p.getRol()== "socio") {
+			this.listarResUsuario(request,response);
+			request.getRequestDispatcher("/WEB-INF/listadoReservas.jsp").forward(request, response);
+		} else {
+			this.listarResTodas(request,response);
+			request.getRequestDispatcher("/WEB-INF/listadoTotalReservas.jsp").forward(request, response);
+		}
+		
 	}
 
 }

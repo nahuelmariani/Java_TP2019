@@ -25,8 +25,12 @@ public class ReservaControler {
 		
 	}
 	
-	public ArrayList<Reserva> getAll(int id){
-		return dr.getAll(id);
+	public ArrayList<Reserva> getByUsuario(int id){
+		return dr.getByUsuario(id);
+	}
+	
+	public ArrayList<Reserva> getAll(){
+		return dr.getAll();
 	}
 	public void cancelarRes(int idReserva){
 		dr.cancelar(idReserva);

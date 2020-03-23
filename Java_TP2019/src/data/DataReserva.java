@@ -13,7 +13,9 @@ import java.util.Date;
 
 
 public class DataReserva {
-	public ArrayList<Reserva> getAll(int id){
+	
+	//DEVOLVER LAS RESERVAS DE UN USUARIO ESPECIFICO
+	public ArrayList<Reserva> getByUsuario(int id){
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -53,6 +55,52 @@ public class DataReserva {
 			e.printStackTrace();
 		}
 	}
+		
+		return res;
+	}
+	
+	//DEVOLVER TODAS LAS RESERVAS
+	public ArrayList<Reserva> getAll(){
+
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Reserva> res = new ArrayList<>();
+		
+		try {
+			stmt= FactoryConexion.getInstancia().getConn().createStatement();
+			rs= stmt.executeQuery("select r.id_reserva, i.nom_instalacion, r.fecha_reserva, r.fecha_hora_desde, r.fecha_hora_hasta, r.fecha_cancelacion from reserva r "
+					+ "inner join instalacion i on i.id_instalacion=r.id_instalacion"
+					);
+	
+			if(rs!=null) {
+				while(rs.next()) {
+					Reserva r = new Reserva();
+					Instalacion i = new Instalacion();
+					
+					i.setNom_instalacion(rs.getString("i.nom_instalacion"));
+				    r.setId_reserva(rs.getInt("r.id_reserva"));	 
+				    r.setFecha_reserva(rs.getTimestamp("r.fecha_reserva"));
+				    r.setFecha_hora_desde(rs.getTimestamp("r.fecha_hora_desde"));
+				    r.setFecha_hora_hasta(rs.getTimestamp("r.fecha_hora_hasta"));
+				    r.setFecha_cancelacion(rs.getTimestamp("r.fecha_cancelacion"));
+				    r.setInst(i);
+					res.add(r);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 		return res;
 	}
