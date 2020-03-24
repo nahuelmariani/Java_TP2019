@@ -77,6 +77,10 @@ public class Instalaciones extends HttpServlet {
 			this.buscarPorId(request, response);
 			request.getRequestDispatcher("/WEB-INF/nuevaReserva.jsp").forward(request, response);
 			break;
+		case "filtrarInstalacion":
+			this.filtrarInstalacion(request, response);
+			request.getRequestDispatcher("/WEB-INF/listadoTotalReservas.jsp").forward(request, response);
+			break;
 		case "nuevaInstalacion":
 			request.getRequestDispatcher("/WEB-INF/nuevaInstalacion.jsp").forward(request, response);
 			break;
@@ -116,11 +120,32 @@ public class Instalaciones extends HttpServlet {
 		}
 	}
 	
-	private void listarResTodas(HttpServletRequest request, HttpServletResponse response) {
+	private void filtrarInstalacion(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		ReservaControler resCtrl = new ReservaControler();
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		
+		
+		
+		reservas = resCtrl.getByInstalacion(Integer.parseInt((request.getParameter("instalacion"))));
+		if (reservas.isEmpty()) {
+			System.out.println("no hay reservas");
+			request.getSession().setAttribute("message", "No hay reservas realizadas");
+			request.getSession().setAttribute("totalReservas", null);
+		} else {
+			System.out.println("hay reservas");
+			request.getSession().setAttribute("totalReservas", reservas);
+			
+		}
+		
+	}
 
+	private void listarResTodas(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		ReservaControler resCtrl = new ReservaControler();
+		InstalacionControler ic = new InstalacionControler();
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		ArrayList<Instalacion> instalaciones = new ArrayList<Instalacion>();
 		
 		
 		reservas = resCtrl.getAll();
@@ -130,6 +155,8 @@ public class Instalaciones extends HttpServlet {
 			request.getSession().setAttribute("message", "No hay reservas realizadas");
 		} else {
 			System.out.println("hay reservas");
+			instalaciones = ic.getAll();
+			request.getSession().setAttribute("listaInstalaciones", instalaciones);
 			request.getSession().setAttribute("totalReservas", reservas);
 			
 		}

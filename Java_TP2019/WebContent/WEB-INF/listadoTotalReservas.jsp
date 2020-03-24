@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Reserva"%>
+<%@page import="entities.Instalacion"%>
 <%@page import="java.text.*"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
@@ -11,6 +12,7 @@
 <%
 	System.out.println("Index -> Home Socio -> Total Reservas");
 	ArrayList<Reserva> lr = (ArrayList<Reserva>) session.getAttribute("totalReservas");
+	ArrayList<Instalacion> li = (ArrayList<Instalacion>) session.getAttribute("listaInstalaciones");
 	System.out.println(lr);
 	DateFormat df = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 %>
@@ -20,7 +22,19 @@
 	<input type="hidden" name="action" value="homeUser">
 	<button>Volver</button>
 </form>
-
+<br>
+<form method="post" action="Instalaciones">
+ <label for="inputInstalacion">Seleccionar instalacion:</label>
+<select id="inputInstalacion" name="instalacion">
+<option disabled selected value>Seleccione</option>
+<% for (Instalacion inst : li) {%>
+<option value="<%=inst.getId_instalacion()%>"><%=inst.getNom_instalacion() %></option>
+<%} %>
+</select>
+<button type="submit" name="action" value="filtrarInstalacion">Filtrar</button>
+<button type="submit" name="action" value="obtenerReservas">Borrar Filtro</button>					
+</form>
+<br>	
 <div align="center">
 <table border="1" cellpadding="5">
 	<caption><h2>Reservas</h2></caption>
@@ -50,7 +64,7 @@
 			<td colspan="2">
 				<form method="post" action="Instalaciones">
 					<input type="hidden" name="idReserva" value="<%= res.getId_reserva() %>">
-					<button type="submit" name="action" value="cancelarReserva">Cancelar Reserva</button>
+					<button <% if(res.getFecha_cancelacion()!= null) {%> style="visibility:hidden;" <% } %> type="submit" name="action" value="cancelarReserva">Cancelar Reserva</button>
 				</form>
 			</td>
 		</tr>
