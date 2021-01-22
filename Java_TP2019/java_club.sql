@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: java_club
 -- ------------------------------------------------------
--- Server version	8.0.13
+-- Server version	8.0.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8 ;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,13 +21,13 @@
 
 DROP TABLE IF EXISTS `actividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actividad` (
-  `id_actividad` int(11) NOT NULL AUTO_INCREMENT,
+  `id_actividad` int NOT NULL AUTO_INCREMENT,
   `nom_actividad` varchar(45) DEFAULT NULL,
   `desc_actividad` varchar(45) DEFAULT NULL,
-  `cupo` int(11) DEFAULT NULL,
-  `importe_adicional` varchar(45) DEFAULT NULL,
+  `cupo` int DEFAULT NULL,
+  `importe_adicional` float DEFAULT NULL,
   PRIMARY KEY (`id_actividad`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -38,7 +38,7 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
-INSERT INTO `actividad` VALUES (2,'Natacion','Libre',3,'200'),(3,'Futbol 5','Amateur',5,'300'),(4,'Gimnasio','Maquinas',10,'320'),(5,'Running','Grupal',15,'550'),(6,'Voley','Femenino',20,'490.0'),(7,'Hockey','grupos reducidos',23,'500.0');
+INSERT INTO `actividad` VALUES (2,'Natacion','Libre',3,200),(3,'Futbol 5','Amateur',5,300),(4,'Gimnasio','Maquinas',10,320),(5,'Running','Grupal',15,550),(6,'Voley','Femenino',20,490),(7,'Hockey','grupos reducidos',23,500);
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -48,14 +48,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cuota`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cuota` (
-  `idcuota` int(11) NOT NULL AUTO_INCREMENT,
-  `mes` int(11) NOT NULL,
-  `anio` int(11) NOT NULL,
-  `importe` float NOT NULL,
+  `idcuota` int NOT NULL AUTO_INCREMENT,
+  `mes` int NOT NULL,
+  `anio` int NOT NULL,
+  `importe` float DEFAULT NULL,
   `fecha_pago` datetime DEFAULT NULL,
-  `idPersona` int(11) NOT NULL,
+  `idPersona` int NOT NULL,
   PRIMARY KEY (`idcuota`),
   KEY `idPersona_idx` (`idPersona`),
   CONSTRAINT `idPersona` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`id`)
@@ -68,7 +68,7 @@ CREATE TABLE `cuota` (
 
 LOCK TABLES `cuota` WRITE;
 /*!40000 ALTER TABLE `cuota` DISABLE KEYS */;
-INSERT INTO `cuota` VALUES (321,1,2020,1100,NULL,3),(322,2,2020,1100,NULL,3),(323,3,2020,1100,NULL,3),(324,4,2020,1100,'2020-03-17 21:11:02',3),(325,5,2020,1100,NULL,3),(326,6,2020,1100,NULL,3),(327,7,2020,1100,NULL,3),(328,8,2020,1100,NULL,3),(329,9,2020,1100,NULL,3),(330,10,2020,1100,NULL,3),(331,11,2020,1100,NULL,3),(332,12,2020,1100,NULL,3),(333,1,2020,1100,NULL,21),(334,2,2020,1100,NULL,21),(335,3,2020,1100,NULL,21),(336,4,2020,1100,NULL,21),(337,5,2020,1100,NULL,21),(338,6,2020,1100,NULL,21),(339,7,2020,1100,NULL,21),(340,8,2020,1100,NULL,21),(341,9,2020,1100,NULL,21),(342,10,2020,1100,NULL,21),(343,11,2020,1100,NULL,21),(344,12,2020,1100,NULL,21),(345,1,2020,1100,NULL,22),(346,2,2020,1100,NULL,22),(347,3,2020,1100,NULL,22),(348,4,2020,1100,NULL,22),(349,5,2020,1100,NULL,22),(350,6,2020,1100,NULL,22),(351,7,2020,1100,NULL,22),(352,8,2020,1100,NULL,22),(353,9,2020,1100,NULL,22),(354,10,2020,1100,NULL,22),(355,11,2020,1100,NULL,22),(356,12,2020,1100,NULL,22),(357,1,2020,1100,NULL,23),(358,2,2020,1100,NULL,23),(359,3,2020,1100,NULL,23),(360,4,2020,1100,NULL,23),(361,5,2020,1100,NULL,23),(362,6,2020,1100,NULL,23),(363,7,2020,1100,NULL,23),(364,8,2020,1100,NULL,23),(365,9,2020,1100,NULL,23),(366,10,2020,1100,NULL,23),(367,11,2020,1100,NULL,23),(368,12,2020,1100,NULL,23),(369,1,2020,1100,NULL,24),(370,2,2020,1100,NULL,24),(371,3,2020,1100,NULL,24),(372,4,2020,1100,NULL,24),(373,5,2020,1100,NULL,24),(374,6,2020,1100,NULL,24),(375,7,2020,1100,NULL,24),(376,8,2020,1100,NULL,24),(377,9,2020,1100,NULL,24),(378,10,2020,1100,NULL,24),(379,11,2020,1100,NULL,24),(380,12,2020,1100,NULL,24);
+INSERT INTO `cuota` VALUES (321,1,2020,1100,NULL,3),(322,2,2020,1100,NULL,3),(323,3,2020,1100,NULL,3),(324,4,2020,1100,'2020-03-17 21:11:02',3),(325,5,2020,1100,NULL,3),(326,6,2020,1100,NULL,3),(327,7,2020,1100,NULL,3),(328,8,2020,1100,NULL,3),(329,9,2020,1100,'2021-01-14 19:00:54',3),(330,10,2020,1100,'2021-01-15 17:45:49',3),(331,11,2020,1200,'2021-01-15 17:53:36',3),(332,12,2020,1100,NULL,3),(333,1,2020,1100,NULL,21),(334,2,2020,1100,NULL,21),(335,3,2020,1100,NULL,21),(336,4,2020,1100,NULL,21),(337,5,2020,1100,NULL,21),(338,6,2020,1100,NULL,21),(339,7,2020,1100,NULL,21),(340,8,2020,1100,NULL,21),(341,9,2020,1100,NULL,21),(342,10,2020,1100,NULL,21),(343,11,2020,1100,NULL,21),(344,12,2020,1100,NULL,21),(345,1,2020,1100,NULL,22),(346,2,2020,1100,NULL,22),(347,3,2020,1100,NULL,22),(348,4,2020,1100,NULL,22),(349,5,2020,1100,NULL,22),(350,6,2020,1100,NULL,22),(351,7,2020,1100,NULL,22),(352,8,2020,1100,NULL,22),(353,9,2020,1100,NULL,22),(354,10,2020,1100,NULL,22),(355,11,2020,1100,NULL,22),(356,12,2020,1100,NULL,22),(357,1,2020,1100,NULL,23),(358,2,2020,1100,NULL,23),(359,3,2020,1100,NULL,23),(360,4,2020,1100,NULL,23),(361,5,2020,1100,NULL,23),(362,6,2020,1100,NULL,23),(363,7,2020,1100,NULL,23),(364,8,2020,1100,NULL,23),(365,9,2020,1100,NULL,23),(366,10,2020,1100,NULL,23),(367,11,2020,1100,NULL,23),(368,12,2020,1100,NULL,23),(369,1,2020,1100,NULL,24),(370,2,2020,1100,NULL,24),(371,3,2020,1100,NULL,24),(372,4,2020,1100,NULL,24),(373,5,2020,1100,NULL,24),(374,6,2020,1100,NULL,24),(375,7,2020,1100,NULL,24),(376,8,2020,1100,NULL,24),(377,9,2020,1100,NULL,24),(378,10,2020,1100,NULL,24),(379,11,2020,1100,NULL,24),(380,12,2020,1100,NULL,24);
 /*!40000 ALTER TABLE `cuota` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,10 +78,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `inscripcion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inscripcion` (
-  `id_actividad` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
+  `id_actividad` int NOT NULL,
+  `id_usuario` int NOT NULL,
   `fecha_inscripcion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `confirmada` tinyint(1) NOT NULL,
   KEY `id_usuario_fk_idx` (`id_usuario`),
@@ -107,9 +107,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `instalacion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `instalacion` (
-  `id_instalacion` int(11) NOT NULL AUTO_INCREMENT,
+  `id_instalacion` int NOT NULL AUTO_INCREMENT,
   `nom_instalacion` varchar(45) DEFAULT NULL,
   `desc_instalacion` varchar(45) DEFAULT NULL,
   `importe` float DEFAULT NULL,
@@ -134,9 +134,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `persona`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `persona` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `apellido` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tipo_doc` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE `persona` (
   `email` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tel` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `habilitado` tinyint(4) DEFAULT NULL,
+  `habilitado` tinyint DEFAULT NULL,
   `rol` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -166,15 +166,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `reserva`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reserva` (
-  `id_reserva` int(11) NOT NULL AUTO_INCREMENT,
+  `id_reserva` int NOT NULL AUTO_INCREMENT,
   `fecha_reserva` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_hora_desde` datetime NOT NULL,
   `fecha_hora_hasta` datetime NOT NULL,
   `fecha_cancelacion` datetime DEFAULT NULL,
-  `id_instalacion` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
+  `id_instalacion` int NOT NULL,
+  `id_usuario` int NOT NULL,
   `confirmada` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_reserva`),
   KEY `id_Instalacion _idx` (`id_instalacion`),
@@ -200,9 +200,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `valores_cuota`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `valores_cuota` (
-  `idValoresCuota` int(11) NOT NULL AUTO_INCREMENT,
+  `idValoresCuota` int NOT NULL AUTO_INCREMENT,
   `fecha` datetime NOT NULL,
   `valor` float NOT NULL,
   PRIMARY KEY (`idValoresCuota`)
@@ -228,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-21 17:40:04
+-- Dump completed on 2021-01-15 18:33:26

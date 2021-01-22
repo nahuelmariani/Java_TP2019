@@ -190,7 +190,7 @@ public class DataInscripcion {
 		
 		try {
 		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-				"select a.id_actividad, a.nom_actividad, a.desc_actividad\r\n" + 
+				"select a.id_actividad, a.nom_actividad, a.importe_adicional, a.desc_actividad\r\n" + 
 				"from actividad a\r\n" + 
 				"inner join inscripcion i on i.id_actividad = a.id_actividad\r\n" + 
 				"where i.id_usuario = ?"
@@ -204,7 +204,9 @@ public class DataInscripcion {
 				
 				a.setId_actividad(rs.getInt("a.id_actividad"));
 				a.setNom_actividad(rs.getString("a.nom_actividad"));
-			    a.setDesc_actividad(rs.getString("a.desc_actividad"));	 
+			    a.setDesc_actividad(rs.getString("a.desc_actividad"));
+			    a.setImporte_adicional(rs.getDouble("importe_adicional"));
+			  
 			   			    
 				act.add(a);
 			}

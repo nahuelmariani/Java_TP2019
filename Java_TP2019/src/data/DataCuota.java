@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Calendar;
 
 public class DataCuota {
 	public void add(Cuota c) {
@@ -15,14 +16,14 @@ public class DataCuota {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().
 					prepareStatement(
-							" insert into cuota(mes, anio, importe, idPersona) values (?,?,?,?)",
+							" insert into cuota(mes, anio, idPersona) values (?,?,?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 			
 			stmt.setInt(1, c.getMes());
 			stmt.setInt(2,  c.getAnio());
-		    stmt.setDouble(3, c.getImporte());
-			stmt.setInt(4, c.getPer().getId());
+		    //stmt.setDouble(3, c.getImporte());
+			stmt.setInt(3, c.getPer().getId());
 			stmt.executeUpdate();
 			
 			keyResultSet=stmt.getGeneratedKeys();
@@ -108,12 +109,13 @@ public class DataCuota {
 		Date objDate = new Date();	
 			try {
 				stmt=FactoryConexion.getInstancia().getConn().
-						prepareStatement("update cuota set fecha_pago=? where idPersona=? and mes=? and anio=?");
+						prepareStatement("update cuota set fecha_pago=?, importe=? where idPersona=? and mes=? and anio=?");
 				
 				stmt.setTimestamp(1, new java.sql.Timestamp(objDate.getTime()));
-				stmt.setInt(2, soc.getId());
-				stmt.setInt(3, cuota.getMes());
-				stmt.setInt(4, cuota.getAnio());
+				stmt.setDouble(2,cuota.getImporte());
+				stmt.setInt(3, soc.getId());
+				stmt.setInt(4, cuota.getMes());
+				stmt.setInt(5, cuota.getAnio());
 				
 				stmt.executeUpdate();
 				
@@ -146,7 +148,7 @@ public class DataCuota {
 			if(rs!=null && rs.next()) {
 				Persona p = new Persona();
 				c=new Cuota();
-				c.setId_cuota(rs.getInt("id_cuota"));
+				c.setId_cuota(rs.getInt("idcuota"));
 				c.setMes(rs.getInt("mes"));
 				c.setAnio(rs.getInt("anio"));
 				c.setImporte(rs.getDouble("importe"));
@@ -170,5 +172,59 @@ public class DataCuota {
 	}
 	
 	
+
+	public ArrayList<Cuota> validarCuota(Persona soc) {
+		 Cuota c = null;
+		 PreparedStatement stmt = null;
+		 ResultSet rs = null;
+		 ArrayList<Cuota> cuo = new ArrayList<>();
+		//obtengo mes y anio actual:
+		 Calendar fecha = Calendar.getInstance();
+		 int mes = fecha.get(Calendar.MONTH) + 1;
+		 int anio = fecha.get(Calendar.YEAR);
+		 System.out.println(mes);
+		 System.out.println(anio);
+		 
+		 try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select idcuota, mes, anio, importe, fecha_pago, idPersona from cuota where fecha_pago is NULL and mes<? and anio=? and idPersona=?"
+					);
+		
+			
+			stmt.setInt(1, mes);
+			stmt.setInt(2, anio);
+			stmt.setInt(3, soc.getId());
+			
+			rs=stmt.executeQuery();
+			if(rs!=null) {
+			    while(rs.next()) {
+					Persona p = new Persona();
+					c=new Cuota();
+					c.setId_cuota(rs.getInt("idcuota"));
+					c.setMes(rs.getInt("mes"));
+					c.setAnio(rs.getInt("anio"));
+					c.setImporte(rs.getDouble("importe"));
+					
+					c.setPer(p);
+					cuo.add(c);
+					
+			    }
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cuo;
 	}
+
+
+}
 

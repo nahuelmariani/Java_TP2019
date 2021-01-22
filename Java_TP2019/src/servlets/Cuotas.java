@@ -146,7 +146,7 @@ public class Cuotas extends HttpServlet {
 		//Seteo socio a la cuota
 		//cuota.setP(soc);
 		c.setPer(soc);
-		c.setImporte(cuotaCtrl.valorCuota());
+		//c.setImporte(cuotaCtrl.valorCuota());
 		
 		Calendar c1 = Calendar.getInstance();
 		System.out.println(c1.get(Calendar.YEAR));
@@ -166,9 +166,13 @@ public class Cuotas extends HttpServlet {
 	private void confirmarCobro(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		PersonaControler perCtrl = new PersonaControler();
+		InscripcionControler inscCtrl = new InscripcionControler();
+		CuotaControler cc = new CuotaControler();
 		Persona soc = new Persona();
 		Documento doc = new Documento();
 		Cuota cuota = new Cuota();
+		//Double importeCobrar;
+		ArrayList<Actividad> actividades = new ArrayList<>();
 		
 		// recupero tipo y nro de doc y obtengo el socio. Lo seteo en la sesion
 		doc.setNro(request.getParameter("dni"));
@@ -185,9 +189,21 @@ public class Cuotas extends HttpServlet {
 		// recupero el anio ingresado, lo seteo en cuota  
 		int anio = Integer.parseInt(request.getParameter("anio"));
 		cuota.setAnio(anio);
+		//me traigo el ultimo valor y lo seteo en cuota
+		Double valor = cc.valorCuota();
+		cuota.setImporte(valor);
 		//guardo la cuota en la sesion
 		request.getSession().setAttribute("Cuota", cuota);
+		
+		//calculo el importe a cobrar 
+		//importeCobrar = inscCtrl.calcularImporte(soc.getId());
+		//Double valor = cc.valorCuota();
+		//importeCobrar = importeCobrar + valor;
+		//request.getSession().setAttribute("importeCobrar", importeCobrar);
 
+		//recupero las actividades en las que esta inscripto el socio y seteo en sesion:
+		actividades = inscCtrl.getAll(soc.getId());		
+		request.getSession().setAttribute("actividades", actividades);
 	}
 
 	private void registrarCobro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -235,7 +251,7 @@ public class Cuotas extends HttpServlet {
 				c.setMes(i);
 				c.setPer(per);
 				c.setAnio(anio);
-				c.setImporte(cuotaCtrl.valorCuota());
+				//c.setImporte(cuotaCtrl.valorCuota()); 
 				cuotaCtrl.agregarCuota(c);
 			}
 		}

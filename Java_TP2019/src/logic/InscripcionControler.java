@@ -8,6 +8,7 @@ import entities.*;
 public class InscripcionControler {
 	DataInscripcion di;
 	
+	
 	public InscripcionControler() {
 		di = new DataInscripcion();
 
@@ -52,7 +53,13 @@ public class InscripcionControler {
 		return di.getAll(id);
 	}
 	
-
-	
-
+	public double calcularImporte(int id)  {
+		ArrayList<Actividad> actividades = new ArrayList<>();
+		actividades = di.getAll(id);
+		Double sum = 0.0;
+		for (Actividad act: actividades) {
+			sum = sum + act.getImporte_adicional();		
+		}
+		return sum;
+	}
 }

@@ -75,7 +75,7 @@ public class Instalaciones extends HttpServlet {
 			break;
 		case "nuevaReserva":
 			this.buscarPorId(request, response);
-			request.getRequestDispatcher("/WEB-INF/nuevaReserva.jsp").forward(request, response);
+			this.validarCuota(request,response);
 			break;
 		case "filtrarInstalacion":
 			this.filtrarInstalacion(request, response);
@@ -120,6 +120,27 @@ public class Instalaciones extends HttpServlet {
 		}
 	}
 	
+	private void validarCuota(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		Persona p = new Persona();
+		CuotaControler cuoCtrl = new CuotaControler();
+		
+		//recupero el usuario del login 
+		p = (Persona) request.getSession().getAttribute("usuario");
+		int debe = cuoCtrl.validarCuota(p);
+		
+		if (debe == 1) {
+			request.getRequestDispatcher("/WEB-INF/nuevaReserva.jsp").forward(request, response);
+		} else 
+		{
+			request.getSession().setAttribute("message", "Para poder reservar debe estar al día con la cuota");
+			this.listar(request, response);
+			request.getRequestDispatcher("/WEB-INF/reservaInstalacion.jsp").forward(request, response);
+		}
+		
+			
+	}
+
 	private void filtrarInstalacion(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		ReservaControler resCtrl = new ReservaControler();
