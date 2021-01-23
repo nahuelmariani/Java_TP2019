@@ -76,7 +76,18 @@ public class Cuotas extends HttpServlet {
 			this.registrarCobro(request, response);
 			//request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
 			break;
-		
+		//REQUERIMIENTO: ESTADO CUOTAS
+		case "estadoCuotas":
+			request.getRequestDispatcher("/WEB-INF/estadoCuotas.jsp").forward(request, response);
+			break;
+		case "estadoCuotasSocio":
+			
+			request.getRequestDispatcher("/WEB-INF/listadoEstadoCuotas.jsp").forward(request, response);
+			break;
+		case "estadoCuotasTodos":
+			request.getRequestDispatcher("/WEB-INF/listadoEstadoCuotas.jsp").forward(request, response);
+			break;
+
 		default:
 			System.out.println("Error: opcion no disponible");
 			break;

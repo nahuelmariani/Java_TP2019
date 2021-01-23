@@ -58,7 +58,10 @@
 			</form>
 			<br>
 			<br>
-			
+			<form method="post" action="Cuotas">
+				<input type="hidden" name="action" value="estadoCuotas">
+				<button>Estado de cuotas</button>
+			</form>
 			<%
 		}
         if (p.getRol().equals("Socio")) {
