@@ -42,4 +42,22 @@ public class CuotaControler {
 	public Double valorCuota() {
 		return dvc.getUltValor();
 	}
+	
+	public int  validarCuota(Persona p) {
+		ArrayList<Cuota> cuotas = new ArrayList<Cuota>();
+		int debe;
+		
+		cuotas = dc.validarCuota(p);
+		if (cuotas.isEmpty()) {
+			debe = 1;
+			
+		}
+		else {
+			debe = 0;
+		}
+		System.out.println(debe);
+		return debe;
+	}
+	
+	
 }

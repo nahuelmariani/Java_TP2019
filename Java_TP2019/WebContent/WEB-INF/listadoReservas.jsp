@@ -50,7 +50,7 @@
 			<td colspan="2">
 				<form method="post" action="Instalaciones">
 					<input type="hidden" name="idReserva" value="<%= res.getId_reserva() %>">
-					<button type="submit" name="action" value="cancelarReserva">Cancelar Reserva</button>
+					<button <% if(res.getFecha_cancelacion()!= null) {%> style="visibility:hidden;" <% } %>  type="submit" name="action" value="cancelarReserva">Cancelar Reserva</button>
 				</form>
 			</td>
 		</tr>

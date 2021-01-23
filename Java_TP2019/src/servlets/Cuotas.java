@@ -246,12 +246,9 @@ public class Cuotas extends HttpServlet {
 				c.setMes(i);
 				c.setPer(per);
 				c.setAnio(anio);
-				c.setImporte(cuotaCtrl.valorCuota());
+				c.setImporte(cuotaCtrl.valorCuota()); //En mi código lo tenía comentado
 				cuotaCtrl.agregarCuota(c);
 			}
 		}
-		
-		
-		
 	}
 }

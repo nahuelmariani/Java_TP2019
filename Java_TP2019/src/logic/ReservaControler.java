@@ -46,4 +46,10 @@ public class ReservaControler {
 		// TODO Auto-generated method stub
 		dr.delete(r);
 	}
+
+	public ArrayList<Reserva> getByInstalacion(int idInstalacion) {
+		// TODO Auto-generated method stub
+		
+		return dr.getByInstalacion(idInstalacion);
+	}
 }
