@@ -265,14 +265,14 @@ public class Cuotas extends HttpServlet {
 			ArrayList<Cuota> cuotas = new ArrayList<Cuota>();
 			ArrayList<Persona> socios = new ArrayList<Persona>();
 			ArrayList<String> cuo;
-			ArrayList<ArrayList<String>> lista = new ArrayList<ArrayList<String>>();
+			ArrayList<ArrayList<String>> tabla = new ArrayList<ArrayList<String>>();
 			int anio = Integer.parseInt((request.getParameter("anio")));
 			if (request.getParameterValues("todos")!=null) {
 				socios = perCtrl.getSocios();
 				for (Persona s : socios) {
 					cuotas = cuoCtrl.getByAnioPer(anio,s);
 					cuo = cuoCtrl.obtenerCuotas(cuotas,s);
-					lista.add(cuo);
+					tabla.add(cuo);
 				}
 			} else {
 				Persona p = new Persona();
@@ -284,16 +284,16 @@ public class Cuotas extends HttpServlet {
 					p=perCtrl.buscarPersonaPorDNI(p);
 					cuotas = cuoCtrl.getByAnioPer(anio,p);
 					cuo = cuoCtrl.obtenerCuotas(cuotas,p);
-					lista.add(cuo);
+					tabla.add(cuo);
 				} catch (Exception e) {
 					System.out.println("No existe el socio "+ d.getTipo() + " " + d.getNro());
 					request.getSession().setAttribute("message", "No existe el socio "+ d.getTipo() + " " + d.getNro());
 				}
 
 			}
-			if (!lista.isEmpty()) {
+			if (!tabla.isEmpty()) {
 				System.out.println("Cuotas para el año " + anio);
-				request.getSession().setAttribute("cuotasPorAnio", lista);
+				request.getSession().setAttribute("cuotasPorAnio", tabla);
 				request.getSession().setAttribute("anio2", String.valueOf(anio));
 			}
 		}
