@@ -105,7 +105,6 @@ public class DataValoresCuota {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			System.out.println(vc.getFecha());
 		}
 		
 		try {

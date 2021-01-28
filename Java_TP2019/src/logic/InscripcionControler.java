@@ -62,4 +62,12 @@ public class InscripcionControler {
 		}
 		return sum;
 	}
+	
+	public double costoAct(ArrayList<Actividad> actividades)  {
+		Double sum = 0.0;
+		for (Actividad act: actividades) {
+			sum = sum + act.getImporte_adicional();		
+		}
+		return sum;
+	}
 }

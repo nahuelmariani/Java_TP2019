@@ -35,6 +35,9 @@ public class Signin extends HttpServlet {
 		case "registrar":
 			request.getRequestDispatcher("WEB-INF/registrarUsuario.jsp").forward(request, response);
 			break;
+		case "cerrarSesion":
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			break;
 		default:
 			System.out.println("Error: opcion no disponible");
 			break;
@@ -49,11 +52,16 @@ public class Signin extends HttpServlet {
         
         p.setEmail(request.getParameter("email"));
         p.setPassword(request.getParameter("password"));
-        
-        p = ctrl.validate(p);
-        request.getSession().setAttribute("usuario", p);
-        System.out.println(p);
+        try {
+        	p = ctrl.validate(p);
+            request.getSession().setAttribute("usuario", p);
+            System.out.println("Inicio de sesión del usuario: "+ p.getDocumento().getTipo() + " " + p.getDocumento().getNro());
+            request.getRequestDispatcher("WEB-INF/homeUser.jsp").forward(request, response);
+		} catch (Exception e) {
+			System.out.println("Inicio de sesión inválido - "+ request.getParameter("email") + ":" + request.getParameter("password"));
+			request.getSession().setAttribute("message", "Nombre de usuario y/o contraseña incorrectos.");
+			request.getRequestDispatcher("/index.jsp").forward(request,response);
+		}
 
-        request.getRequestDispatcher("WEB-INF/homeUser.jsp").forward(request, response);
 	}
 }

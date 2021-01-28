@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import data.*;
 import entities.*;
@@ -13,8 +14,7 @@ public class CuotaControler {
 		dc.add(c);
 	}
 
-	public int cobrar(Cuota cuota, Persona soc) {
-		// TODO Auto-generated method stub
+	/*public int cobrar(Cuota cuota, Persona soc) {
 		Cuota cuo = new Cuota();
 		int existe;
 		cuo = dc.buscarCuota(cuota, soc);
@@ -26,6 +26,15 @@ public class CuotaControler {
 		existe = 0;
 		}
 		return existe;
+	}*/
+	
+	public void cobrar(Cuota cuota, Persona soc) {
+		dc.actualizar(cuota, soc);
+	}
+	
+	public Cuota buscarCuota(Cuota cuota, Persona socio) {
+		System.out.println(cuota.getAnio() +"."+ cuota.getMes() +"."+ socio.getId());
+		return dc.buscarCuota(cuota, socio);
 	}
 	
 	public ArrayList<Valores_Cuota> getAll(){
@@ -37,7 +46,13 @@ public class CuotaControler {
 		dvc.add(vc);
 	}
 	
+	public ArrayList<Cuota> getByAnio(int anio){
+		return dc.getByAnio(anio);
+	}
 	
+	public ArrayList<Cuota> getByAnioPer(int anio, Persona per){
+		return dc.getByAnioPer(anio, per);
+	}
 	
 	public Double valorCuota() {
 		return dvc.getUltValor();
@@ -58,6 +73,27 @@ public class CuotaControler {
 		System.out.println(debe);
 		return debe;
 	}
-	
+
+	public ArrayList<String> obtenerCuotas(ArrayList<Cuota> cuotas, Persona p) {
+		ArrayList<String> cuos = new ArrayList<String>();
+		cuos.add(p.getDocumento().getTipo());
+		cuos.add(p.getDocumento().getNro());
+		cuos.add(p.getNombre());
+		cuos.add(p.getApellido());
+		for (int i = 1; i < 13; i++) {
+			cuos.add("0"); //no generadas
+		}
+		
+		if (!cuotas.isEmpty()) {
+			for (Cuota c : cuotas) {
+				if (c.getFecha_pago()==null) {
+					cuos.add(c.getMes()+3, "1");
+				} else {
+					cuos.add(c.getMes()+3, "2");
+				}
+			}
+		}
+		return cuos;
+	}
 	
 }

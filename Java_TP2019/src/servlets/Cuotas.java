@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jdt.internal.compiler.ast.TryStatement;
 
 import entities.*;
 import logic.*;
 import java.util.Date;
+import java.util.HashMap;
 
 @WebServlet("/Cuotas")
 public class Cuotas extends HttpServlet {
@@ -70,7 +72,7 @@ public class Cuotas extends HttpServlet {
 			break;
 		case "nuevoCobro":
 			this.confirmarCobro(request,response);
-			request.getRequestDispatcher("/WEB-INF/confirmarCobro.jsp").forward(request, response);
+			//request.getRequestDispatcher("/WEB-INF/confirmarCobro.jsp").forward(request, response);
 			break;
 		case "registrarCobro":
 			this.registrarCobro(request, response);
@@ -78,10 +80,11 @@ public class Cuotas extends HttpServlet {
 			break;
 		//REQUERIMIENTO: ESTADO CUOTAS
 		case "estadoCuotas":
+			this.estadoCuotasSocio(request,response);
 			request.getRequestDispatcher("/WEB-INF/estadoCuotas.jsp").forward(request, response);
 			break;
 		case "estadoCuotasSocio":
-			
+			this.estadoCuotasSocio(request,response);
 			request.getRequestDispatcher("/WEB-INF/listadoEstadoCuotas.jsp").forward(request, response);
 			break;
 		case "estadoCuotasTodos":
@@ -174,42 +177,77 @@ public class Cuotas extends HttpServlet {
 		
 	}
 
-	private void confirmarCobro(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+	private void confirmarCobro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PersonaControler perCtrl = new PersonaControler();
-		Persona soc = new Persona();
-		Documento doc = new Documento();
-		Cuota cuota = new Cuota();
+		InscripcionControler insCtrl = new InscripcionControler();
+		CuotaControler cuoCtrl = new CuotaControler();
+		Persona s = new Persona();
+		Documento d = new Documento();
+		Cuota c = new Cuota();
+		ArrayList<Actividad> actividades = new ArrayList<Actividad>();
 		
-		// recupero tipo y nro de doc y obtengo el socio. Lo seteo en la sesion
-		doc.setNro(request.getParameter("dni"));
-		doc.setTipo(request.getParameter("tipoDNI"));
-		
-		soc.setDocumento(doc);
-		soc = perCtrl.buscarPersonaPorDNI(soc);
-		request.getSession().setAttribute("Soc", soc);
-		
-		// recupero el mes ingresado, lo seteo en cuota 
 		int mes = Integer.parseInt(request.getParameter("mes"));
-		cuota.setMes(mes);
-
-		// recupero el anio ingresado, lo seteo en cuota  
 		int anio = Integer.parseInt(request.getParameter("anio"));
-		cuota.setAnio(anio);
-		//guardo la cuota en la sesion
-		request.getSession().setAttribute("Cuota", cuota);
+		d.setNro(request.getParameter("dni"));
+		d.setTipo(request.getParameter("tipoDNI"));
+				
+		try {
+			s.setDocumento(d);
+			s = perCtrl.buscarPersonaPorDNI(s);
+			if (s==null) {
+				throw new Exception("No existe el socio."); 
+			}
+			request.getSession().setAttribute("socio", s);
+			try {
+				c.setMes(mes);
+				c.setAnio(anio);
+				c = cuoCtrl.buscarCuota(c,s);
+				if (c==null) {
+					throw new Exception("No existe la cuota."); 
+				}
+				c.setImporte(cuoCtrl.valorCuota());
+				request.getSession().setAttribute("cuota", c);
+
+				actividades = insCtrl.getAll(s.getId());
+				double importe = insCtrl.costoAct(actividades) + c.getImporte();
+				request.getSession().setAttribute("importe", importe);
+				request.getSession().setAttribute("actividades", actividades);
+				request.getRequestDispatcher("/WEB-INF/confirmarCobro.jsp").forward(request, response);
+			} catch (Exception e) {
+				System.out.println("No se puede cobrar la cuota " + mes + "/" + anio + " para el socio "+ d.getTipo() + " " + d.getNro() + ".");
+				request.getSession().setAttribute("message","No se puede cobrar la cuota " + mes + "/" + anio + " para el socio "+ d.getTipo() + " " + d.getNro() + ".");
+				request.getRequestDispatcher("/WEB-INF/gestionCobro.jsp").forward(request, response);
+			}
+		} catch (Exception e) {
+			System.out.println("No existe el socio "+ d.getTipo() + " " + d.getNro());
+			request.getSession().setAttribute("message", "No existe el socio "+ d.getTipo() + " " + d.getNro());
+			request.getRequestDispatcher("/WEB-INF/gestionCobro.jsp").forward(request, response);
+		}
 
 	}
 
 	private void registrarCobro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		CuotaControler cuotaCtrl = new CuotaControler();
+		Cuota c = (Cuota) request.getSession().getAttribute("cuota");
+		Persona s = (Persona) request.getSession().getAttribute("socio");
+		try {
+			cuotaCtrl.cobrar(c,s);
+			System.out.println("Cobro realizado exitosamente");
+			request.getSession().setAttribute("message", "Cobro realizado exitosamente");
+			request.getRequestDispatcher("/WEB-INF/gestionCobro.jsp").forward(request, response);
+		} catch (Exception e) {
+			System.out.println("No se realizó el cobro. Ocurrió un error inesperado");
+			request.getSession().setAttribute("message", "No se realizó el cobro. Ocurrió un error inesperado");
+			request.getRequestDispatcher("/WEB-INF/gestionCobro.jsp").forward(request, response);
+		}
+		
+		
+		
+		/*CuotaControler cuotaCtrl = new CuotaControler();
 		int existe;
-		// recupero cuota de la sesion para mandarsela al controlador
-		Cuota cuota = (Cuota) request.getSession().getAttribute("Cuota");
-			
-		// recupero socio de la sesion para actualizar su cuota
-		Persona soc = (Persona) request.getSession().getAttribute("Soc");
+		
+		Cuota cuota = (Cuota) request.getSession().getAttribute("cuota");
+		Persona soc = (Persona) request.getSession().getAttribute("socio");
 		
 		existe = cuotaCtrl.cobrar(cuota, soc);
 		if (existe == 0) {
@@ -217,10 +255,49 @@ public class Cuotas extends HttpServlet {
 		}
 		else {
 			request.getRequestDispatcher("/WEB-INF/cuotaPaga.jsp").forward(request, response);
-		}
+		}*/
 	}
 
-	
+	private void estadoCuotasSocio(HttpServletRequest request, HttpServletResponse response) {
+		if (request.getParameter("anio")!=null) {
+			CuotaControler cuoCtrl = new CuotaControler();
+			PersonaControler perCtrl = new PersonaControler();
+			ArrayList<Cuota> cuotas = new ArrayList<Cuota>();
+			ArrayList<Persona> socios = new ArrayList<Persona>();
+			ArrayList<String> cuo;
+			ArrayList<ArrayList<String>> lista = new ArrayList<ArrayList<String>>();
+			int anio = Integer.parseInt((request.getParameter("anio")));
+			if (request.getParameterValues("todos")!=null) {
+				socios = perCtrl.getSocios();
+				for (Persona s : socios) {
+					cuotas = cuoCtrl.getByAnioPer(anio,s);
+					cuo = cuoCtrl.obtenerCuotas(cuotas,s);
+					lista.add(cuo);
+				}
+			} else {
+				Persona p = new Persona();
+				Documento d = new Documento();
+				d.setTipo(request.getParameter("tipoDNI"));
+				d.setNro(request.getParameter("dni"));
+				p.setDocumento(d);
+				try {
+					p=perCtrl.buscarPersonaPorDNI(p);
+					cuotas = cuoCtrl.getByAnioPer(anio,p);
+					cuo = cuoCtrl.obtenerCuotas(cuotas,p);
+					lista.add(cuo);
+				} catch (Exception e) {
+					System.out.println("No existe el socio "+ d.getTipo() + " " + d.getNro());
+					request.getSession().setAttribute("message", "No existe el socio "+ d.getTipo() + " " + d.getNro());
+				}
+
+			}
+			if (!lista.isEmpty()) {
+				System.out.println("Cuotas para el año " + anio);
+				request.getSession().setAttribute("cuotasPorAnio", lista);
+				request.getSession().setAttribute("anio2", String.valueOf(anio));
+			}
+		}
+	}
 
 	private void listarSocios(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		PersonaControler perCtrl = new PersonaControler();

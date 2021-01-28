@@ -57,11 +57,12 @@
 				<button>Realizar cobros</button>
 			</form>
 			<br>
-			<br>
 			<form method="post" action="Cuotas">
 				<input type="hidden" name="action" value="estadoCuotas">
 				<button>Estado de cuotas</button>
 			</form>
+			<br>
+			<br>
 			<%
 		}
         if (p.getRol().equals("Socio")) {
@@ -97,8 +98,12 @@
 %>
 
 <p>
-<form action="Signin" method="get">
+<%-- <form action="Signin" method="get">
 <button type="submit">Cerrar sesion</button>
-</form>	
+</form>	--%>
+<form method="post" action="Signin">
+	<input type="hidden" name="action" value="cerrarSesion">
+	<button>Cerrar sesión</button>
+</form>
 </body>
 </html>

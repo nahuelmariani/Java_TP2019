@@ -49,5 +49,7 @@ public class ActividadControler {
 	public void modificarActividad(Actividad a, int idActividad){
 		da.update(a,idActividad);
 	}
+	
+	
 }
 

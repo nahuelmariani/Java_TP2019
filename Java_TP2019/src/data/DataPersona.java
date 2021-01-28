@@ -68,12 +68,14 @@ public class DataPersona {
 			if(rs!=null) {
 				while(rs.next()) {
 					Persona p=new Persona();
-					p.setDocumento(new Documento());
+					Documento d = new Documento();
+					
 					p.setId(rs.getInt("id"));
 					p.setNombre(rs.getString("nombre"));
 					p.setApellido(rs.getString("apellido"));
-					p.getDocumento().setTipo(rs.getString("tipo_doc"));
-					p.getDocumento().setNro(rs.getString("nro_doc"));
+					d.setTipo(rs.getString("tipo_doc"));
+					d.setNro(rs.getString("nro_doc"));
+					p.setDocumento(d);
 					p.setEmail(rs.getString("email"));
 					p.setTel(rs.getString("tel"));
 					

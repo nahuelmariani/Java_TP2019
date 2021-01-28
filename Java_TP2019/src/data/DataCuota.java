@@ -132,13 +132,13 @@ public class DataCuota {
 	  }
 	
 	public Cuota buscarCuota(Cuota cuota, Persona soc) {
-		 Cuota c = null;
+		Cuota c = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select idcuota, mes, anio, importe, fecha_pago idPersona from cuota where fecha_pago is not NULL and mes=? and anio=? and idPersona=?"
+					"select idcuota, mes, anio, importe, fecha_pago idPersona from cuota where fecha_pago is NULL and mes=? and anio=? and idPersona=?"
 					);
 			stmt.setInt(1, cuota.getMes());
 			stmt.setInt(2, cuota.getAnio());
@@ -171,8 +171,105 @@ public class DataCuota {
 		return c;
 	}
 	
+	public ArrayList<Cuota> getByAnio(int anio) {
+		 PreparedStatement stmt = null;
+		 ResultSet rs = null;
+		 ArrayList<Cuota> cuo = new ArrayList<>();
+		 
+		 try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select c.idcuota, c.mes, c.anio, c.importe, c.fecha_pago, c.idPersona,"
+					+ " p.nombre, p.apellido, p.tipo_doc, p.nro_doc from cuota c right join persona p on c.idPersona=p.id"
+					+ " where c.anio=? and p.rol=?"
+					);
+		
+			stmt.setInt(1, anio);
+			stmt.setString(2, "Socio");
+			rs=stmt.executeQuery();
+			if(rs!=null) {
+			    while(rs.next()) {
+					Persona p = new Persona();
+					Cuota c = new Cuota();
+					Documento d = new Documento();
+					c.setId_cuota(rs.getInt("c.idcuota"));
+					c.setMes(rs.getInt("c.mes"));
+					c.setAnio(rs.getInt("c.anio"));
+					c.setImporte(rs.getDouble("c.importe"));
+					p.setId(rs.getInt("c.idPersona"));
+					p.setNombre(rs.getString("p.nombre"));
+					p.setApellido(rs.getString("p.apellido"));
+					d.setTipo(rs.getString("p.tipo_doc"));
+					d.setNro(rs.getString("p.nro_doc"));
+					p.setDocumento(d);
+					c.setPer(p);
+					cuo.add(c);	
+			    }
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cuo;
+	}
 	
-
+	public ArrayList<Cuota> getByAnioPer(int anio, Persona per) {
+		 PreparedStatement stmt = null;
+		 ResultSet rs = null;
+		 ArrayList<Cuota> cuo = new ArrayList<>();
+		 
+		 try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select c.idcuota, c.mes, c.anio, c.fecha_pago, c.idPersona,"
+					+ " p.nombre, p.apellido, p.tipo_doc, p.nro_doc from cuota c right join persona p on c.idPersona=p.id"
+					+ " where c.anio=? and p.tipo_doc=? and p.nro_doc=?"
+					);
+		
+			stmt.setInt(1, anio);
+			stmt.setString(2, per.getDocumento().getTipo());
+			stmt.setString(3, per.getDocumento().getNro());
+			rs=stmt.executeQuery();
+			if(rs!=null) {
+			    while(rs.next()) {
+					Persona p = new Persona();
+					Cuota c = new Cuota();
+					Documento d = new Documento();
+					c.setId_cuota(rs.getInt("c.idcuota"));
+					c.setMes(rs.getInt("c.mes"));
+					c.setAnio(rs.getInt("c.anio"));
+					c.setFecha_pago(rs.getTimestamp("c.fecha_pago"));
+					//c.setImporte(rs.getDouble("c.importe"));
+					p.setId(rs.getInt("c.idPersona"));
+					p.setNombre(rs.getString("p.nombre"));
+					p.setApellido(rs.getString("p.apellido"));
+					d.setTipo(rs.getString("p.tipo_doc"));
+					d.setNro(rs.getString("p.nro_doc"));
+					p.setDocumento(d);
+					c.setPer(p);
+					cuo.add(c);	
+			    }
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cuo;
+	}
 	public ArrayList<Cuota> validarCuota(Persona soc) {
 		 Cuota c = null;
 		 PreparedStatement stmt = null;
