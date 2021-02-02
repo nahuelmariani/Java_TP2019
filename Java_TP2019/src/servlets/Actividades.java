@@ -18,6 +18,7 @@ import entities.Reserva;
 import entities.Inscripcion;
 import entities.Instalacion;
 import logic.ActividadControler;
+import logic.CuotaControler;
 import logic.PersonaControler;
 import logic.ReservaControler;
 import logic.InscripcionControler;
@@ -198,15 +199,22 @@ public class Actividades extends HttpServlet {
 		// Busca la actividad por ID a la que se quiere preinscribir
 		Actividad a = new Actividad();
 		ActividadControler actCtrl = new ActividadControler();
+		Persona p = new Persona();
+		CuotaControler cuoCtrl = new CuotaControler();
 		
 		int idActividad = Integer.parseInt(request.getParameter("idActividad"));
 		a = actCtrl.buscarActividadPorId(idActividad);
 		
-		//validar aca?
-		if (actCtrl.validarCupo(a)) {
-			Persona p = new Persona();
+		//recupero el usuario del login 
+		p = (Persona) request.getSession().getAttribute("usuario");
+		//valido cuota al dia
+		int debe = cuoCtrl.validarCuota(p);
+		
+		
+		if (actCtrl.validarCupo(a) && (debe == 1)) {
+			// Persona p = new Persona(); lo tuve que declarar afuera para el validarCuota
 			InscripcionControler inscCtrl = new InscripcionControler();
-			p = (Persona) request.getSession().getAttribute("usuario");
+		   //p = (Persona) request.getSession().getAttribute("usuario"); lo recupero antes para validorCuota
 			if (!inscCtrl.validarExistencia(p,a)) {
 				Inscripcion i = new Inscripcion();
 				
@@ -230,12 +238,19 @@ public class Actividades extends HttpServlet {
 			
 			//actCtrl.validarCupo(a);
 
-		} else {
+		} else if (debe==0) {
+			request.getSession().setAttribute("message", "Para poder inscribirte debes estar al día con la cuota");
+			this.listar(request, response);
+			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
+		} else if (!actCtrl.validarCupo(a)) {
 			request.getSession().setAttribute("message", "No hay mÃ¡s cupos para esta actividad");
 			this.listar(request, response);
 			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
+		} else {
+			request.getSession().setAttribute("message", "Ocurrio un problema");
+			this.listar(request, response);
+			request.getRequestDispatcher("/WEB-INF/inscripcionActividad.jsp").forward(request, response);
 		}
-			
 	}
 	
 	private void inscribir (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
