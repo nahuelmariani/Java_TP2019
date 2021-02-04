@@ -18,7 +18,7 @@
 <br>
 <br>
 <form method="post" action="Actividades">
-	<input type="hidden" name="action" value="homeUser">
+	<input type="hidden" name="action" value="gestionActividad">
 	<button>Volver</button>
 </form>
 
