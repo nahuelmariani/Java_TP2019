@@ -205,7 +205,7 @@ public class DataReserva {
 		
 		try {
 		stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-				"select id_reserva, id_instalacion from reserva where id_instalacion = ? and ( (fecha_hora_hasta > ? and fecha_hora_hasta <= ?) or (fecha_hora_desde => ? and fecha_hora_desde < ?) or (fecha_hora_desde <= ? and fecha_hora_hasta => ?) )" 
+				"select id_reserva, id_instalacion from reserva where id_instalacion = ? and ( (fecha_hora_hasta > ? and fecha_hora_hasta <= ?) or (fecha_hora_desde >= ? and fecha_hora_desde < ?) or (fecha_hora_desde <= ? and fecha_hora_hasta >= ?) )" 
 						 
 				);
 		
