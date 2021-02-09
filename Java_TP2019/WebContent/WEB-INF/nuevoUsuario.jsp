@@ -24,7 +24,15 @@
 		<input id="inputApellido" name="apellido" placeholder="Ingrese Apellido" required type="text"><br>
 		
 		<label for="inputTipoDoc">Tipo documento:</label>
-		<input id="inputTipoDoc" name="tipo_doc" placeholder="Ingrese tipo de documento" required type="text"><br>
+		
+		<select name="tipo_doc">
+					<option disabled selected>Seleccione</option>
+					<option value="DNI">DNI</option>
+					<option value="LE">LE</option>
+					<option value="DUI">DUI</option>
+				</select><br>
+		
+		
 		
 		<label for="inputNroDoc">Numero de documento:</label>
 		<input id="inputNroDoc" name="nro_doc" placeholder="Ingrese numero de documento" required type="text"><br>

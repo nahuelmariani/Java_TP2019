@@ -370,7 +370,7 @@ public class Instalaciones extends HttpServlet {
 		resCtrl.cancelarRes(idReserva);
 		
 		p = (Persona) request.getSession().getAttribute("usuario");
-		if (p.getRol()== "socio") {
+		if (p.getRol().equals("Socio")) {
 			this.listarResUsuario(request,response);
 			request.getRequestDispatcher("/WEB-INF/listadoReservas.jsp").forward(request, response);
 		} else {
