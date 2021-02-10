@@ -23,18 +23,18 @@
 </form>
 
 <div align="center">
-<table border="1" cellpadding="2">
+
+	<% if (li.size() > 0 ){%>	
+	<table border="1" cellpadding="2">
 	<caption><h2>Inscriptos</h2></caption>
 	<thead>
 		<tr>
 			<th>Id</th>
 			<th>Nombre</th>
-			<th>Apellido</th>
-					
+			<th>Apellido</th>					
 		</tr>
-	</thead>
-	
-	<tbody>
+	</thead>	
+	<tbody >
 	<% for (Persona per : li) {%>
 		<tr>
 		
@@ -44,7 +44,16 @@
 									
 		</tr>
 	<%} %>
-	</tbody>
+	</tbody>	
+	<%} else{%>
+	
+	<font size="5" color="red">Actividad sin inscriptos.</font>
+	
+	<%} %>
+		
+	
+	
+	
 	
 </table>
 </div>
