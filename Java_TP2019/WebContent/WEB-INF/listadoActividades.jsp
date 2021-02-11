@@ -27,6 +27,7 @@
 			<th>Id</th>
 			<th>Actividad</th>
 			<th>Descripción</th>
+			<th>Acciones</th>
 		</tr>		
 	</thead>
 	
@@ -36,7 +37,11 @@
 			<td><%=act.getId_actividad()%></td>
 			<td><%=act.getNom_actividad()%></td>
 			<td><%=act.getDesc_actividad()%></td>
-			
+			<td>
+				<form method="Post" action="Actividades" >
+					<button>Dar de baja</button>
+				</form>			
+			</td>			
 		</tr>
 	<%} %>
 	</tbody>
