@@ -39,7 +39,7 @@
 			<td><%=act.getDesc_actividad()%></td>
 			<td>
 				<form method="Post" action="Actividades" >
-					<button>Dar de baja</button>
+					<button type="submit" name="action" value="borrarInscripcion">Dar de baja</button>
 				</form>			
 			</td>			
 		</tr>

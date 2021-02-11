@@ -104,6 +104,10 @@ public class Actividades extends HttpServlet {
 			this.listarActividades(request,response);
 			request.getRequestDispatcher("/WEB-INF/listadoActividades.jsp").forward(request, response);
 			break;
+		case "borrarInscripcion":
+			this.borrarPreInscripcion(request, response);
+			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
+		break;
 		default:
 			System.out.println("Error: opcion no disponible");
 			break;
