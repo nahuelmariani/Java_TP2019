@@ -309,8 +309,7 @@ public class Actividades extends HttpServlet {
 		Actividad a = new Actividad();
 		ActividadControler actCtrl = new ActividadControler();
 		Persona p = new Persona();
-		int idActividad = Integer.parseInt(request.getParameter("idActividad"));
-		int idPersona = Integer.parseInt(request.getParameter("idPersona"));
+		int idActividad = Integer.parseInt(request.getParameter("idActividad"));		
 		
 		a = actCtrl.buscarActividadPorId(idActividad);
 		p = (Persona) request.getSession().getAttribute("usuario");		
