@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.Actividad"%>
+<%@page import="entities.Persona"%>
 <%@page import="java.text.*"%>
 <!DOCTYPE html>
 <html>
@@ -10,6 +11,8 @@
 <%
 	System.out.println("Index -> Home Socio -> Mis Actividades");
 	ArrayList<Actividad> la = (ArrayList<Actividad>) session.getAttribute("listaActividades");
+	Persona p = (Persona)session.getAttribute("usuario");
+	Actividad a = (Actividad)session.getAttribute("actividad");
 	
 %>
 </head>
@@ -39,8 +42,10 @@
 			<td><%=act.getDesc_actividad()%></td>
 			<td>
 				<form method="Post" action="Actividades" >
-					<button type="submit" name="action" value="borrarInscripcion">Dar de baja</button>
-				</form>			
+				<input type="hidden" name="idActividad" value="<%= act.getId_actividad() %>">
+				<input type="hidden" name="idPersona" value="<%=p.getId()%>">
+					<button type="submit" name="action" value="bajaInscripcion">Dar de baja</button>
+				</form>							
 			</td>			
 		</tr>
 	<%} %>

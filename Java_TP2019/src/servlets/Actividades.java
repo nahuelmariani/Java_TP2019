@@ -104,9 +104,9 @@ public class Actividades extends HttpServlet {
 			this.listarActividades(request,response);
 			request.getRequestDispatcher("/WEB-INF/listadoActividades.jsp").forward(request, response);
 			break;
-		case "borrarInscripcion":
-			this.borrarPreInscripcion(request, response);
-			request.getRequestDispatcher("/WEB-INF/homeUser.jsp").forward(request, response);
+		case "bajaInscripcion":
+			this.bajaInscripcion(request, response);
+			request.getRequestDispatcher("/WEB-INF/listadoActividades.jsp").forward(request, response);
 		break;
 		default:
 			System.out.println("Error: opcion no disponible");
@@ -300,6 +300,26 @@ public class Actividades extends HttpServlet {
 		
 		actividades = inscCtrl.getAll(p.getId());
 		request.getSession().setAttribute("listaActividades", actividades);
+	}
+	
+	
+	private void bajaInscripcion(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		Inscripcion i = new Inscripcion();
+		InscripcionControler inscCtrl = new InscripcionControler();
+		Actividad a = new Actividad();
+		ActividadControler actCtrl = new ActividadControler();
+		Persona p = new Persona();
+		int idActividad = Integer.parseInt(request.getParameter("idActividad"));
+		int idPersona = Integer.parseInt(request.getParameter("idPersona"));
+		
+		a = actCtrl.buscarActividadPorId(idActividad);
+		p = (Persona) request.getSession().getAttribute("usuario");		
+		i.setAct(a);
+		i.setPer(p);
+			
+		inscCtrl.bajaPreInscripcion(i);
+		this.listarActividades(request, response);		
+		
 	}
 	
 }
