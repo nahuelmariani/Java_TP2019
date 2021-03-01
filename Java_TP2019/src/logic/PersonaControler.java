@@ -2,6 +2,8 @@ package logic;
 
 import java.util.ArrayList;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import data.DataPersona;
 import entities.*;
 
@@ -38,4 +40,10 @@ public class PersonaControler {
 	public void modificarPersona(Persona p, int idPersona){
 		dp.update(p,idPersona);
 	}
+	
+	public String hashPassword(String password_plaintext) {
+		String hashed_password = BCrypt.hashpw(password_plaintext, BCrypt.gensalt());
+		return(hashed_password);
+	}
+	
 }

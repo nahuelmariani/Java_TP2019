@@ -148,6 +148,80 @@ public class DataPersona {
 		return p;
 	}
 	
+	public Persona getPassword(Persona per) {
+		Persona p = null;//
+		PreparedStatement stmt = null;//
+		ResultSet rs = null;//
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select password from persona where email=?"
+					);
+			stmt.setString(1, per.getEmail());
+			rs=stmt.executeQuery();
+			
+			if(rs!=null && rs.next()) {
+				p = new Persona();
+				p.setPassword(rs.getString("password"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return p;
+	}
+	
+	public Persona getByUser2(Persona per) {
+		//DataRol dr = new DataRol();
+		Persona p = null;//
+		PreparedStatement stmt = null;//
+		ResultSet rs = null;//
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select id,nombre,apellido,tipo_doc,nro_doc,email,tel,habilitado,rol from persona where email=?"
+					);
+			stmt.setString(1, per.getEmail());
+			rs=stmt.executeQuery();
+			
+			if(rs!=null && rs.next()) {
+				p = new Persona();
+				p.setDocumento(new Documento());
+				p.setId(rs.getInt("id"));
+				p.setNombre(rs.getString("nombre"));
+				p.setApellido(rs.getString("apellido"));
+				p.getDocumento().setTipo(rs.getString("tipo_doc"));
+				p.getDocumento().setNro(rs.getString("nro_doc"));
+				p.setEmail(rs.getString("email"));
+				p.setTel(rs.getString("tel"));
+				p.setHabilitado(rs.getBoolean("habilitado"));
+				p.setRol(rs.getString("rol"));
+				//
+				//dr.setRoles(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return p;
+	}
+	
 	public Persona getById(int idPersona) {
 		Persona p = null;
 		PreparedStatement stmt = null;

@@ -53,11 +53,16 @@ public class Signin extends HttpServlet {
         p.setEmail(request.getParameter("email"));
         p.setPassword(request.getParameter("password"));
         try {
-        	p = ctrl.validate(p);
-            request.getSession().setAttribute("usuario", p);
-            System.out.println("Inicio de sesión del usuario: "+ p.getDocumento().getTipo() + " " + p.getDocumento().getNro());
-            request.getRequestDispatcher("WEB-INF/homeUser.jsp").forward(request, response);
-		} catch (Exception e) {
+        	if (ctrl.checkPassword(p)) {
+				p = ctrl.getUser(p);
+	            request.getSession().setAttribute("usuario", p);
+	            System.out.println("Inicio de sesión del usuario: "+ p.getDocumento().getTipo() + " " + p.getDocumento().getNro());
+	            request.getRequestDispatcher("WEB-INF/homeUser.jsp").forward(request, response);
+			}else {
+				throw new java.lang.IllegalArgumentException("Invalid hash provided for comparison");
+			}
+		} catch (IllegalArgumentException e) {
+
 			System.out.println("Inicio de sesión inválido - "+ request.getParameter("email") + ":" + request.getParameter("password"));
 			request.getSession().setAttribute("message", "Nombre de usuario y/o contraseña incorrectos.");
 			request.getRequestDispatcher("/index.jsp").forward(request,response);

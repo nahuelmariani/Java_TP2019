@@ -77,7 +77,7 @@ public class Usuarios extends HttpServlet {
 		p.getDocumento().setTipo(request.getParameter("tipo_doc"));
 		p.getDocumento().setNro(request.getParameter("nro_doc"));
 		p.setEmail(request.getParameter("email"));
-		p.setPassword(request.getParameter("password"));
+		p.setPassword(perCtrl.hashPassword(request.getParameter("password")));
 		p.setTel(request.getParameter("tel"));
 		p.setHabilitado((Integer.parseInt(request.getParameter("habilitado"))==1)?true:false);
 		p.setRol(request.getParameter("rol"));
@@ -109,7 +109,7 @@ public class Usuarios extends HttpServlet {
 		p.getDocumento().setTipo(request.getParameter("tipo_doc"));
 		p.getDocumento().setNro(request.getParameter("nro_doc"));
 		p.setEmail(request.getParameter("email"));
-		p.setPassword(request.getParameter("password"));
+		p.setPassword(perCtrl.hashPassword(request.getParameter("password")));
 		p.setTel(request.getParameter("tel"));
 		p.setHabilitado((Integer.parseInt(request.getParameter("habilitado"))==1)?true:false);
 		p.setRol(request.getParameter("rol"));
