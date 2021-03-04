@@ -106,8 +106,8 @@ public class Cuotas extends HttpServlet {
 		
 
 			//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-
+			//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 			Date fecha = sdf.parse(request.getParameter("fecha_desde"));
 			Double valor = Double.parseDouble(request.getParameter("valor"));
