@@ -7,11 +7,11 @@ public class FactoryConexion {
 	private static FactoryConexion instancia;
 	
 	private String driver="com.mysql.cj.jdbc.Driver";
-	private String host="localhost";
+	private String host="jhdjjtqo9w5bzq2t.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
 	private String port="3306";
-	private String user="root";
-	private String password="root";
-	private String db="java_club";
+	private String user="r88cfwaeidtmnxpq";
+	private String password="e9es9cbc9exrc72j";
+	private String db="hboaeol4brbx751m";
 	
 	private int conectados=0;
 	private Connection conn=null;
