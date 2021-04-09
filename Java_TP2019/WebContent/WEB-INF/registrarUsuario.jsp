@@ -49,8 +49,9 @@
 		
 		<button type="submit" name="action" value="registrar">Registrar</button>
 	</form>
-	<form action="Signin" method="get">
-		<button type="submit">Cancelar</button>
+	<form action="Signin" method="post">
+		<input type="hidden" name="action" value="cerrarSesion">
+		<button>Cancelar</button>
 	</form>
 </body>
 

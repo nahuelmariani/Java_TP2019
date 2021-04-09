@@ -23,10 +23,18 @@ public class Login {
 		return dp.getByUser2(p);
 	}
 	
-	public boolean checkPassword(Persona p) {
+	/*public boolean checkPassword(Persona p) {
 		String password_plaintext = p.getPassword();
 		String stored_hash = dp.getPassword(p).getPassword();
 		return BCrypt.checkpw(password_plaintext, stored_hash);
+	}*/
+	
+	public void checkPassword(Persona p) {
+		String password_plaintext = p.getPassword();
+		String stored_hash = dp.getPassword(p).getPassword();
+		if (!BCrypt.checkpw(password_plaintext, stored_hash)){
+			throw new java.lang.IllegalArgumentException("Invalid hash provided for comparison");
+		}
 	}
 	
 	public String hashPassword(String password_plaintext) {
